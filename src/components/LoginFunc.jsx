@@ -1,12 +1,11 @@
 import React from 'react'
 
-function Header() {
+function LoginFunc() {
   return (
     <div>
-      Header
       
     </div>
   )
 }
 
-export default Header
+export default LoginFunc
