@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { app } from "./firebase";
 
-function App() {
-  return (
-    <h3>App</h3>
-  )
-}
+const App = () => {
+  useEffect(() => {
+    console.log("app", app);
+  }, []);
 
-export default App
+  return <h3>App</h3>;
+};
+
+export default App;
