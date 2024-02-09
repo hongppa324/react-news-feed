@@ -1,11 +1,11 @@
 import React from "react";
-import Crud from "./components/Crud";
+import Auth from "./components/Auth";
 
 function App() {
   return (
     <>
       <h3>App</h3>
-      <Crud />
+      <Auth />
     </>
   );
 }
