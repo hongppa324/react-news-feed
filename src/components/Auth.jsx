@@ -55,7 +55,8 @@ function Crud() {
     event.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      alert(`${userCredential.user.email}님 안녕하세요`);
+      const userId = userCredential.user.email;
+      alert(`${userId}님 안녕하세요`);
       setEmail("");
       setPassword("");
       setClick(true);
