@@ -25,6 +25,11 @@ function FeedItem() {
   };
   const onChange = (e) => {
     const editContent = e.target.value;
+
+    if (!editContent) {
+      alert("내용을 입력해주세요");
+      return;
+    }
     setNewContent(editContent);
   };
 

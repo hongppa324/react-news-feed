@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 function Crud() {
   const navigate = useNavigate();
   //firebase 계정
-  useEffect(() => {
-    console.log("app", app);
-  }, []);
+  // useEffect(() => {
+  //   console.log("app", app);
+  // }, []);
 
   //회원가입
   const [email, setEmail] = useState("");
