@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function FeedItem() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { id, title, content, date, isEdited } = state.editFeed;
+  const { id, title, content, date, isEdited, writer } = state.editFeed;
 
   const [newContent, setNewContent] = useState("");
   const onSubmit = async (e) => {
@@ -40,6 +40,7 @@ function FeedItem() {
       <br />
       <br />
       <h1>상세페이지</h1>
+      <div>작성자 :{writer}</div>
       <div>제목 : {title}</div>
       <div> {date}</div>
       <div>
