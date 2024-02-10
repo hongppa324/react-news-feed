@@ -1,9 +1,10 @@
 import React from "react";
 import Auth from "./components/crud/Auth";
-import NewsFeed from "./components/crud/NewsFeed";
+import NewsFeed from "./pages/NewsFeed";
 import { app, auth } from "./api/crudFirebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
+import Router from "./shared/Router";
 
 function App() {
   //현재 로그인 된 유저 확인
@@ -15,9 +16,9 @@ function App() {
 
   return (
     <>
-      <h3>App</h3>
+      <Router />
+      -----------------
       <Auth />
-      <NewsFeed />
     </>
   );
 }

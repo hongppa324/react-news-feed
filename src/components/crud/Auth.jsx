@@ -2,9 +2,11 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { app, auth } from "../../api/crudFirebase";
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import NewsFeed from "./NewsFeed";
+import NewsFeed from "../../pages/NewsFeed";
+import { useNavigate } from "react-router-dom";
 
 function Crud() {
+  const navigate = useNavigate();
   //firebase 계정
   useEffect(() => {
     console.log("app", app);
@@ -46,6 +48,7 @@ function Crud() {
   //로그인
   const signIn = async (event) => {
     event.preventDefault();
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const userId = userCredential.user.email;
@@ -59,6 +62,7 @@ function Crud() {
       const errorMessage = error.message;
       console.log("오류메시지,", errorMessage);
     }
+    navigate("/feed");
   };
 
   //로그아웃
@@ -66,6 +70,7 @@ function Crud() {
     event.preventDefault();
     await signOut(auth);
     setClick(false);
+    navigate("/");
   };
   return (
     <>

@@ -1,11 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { collection, query, getDocs, doc, addDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../../api/crudFirebase";
-import FeedDeleteBtn from "./FeedDeleteBtn";
+import { collection, query, getDocs, doc, addDoc, deleteDoc, Timestamp } from "firebase/firestore";
+import { db } from "../api/crudFirebase";
+import FeedDeleteBtn from "../components/crud/FeedDeleteBtn";
 
 function NewsFeed() {
-  //컬렉션에 있는 값 가져오기
+  // 컬렉션에 있는 값 가져오기
   useEffect(() => {
     const fetchData = async () => {
       const q = query(collection(db, "newsFeed"));
@@ -14,10 +14,16 @@ function NewsFeed() {
       const initialFeeds = [];
 
       querySnapshot.forEach((doc) => {
-        initialFeeds.push({ id: doc.id, ...doc.data() });
+        initialFeeds.push({
+          id: doc.id,
+          title: doc.data().title,
+          content: doc.data().content,
+          date: doc.data().date.toDate().toLocaleString()
+        });
       });
 
       // firestore에서 가져온 데이터를 state에 전달
+
       setFeed(initialFeeds);
     };
 
@@ -42,15 +48,16 @@ function NewsFeed() {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const newFeed = {
       title,
       content,
-      date: "2024년 1월 29일"
+      date: new Date().toLocaleString()
     };
     setFeed([newFeed, ...feed]);
 
     const newsFeedRef = collection(db, "newsFeed");
-    await addDoc(newsFeedRef, newFeed);
+    await addDoc(newsFeedRef, { ...newFeed, date: Timestamp.fromDate(new Date()) });
 
     e.target.reset();
   };
@@ -63,18 +70,22 @@ function NewsFeed() {
     const newsFeedRef = doc(db, "newsFeed", selectFeed);
     await deleteDoc(newsFeedRef);
   };
+
+  const editHandler = (selectFeed) => {
+    const newsFeedRef = collection(db, "newsFeed");
+    console.log("선택한 피드", selectFeed);
+  };
   //파일 업로드
   return (
     <>
-      <div>NewsFeed</div>
       <div>
         {feed.map((e) => {
           return (
             <div key={e.id}>
               <div> {e.title}</div>
               <div> {e.content}</div>
-              <div> {e.date}</div>
-              <button>수정하기</button>
+              <div>{e.date}</div>
+              <button onClick={() => editHandler(e.id)}>수정하기</button>
               <button onClick={() => deleteHandler(e.id)}>삭제하기</button>
               <br />
               <br />
@@ -87,9 +98,10 @@ function NewsFeed() {
 
       <div>
         <form onSubmit={onSubmit}>
-          <input type="text" onChange={onChange} value={title} name="title" />
+          제목 : <input type="text" onChange={onChange} value={title} name="title" />
           <br />
-          <textarea type="text" onChange={onChange} value={content} name="content" />
+          내용 : <textarea type="text" onChange={onChange} value={content} name="content" />
+          <br />
           <button>작성하기</button>
         </form>
       </div>

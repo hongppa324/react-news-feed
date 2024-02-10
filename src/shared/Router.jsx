@@ -1,5 +1,13 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
+import NewsFeed from "../pages/NewsFeed";
 
-export default function Router() {
-  return <div>Router</div>;
+function Router() {
+  return (
+    <Routes>
+      <Route path="/feed" element={<NewsFeed />} />
+    </Routes>
+  );
 }
+
+export default Router;
