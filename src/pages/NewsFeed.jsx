@@ -86,7 +86,7 @@ function NewsFeed() {
     const newsFeedRef = collection(db, "newsFeed");
     await addDoc(newsFeedRef, { ...newFeed, date: Timestamp.fromDate(new Date()) });
 
-    console.log(downloadURL);
+    alert("작성 완료!");
   };
 
   const handleFileSelect = (e) => {
