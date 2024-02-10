@@ -2,9 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { collection, query, getDocs, doc, addDoc, deleteDoc, Timestamp } from "firebase/firestore";
 import { db } from "../api/crudFirebase";
-import FeedDeleteBtn from "../components/crud/FeedDeleteBtn";
+import { useNavigate } from "react-router-dom";
 
 function NewsFeed() {
+  const navigate = useNavigate();
   // 컬렉션에 있는 값 가져오기
   useEffect(() => {
     const fetchData = async () => {
@@ -72,8 +73,11 @@ function NewsFeed() {
   };
 
   const editHandler = (selectFeed) => {
-    const newsFeedRef = collection(db, "newsFeed");
-    console.log("선택한 피드", selectFeed);
+    const editFeed = feed.find((allFeed) => {
+      return allFeed.id === selectFeed;
+    });
+
+    navigate("/feedItem", { state: { editFeed } });
   };
   //파일 업로드
   return (
