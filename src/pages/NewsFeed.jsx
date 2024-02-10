@@ -23,6 +23,9 @@ function NewsFeed() {
       const q = query(collection(db, "newsFeed"));
       const querySnapshot = await getDocs(q);
 
+      // db.collection("newsFeed").limit(3);
+      // const q = query(db.collection("newsFeed").limit(3));
+
       const initialFeeds = [];
 
       querySnapshot.forEach((doc) => {

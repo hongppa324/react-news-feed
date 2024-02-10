@@ -55,13 +55,14 @@ function Crud() {
       setEmail("");
       setPassword("");
       setClick(true);
+      navigate("/feed");
       //   console.log(`uer`, userCredential.user);
     } catch (error) {
+      alert("비밀번호를 확인하세요!");
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log("오류메시지,", errorMessage);
     }
-    navigate("/feed");
   };
 
   //로그아웃
