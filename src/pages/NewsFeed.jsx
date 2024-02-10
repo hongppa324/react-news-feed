@@ -19,20 +19,20 @@ function NewsFeed() {
           id: doc.id,
           title: doc.data().title,
           content: doc.data().content,
+          isEdited: doc.data().isEdited,
           date: doc.data().date.toDate().toLocaleString()
         });
+
+        // firestore에서 가져온 데이터를 state에 전달
+
+        setFeed(initialFeeds);
       });
-
-      // firestore에서 가져온 데이터를 state에 전달
-
-      setFeed(initialFeeds);
     };
 
     fetchData();
   }, []);
 
   const [feed, setFeed] = useState([]);
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const onChange = (event) => {
@@ -89,6 +89,7 @@ function NewsFeed() {
               <div> {e.title}</div>
               <div> {e.content}</div>
               <div>{e.date}</div>
+              <div>{!e.isEdited ? "" : "(수정됨)"}</div>
               <button onClick={() => editHandler(e.id)}>수정하기</button>
               <button onClick={() => deleteHandler(e.id)}>삭제하기</button>
               <br />
