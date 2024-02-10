@@ -1,6 +1,6 @@
 import React from "react";
-import Auth from "./components/Auth";
-import NewsFeed from "./components/NewsFeed";
+import Auth from "./components/crud/Auth";
+import NewsFeed from "./components/crud/NewsFeed";
 import { app, auth } from "./api/crudFirebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";

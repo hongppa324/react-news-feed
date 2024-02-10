@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { collection, query, getDocs, doc, addDoc } from "firebase/firestore";
-import { db } from "../api/crudFirebase";
+import { collection, query, getDocs, doc, addDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../../api/crudFirebase";
+import FeedDeleteBtn from "./FeedDeleteBtn";
 
 function NewsFeed() {
   //컬렉션에 있는 값 가져오기
@@ -54,6 +55,14 @@ function NewsFeed() {
     e.target.reset();
   };
 
+  const deleteHandler = async (selectFeed) => {
+    const deleteFeed = feed.filter((allFeed) => {
+      return allFeed.id !== selectFeed;
+    });
+    setFeed(deleteFeed);
+    const newsFeedRef = doc(db, "newsFeed", selectFeed);
+    await deleteDoc(newsFeedRef);
+  };
   //파일 업로드
   return (
     <>
@@ -61,10 +70,15 @@ function NewsFeed() {
       <div>
         {feed.map((e) => {
           return (
-            <div>
+            <div key={e.id}>
               <div> {e.title}</div>
               <div> {e.content}</div>
               <div> {e.date}</div>
+              <button>수정하기</button>
+              <button onClick={() => deleteHandler(e.id)}>삭제하기</button>
+              <br />
+              <br />
+              <br />
               <br />
             </div>
           );

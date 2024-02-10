@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { app, auth } from "../api/crudFirebase";
+import { app, auth } from "../../api/crudFirebase";
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import NewsFeed from "./NewsFeed";
 
