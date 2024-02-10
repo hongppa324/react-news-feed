@@ -5,13 +5,6 @@ import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndP
 import NewsFeed from "./NewsFeed";
 
 function Crud() {
-  //현재 로그인 된 유저 확인
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.log("현재 로그인 된 유저", user);
-    });
-  }, []);
-
   //firebase 계정
   useEffect(() => {
     console.log("app", app);
@@ -86,7 +79,6 @@ function Crud() {
         {!click ? "" : <button>글쓰기</button>}
         <br />
       </div>
-      <NewsFeed />
     </>
   );
 }

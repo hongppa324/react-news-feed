@@ -1,56 +1,70 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { collection, query, getDocs, doc, addDoc } from "firebase/firestore";
+import { db } from "../api/crudFirebase";
 
 function NewsFeed() {
-  const [feed, setFeed] = useState([
-    {
-      id: 1,
-      title: "제목입니다1",
-      text: "안녕하세요",
-      date: "2024-02-10",
-      writer: "admin01"
-    },
-    { id: 2, title: "제목입니다2", text: "안녕하세요", date: "2024-02-10", writer: "admin02" }
-  ]);
+  //컬렉션에 있는 값 가져오기
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = query(collection(db, "newsFeed"));
+      const querySnapshot = await getDocs(q);
+
+      const initialFeeds = [];
+
+      querySnapshot.forEach((doc) => {
+        initialFeeds.push({ id: doc.id, ...doc.data() });
+      });
+
+      // firestore에서 가져온 데이터를 state에 전달
+      setFeed(initialFeeds);
+    };
+
+    fetchData();
+  }, []);
+
+  const [feed, setFeed] = useState([]);
 
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [content, setContent] = useState("");
   const onChange = (event) => {
     const {
       target: { name, value }
     } = event;
-    if (name === "text") {
-      setText(value);
+    if (name === "content") {
+      setContent(value);
     }
     if (name === "title") {
       setTitle(value);
     }
-    console.log(title, text);
+    // console.log(title, content);
   };
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const newFeed = {
-      id: crypto.randomUUID(),
       title,
-      text,
-      date: "2024-02-10",
-      writer: " "
+      content,
+      date: "2024년 1월 29일"
     };
     setFeed([newFeed, ...feed]);
+
+    const newsFeedRef = collection(db, "newsFeed");
+    await addDoc(newsFeedRef, newFeed);
+
     e.target.reset();
-    console.log(feed);
   };
+
+  //파일 업로드
   return (
     <>
       <div>NewsFeed</div>
       <div>
         {feed.map((e) => {
           return (
-            <div key={e.id}>
+            <div>
               <div> {e.title}</div>
-              <div> {e.text}</div>
+              <div> {e.content}</div>
               <div> {e.date}</div>
-              <div> {e.writer}</div>
               <br />
             </div>
           );
@@ -61,7 +75,7 @@ function NewsFeed() {
         <form onSubmit={onSubmit}>
           <input type="text" onChange={onChange} value={title} name="title" />
           <br />
-          <textarea type="text" onChange={onChange} value={text} name="text" />
+          <textarea type="text" onChange={onChange} value={content} name="content" />
           <button>작성하기</button>
         </form>
       </div>
