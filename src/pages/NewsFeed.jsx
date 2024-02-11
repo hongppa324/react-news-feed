@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { collection, query, getDocs, doc, addDoc, deleteDoc, Timestamp } from "firebase/firestore";
+import { collection, query, getDocs, doc, addDoc, deleteDoc, Timestamp, onSnapshot, orderBy } from "firebase/firestore";
 import { db, auth, storage } from "../api/crudFirebase";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
@@ -18,39 +18,37 @@ function NewsFeed() {
   const user = auth.currentUser;
   // console.log("사용자", user);
   // 컬렉션에 있는 값 가져오기
+
+  //state
+  const [feed, setFeed] = useState([]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
-      const q = query(collection(db, "newsFeed"));
-      const querySnapshot = await getDocs(q);
+      const q = query(collection(db, "newsFeed"), orderBy("date", "desc"));
 
-      // db.collection("newsFeed").limit(3);
-      // const q = query(db.collection("newsFeed").limit(3));
-
-      const initialFeeds = [];
-
-      querySnapshot.forEach((doc) => {
-        initialFeeds.push({
-          id: doc.id,
-          title: doc.data().title,
-          content: doc.data().content,
-          isEdited: doc.data().isEdited,
-          date: doc.data().date.toDate().toLocaleString(),
-          writer: doc.data().writer,
-          img: doc.data().img
+      onSnapshot(q, (querySnapshot) => {
+        const docFeed = querySnapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            title: doc.data().title,
+            content: doc.data().content,
+            isEdited: doc.data().isEdited,
+            date: doc.data().date.toDate().toLocaleString(),
+            writer: doc.data().writer,
+            img: doc.data().img
+          };
         });
 
-        setFeed(initialFeeds);
+        setFeed(docFeed);
       });
     };
 
     fetchData();
   }, []);
 
-  //state
-  const [feed, setFeed] = useState([]);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
   const onChange = (event) => {
     const {
       target: { name, value }
@@ -72,7 +70,10 @@ function NewsFeed() {
       return;
     }
 
-    const imageRef = ref(storage, `${auth.currentUser.uid}/${selectedFile.name}`);
+    //img
+
+    const imageRef = ref(storage, `${auth.currentUser.uid}/${selectedFile.name}`) ?? "";
+    console.log("imgRef", imageRef);
     await uploadBytes(imageRef, selectedFile);
     const downloadURL = await getDownloadURL(imageRef);
 
@@ -89,6 +90,8 @@ function NewsFeed() {
     const newsFeedRef = collection(db, "newsFeed");
     await addDoc(newsFeedRef, { ...newFeed, date: Timestamp.fromDate(new Date()) });
 
+    console.log("feed=>", feed);
+    console.log("newFeed=>", newFeed);
     alert("작성 완료!");
   };
 
@@ -98,8 +101,13 @@ function NewsFeed() {
   //삭제 & 수정
   const deleteHandler = async (selectFeed) => {
     const deleteFeed = feed.filter((allFeed) => {
+      // console.log("allFeed=>", allFeed);
+      // console.log("selectFeed=>", selectFeed);
       return allFeed.id !== selectFeed;
     });
+
+    // console.log("deleteFeed=>", deleteFeed);
+
     setFeed(deleteFeed);
     const newsFeedRef = doc(db, "newsFeed", selectFeed);
     await deleteDoc(newsFeedRef);
@@ -136,7 +144,6 @@ function NewsFeed() {
               </div>
               {e.writer !== user.email ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
               {e.writer !== user.email ? "" : <button onClick={() => deleteHandler(e.id)}>삭제하기</button>}
-
               <br />
               <br />
               <br />

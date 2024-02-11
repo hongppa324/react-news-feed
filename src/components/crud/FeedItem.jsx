@@ -26,9 +26,9 @@ function FeedItem() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("nc=>", newContent);
-    console.log("c=>", content);
-    console.log(newContent === content);
+    // console.log("nc=>", newContent);
+    // console.log("c=>", content);
+    // console.log(newContent === content);
     if (newContent === content) {
       alert("수정값이 없습니다.");
       return;
@@ -40,7 +40,6 @@ function FeedItem() {
     await updateDoc(editFeedRef, {
       ...state.editFeed,
       content: newContent,
-
       date: Timestamp.fromDate(new Date()),
       isEdited: !state.editFeed.isEdited
     });
