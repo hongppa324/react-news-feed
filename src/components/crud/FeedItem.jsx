@@ -49,16 +49,11 @@ function FeedItem() {
   ///사진 삭제 구현 수정중....
   const deleteImg = async () => {
     try {
-      const desertRef = ref(storage, `${auth.currentUser.uid}/${img}`);
-
+      const desertRef = ref(storage, img);
       await deleteObject(desertRef);
       alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
-      console.lg("url=>", desertRef);
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(" errorCode=>", errorCode);
-      console.log(" errorMessage=>", errorMessage);
+      console.log(" errorCode=>", error.errorCode);
     }
   };
 

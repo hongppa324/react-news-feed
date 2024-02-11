@@ -5,6 +5,7 @@ import { db, auth, storage } from "../api/crudFirebase";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes, uploadString } from "firebase/storage";
+import 쿼카 from "../assets/img/쿼카.jpg";
 
 function NewsFeed() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function NewsFeed() {
   const [feed, setFeed] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,10 +71,7 @@ function NewsFeed() {
       return;
     }
 
-    //img
-
-    const imageRef = ref(storage, `${auth.currentUser.uid}/${selectedFile.name}`) ?? "";
-    console.log("imgRef", imageRef);
+    const imageRef = ref(storage, `${auth.currentUser.uid}/${selectedFile.name}`);
     await uploadBytes(imageRef, selectedFile);
     const downloadURL = await getDownloadURL(imageRef);
 
@@ -89,13 +87,16 @@ function NewsFeed() {
 
     const newsFeedRef = collection(db, "newsFeed");
     await addDoc(newsFeedRef, { ...newFeed, date: Timestamp.fromDate(new Date()) });
-
-    console.log("feed=>", feed);
-    console.log("newFeed=>", newFeed);
     alert("작성 완료!");
   };
 
   const handleFileSelect = (e) => {
+    if (selectedFile === null) {
+      const desertRef = ref(storage, "defaultImg/쿼카.jpg");
+
+      setSelectedFile(desertRef);
+    }
+
     setSelectedFile(e.target.files[0]);
   };
   //삭제 & 수정
