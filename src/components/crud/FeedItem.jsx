@@ -14,22 +14,22 @@ function FeedItem() {
 
   const [newContent, setNewContent] = useState(content);
 
-  // const [modify, setModify] = useState([]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const q = query(collection(db, "newsFeed"), where("id", "==", id));
-  //     const querySnapshot = await getDocs(q);
+  const [modify, setModify] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = query(collection(db, "newsFeed"), where("id", "==", id));
+      const querySnapshot = await getDocs(q);
 
-  //     const modifyFeed = [];
+      const modifyFeed = [];
 
-  //     querySnapshot.forEach((doc) => {
-  //       modifyFeed.push({ id: doc.id, img: doc.data().img, ...doc.data() });
-  //     });
+      querySnapshot.forEach((doc) => {
+        modifyFeed.push({ id: doc.id, img: doc.data().img, ...doc.data() });
+      });
 
-  //     setModify(modifyFeed);
-  //   };
-  //   fetchData();
-  // }, []);
+      setModify(modifyFeed);
+    };
+    fetchData();
+  }, [img]);
 
   const onChange = (e) => {
     const editContent = e.target.value;
@@ -46,11 +46,14 @@ function FeedItem() {
   const deleteImg = async () => {
     try {
       const desertRef = ref(storage, img);
-
       await deleteObject(desertRef);
+
       alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
+
+      const feedRef = doc(db, "newsFeed", where("id", "==", id));
+      await updateDoc(feedRef, { ...feedRef, img: "null" });
     } catch (error) {
-      console.log(" errorCode=>", error.errorCode);
+      console.log("사진 errorCode=>", error.errorCode);
     }
   };
 

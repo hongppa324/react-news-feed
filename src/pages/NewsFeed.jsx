@@ -1,6 +1,18 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { collection, query, doc, addDoc, deleteDoc, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  query,
+  doc,
+  addDoc,
+  deleteDoc,
+  Timestamp,
+  orderBy,
+  onSnapshot,
+  startAt,
+  limit,
+  getDocs
+} from "firebase/firestore";
 import { db, auth, storage } from "../api/crudFirebase";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
@@ -26,6 +38,7 @@ function NewsFeed() {
   // 컬렉션에 있는 값 가져오기
   useEffect(() => {
     const fetchData = async () => {
+      //문서의 첫페이지 조회
       const q = query(collection(db, "newsFeed"), orderBy("date", "desc"));
 
       onSnapshot(q, (querySnapshot) => {
@@ -41,6 +54,9 @@ function NewsFeed() {
           };
         });
         setFeed(docFeed);
+        //마지막으로 볼 수 있는 문서 가져오기
+
+        // 이 문서에서 시작하는 새 쿼리를 구성합니다,
       });
     };
 
@@ -72,7 +88,13 @@ function NewsFeed() {
       return;
     }
 
-    const imageRef = ref(storage, `${auth.currentUser.uid}/${selectedFile.name}`);
+    //기본이미지
+    const defaultRef = ref(storage, "/defaultImg/쿼카.jpg");
+    const defaultImgdURL = await getDownloadURL(defaultRef);
+    console.log("테스트", defaultImgdURL);
+
+    //파일 업로드
+    const imageRef = ref(storage, `${auth.currentUser.email}/${selectedFile.name}`);
     await uploadBytes(imageRef, selectedFile);
     const downloadURL = await getDownloadURL(imageRef);
 
@@ -83,7 +105,7 @@ function NewsFeed() {
       date: new Date().toLocaleString(),
       isEdited: false,
       writer: user.email,
-      img: downloadURL
+      img: !selectedFile ? defaultImgdURL : downloadURL
     };
     setFeed([newFeed, ...feed]);
 
@@ -93,6 +115,7 @@ function NewsFeed() {
     alert("작성 완료!");
     setTitle("");
     setContent("");
+    e.target.file.value = "";
     //사진input 값 reset
   };
 
@@ -101,6 +124,7 @@ function NewsFeed() {
   };
   //삭제 & 수정
   const deleteHandler = async (selectFeed) => {
+    alert("정말 삭제하시겠습니까?");
     const deleteFeed = feed.filter((allFeed) => {
       return allFeed.id !== selectFeed;
     });
@@ -156,7 +180,7 @@ function NewsFeed() {
           <br />
           내용 : <textarea type="text" onChange={onChange} value={content} name="content" />
           <br />
-          <input type="file" onChange={handleFileSelect} />
+          <input type="file" onChange={handleFileSelect} name="file" />
           <button>작성하기</button>
         </form>
         <br />
