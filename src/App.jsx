@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import Auth from "./components/crud/Auth";
+import Router from "./shared/Router";
 
 function App() {
   return (
-    <h3>App</h3>
-  )
+    <>
+      <Router />
+    </>
+  );
 }
 
-export default App
+export default App;

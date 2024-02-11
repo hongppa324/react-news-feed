@@ -9,6 +9,7 @@ import Footer from "./layout/Footer";
 import store from "./redux/config/configStore";
 import GlobalStyle from "./styles/GlobalStyle";
 import GlobalFont from "./styles/GlobalFont";
+import Crud from "./components/crud/Auth";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,6 +20,7 @@ root.render(
         <GlobalFont />
         <Header />
         <App />
+        <Crud />
         <Footer />
       </React.StrictMode>
     </BrowserRouter>
