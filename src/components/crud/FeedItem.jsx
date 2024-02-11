@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+//feedItem
+
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { doc, updateDoc, Timestamp } from "firebase/firestore";
+import { doc, updateDoc, Timestamp, collection, query, where, getDocs } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import { db, auth, storage } from "../../api/crudFirebase";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +13,23 @@ function FeedItem() {
   const { id, title, content, date, isEdited, writer, img } = state.editFeed;
 
   const [newContent, setNewContent] = useState(content);
+
+  // const [modify, setModify] = useState([]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const q = query(collection(db, "newsFeed"), where("id", "==", id));
+  //     const querySnapshot = await getDocs(q);
+
+  //     const modifyFeed = [];
+
+  //     querySnapshot.forEach((doc) => {
+  //       modifyFeed.push({ id: doc.id, img: doc.data().img, ...doc.data() });
+  //     });
+
+  //     setModify(modifyFeed);
+  //   };
+  //   fetchData();
+  // }, []);
 
   const onChange = (e) => {
     const editContent = e.target.value;
@@ -23,20 +42,27 @@ function FeedItem() {
     setNewContent(editContent);
   };
 
+  ///사진 삭제 구현 수정중....
+  const deleteImg = async () => {
+    try {
+      const desertRef = ref(storage, img);
+
+      await deleteObject(desertRef);
+      alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
+    } catch (error) {
+      console.log(" errorCode=>", error.errorCode);
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // console.log("nc=>", newContent);
-    // console.log("c=>", content);
-    // console.log(newContent === content);
     if (newContent === content) {
       alert("수정값이 없습니다.");
       return;
     }
 
-    //빈칸일 때 유효성검사
     const editFeedRef = doc(db, "newsFeed", id);
-
     await updateDoc(editFeedRef, {
       ...state.editFeed,
       content: newContent,
@@ -44,17 +70,6 @@ function FeedItem() {
       isEdited: !state.editFeed.isEdited
     });
     navigate("/feed");
-  };
-
-  ///사진 삭제 구현 수정중....
-  const deleteImg = async () => {
-    try {
-      const desertRef = ref(storage, img);
-      await deleteObject(desertRef);
-      alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
-    } catch (error) {
-      console.log(" errorCode=>", error.errorCode);
-    }
   };
 
   return (

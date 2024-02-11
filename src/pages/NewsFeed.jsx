@@ -1,14 +1,18 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { collection, query, getDocs, doc, addDoc, deleteDoc, Timestamp, onSnapshot, orderBy } from "firebase/firestore";
+import { collection, query, doc, addDoc, deleteDoc, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
 import { db, auth, storage } from "../api/crudFirebase";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { getDownloadURL, ref, uploadBytes, uploadString } from "firebase/storage";
-import 쿼카 from "../assets/img/쿼카.jpg";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 function NewsFeed() {
   const navigate = useNavigate();
+
+  const [feed, setFeed] = useState([]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -16,16 +20,10 @@ function NewsFeed() {
     });
   }, []);
 
+  //현재 사용자 불러오기
   const user = auth.currentUser;
-  // console.log("사용자", user);
+
   // 컬렉션에 있는 값 가져오기
-
-  //state
-  const [feed, setFeed] = useState([]);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
-
   useEffect(() => {
     const fetchData = async () => {
       const q = query(collection(db, "newsFeed"), orderBy("date", "desc"));
@@ -42,7 +40,6 @@ function NewsFeed() {
             img: doc.data().img
           };
         });
-
         setFeed(docFeed);
       });
     };
@@ -60,7 +57,6 @@ function NewsFeed() {
     if (name === "title") {
       setTitle(value);
     }
-    // console.log(title, content);
   };
 
   //글 추가하기
@@ -71,11 +67,17 @@ function NewsFeed() {
       return;
     }
 
+    if (!selectedFile) {
+      alert("사진을 추가해주세요!");
+      return;
+    }
+
     const imageRef = ref(storage, `${auth.currentUser.uid}/${selectedFile.name}`);
     await uploadBytes(imageRef, selectedFile);
     const downloadURL = await getDownloadURL(imageRef);
 
     const newFeed = {
+      id: crypto.randomUUID(),
       title,
       content,
       date: new Date().toLocaleString(),
@@ -87,35 +89,28 @@ function NewsFeed() {
 
     const newsFeedRef = collection(db, "newsFeed");
     await addDoc(newsFeedRef, { ...newFeed, date: Timestamp.fromDate(new Date()) });
+
     alert("작성 완료!");
+    setTitle("");
+    setContent("");
+    //사진input 값 reset
   };
 
   const handleFileSelect = (e) => {
-    if (selectedFile === null) {
-      const desertRef = ref(storage, "defaultImg/쿼카.jpg");
-
-      setSelectedFile(desertRef);
-    }
-
     setSelectedFile(e.target.files[0]);
   };
   //삭제 & 수정
   const deleteHandler = async (selectFeed) => {
     const deleteFeed = feed.filter((allFeed) => {
-      // console.log("allFeed=>", allFeed);
-      // console.log("selectFeed=>", selectFeed);
       return allFeed.id !== selectFeed;
     });
-
-    // console.log("deleteFeed=>", deleteFeed);
-
     setFeed(deleteFeed);
     const newsFeedRef = doc(db, "newsFeed", selectFeed);
     await deleteDoc(newsFeedRef);
   };
 
   const editHandler = (selectFeed) => {
-    alert("글 내용만 수정 가능합니다.");
+    alert("현재 사진삭제가 반영이 안됩니다 ^^");
     const editFeed = feed.find((allFeed) => {
       return allFeed.id === selectFeed;
     });
@@ -145,6 +140,7 @@ function NewsFeed() {
               </div>
               {e.writer !== user.email ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
               {e.writer !== user.email ? "" : <button onClick={() => deleteHandler(e.id)}>삭제하기</button>}
+
               <br />
               <br />
               <br />
