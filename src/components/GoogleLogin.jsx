@@ -5,7 +5,7 @@ import { authService } from "../firebase";
 
 import { StyledButton } from "../styles/MyStyles";
 
-function GoogleLogin() {
+const GoogleLogin = () => {
   const navigate = useNavigate();
 
   const provider = new GoogleAuthProvider();

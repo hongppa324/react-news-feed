@@ -7,7 +7,7 @@ import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence }
 
 import { StyledForm, StyledSection, StyledInput, StyledSign, StyledSignIn, StyledSignUp } from "../styles/MyStyles";
 
-function EmailLogin() {
+const EmailLogin = ()  => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -56,6 +56,7 @@ function EmailLogin() {
       <StyledSign>
         <StyledSignIn onClick={signIn}>로그인</StyledSignIn>
         <StyledSignUp to="/sign-up">회원가입</StyledSignUp>
+        <StyledSignUp to="/reset">비밀번호 재설정</StyledSignUp>
       </StyledSign>
     </StyledForm>
   );

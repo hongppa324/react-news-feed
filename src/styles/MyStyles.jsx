@@ -137,12 +137,12 @@ export const StyledSign = styled.div`
 `;
 export const StyledSignIn = styled.button`
   ${buttonStyle}
-  width: 17vw;
+  width: 11vw;
   margin: 1vh 0.5vw;
 `;
 export const StyledSignUp = styled(Link)`
   ${buttonStyle}
-  width: 17vw;
+  width: 11vw;
   margin: 1vh 0.5vw;
   color: black;
   text-decoration: none;
