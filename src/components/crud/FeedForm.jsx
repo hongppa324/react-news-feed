@@ -25,7 +25,6 @@ function FeedForm() {
   //현재 사용자 불러오기
   const userId = authService.currentUser;
   const user = authService.currentUser.displayName;
-  console.log("user", user);
 
   const onChange = (event) => {
     const {
@@ -160,7 +159,7 @@ function FeedForm() {
           </div>
 
           {/* 박스3 */}
-          <div style={{ border: "1px solid black", flex: "1" }}>3</div>
+          <div style={{ border: "1px solid black", flex: "1" }}></div>
         </FormBackImg>
       </div>
     </>
