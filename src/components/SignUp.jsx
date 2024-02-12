@@ -8,7 +8,9 @@ import {
   StyledForm,
   StyledSection,
   StyledInput,
-  StyledButton,
+  StyledSignIn,
+  StyledSign,
+  StyledSignUp
 } from "../styles/MyStyles";
 
 function SignUp() {
@@ -19,7 +21,7 @@ function SignUp() {
 
   const onChange = (event) => {
     const {
-      target: { name, value },
+      target: { name, value }
     } = event;
     if (name === "userName") {
       setUserName(value);
@@ -53,35 +55,20 @@ function SignUp() {
     <StyledForm>
       <StyledSection>
         <label>이름 : </label>
-        <StyledInput
-          type="text"
-          value={userName}
-          name="userName"
-          onChange={onChange}
-          required
-        ></StyledInput>
+        <StyledInput type="text" value={userName} name="userName" onChange={onChange} required></StyledInput>
       </StyledSection>
       <StyledSection>
         <label>이메일 : </label>
-        <StyledInput
-          type="email"
-          value={email}
-          name="email"
-          onChange={onChange}
-          required
-        ></StyledInput>
+        <StyledInput type="email" value={email} name="email" onChange={onChange} required></StyledInput>
       </StyledSection>
       <StyledSection>
         <label>비밀번호 : </label>
-        <StyledInput
-          type="password"
-          value={password}
-          name="password"
-          onChange={onChange}
-          required
-        ></StyledInput>
+        <StyledInput type="password" value={password} name="password" onChange={onChange} required></StyledInput>
       </StyledSection>
-      <StyledButton onClick={signUp}>회원가입</StyledButton>
+      <StyledSign>
+        <StyledSignUp to="/login">뒤로 가기</StyledSignUp>
+        <StyledSignIn onClick={signUp}>회원가입</StyledSignIn>
+      </StyledSign>
     </StyledForm>
   );
 }

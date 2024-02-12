@@ -3,7 +3,7 @@ import { SignUpLink, Description } from "../styles/MyStyles";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../firebase";
 
-function MainRedir() {
+const MainRedir = () => {
   const navigate = useNavigate();
 
   return authService.currentUser ? (
