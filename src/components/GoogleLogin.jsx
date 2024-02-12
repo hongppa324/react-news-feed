@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { setPersistence, GoogleAuthProvider, signInWithPopup, browserSessionPersistence } from "firebase/auth";
 import { authService } from "../firebase";
 
 import { StyledButton } from "../styles/MyStyles";
@@ -11,9 +11,16 @@ function GoogleLogin() {
   const provider = new GoogleAuthProvider();
 
   const loginTest = () => {
-    signInWithPopup(authService, provider)
-      .then((result) => {
-        navigate("/home", { replace: true });
+    setPersistence(authService, browserSessionPersistence)
+      .then(() => {
+        return signInWithPopup(authService, provider)
+          .then((result) => {
+            alert(authService.currentUser.displayName + "님, 돌아오신 것을 환영합니다.");
+            navigate("/home", { replace: true });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
       })
       .catch((error) => {
         alert(error.message);
