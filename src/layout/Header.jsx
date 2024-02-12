@@ -1,12 +1,13 @@
-import React from 'react'
+import React from "react";
+import { StyledHeader } from "../styles/MyStyles";
+import SignOut from "../components/SignOut";
 
 function Header() {
   return (
-    <div>
-      Header
-      
-    </div>
-  )
+    <StyledHeader>
+      <SignOut />
+    </StyledHeader>
+  );
 }
 
-export default Header
+export default Header;

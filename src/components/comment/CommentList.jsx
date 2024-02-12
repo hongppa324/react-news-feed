@@ -55,66 +55,65 @@ export default function CommentList() {
     setComments((prevComments) =>
       prevComments.map((comment) => {
         if (comment.id === commentId) {
-          return { ...comment, isEditing: true }; // 수정 모드 활성화
+          return { ...comment, isEditing: true };
         }
         return comment;
       })
     );
-    setEditedContent(commentToEdit.content); // 수정할 내용 설정
-  };
+    setEditedContent(commentToEdit.content);
 
-  const handleInputChange = (e) => {
-    setEditedContent(e.target.value); // 수정된 내용 업데이트
-  };
+    const handleInputChange = (e) => {
+      setEditedContent(e.target.value);
+    };
 
-  const handleCompleteEdit = async (commentId) => {
-    try {
-      // 수정이 완료되면 수정된 내용을 파이어베이스에 업데이트합니다.
-      await updateDoc(doc(db, "comments", commentId), {
-        //updateDoc -> setDoc 으로 바꿔보자
-        content: editedContent
-      });
-      // 수정 모드를 비활성화합니다.
-      setComments((prevComments) =>
-        prevComments.map((comment) => {
-          if (comment.id === commentId) {
-            return { ...comment, isEditing: false }; // 수정 모드 비활성화
-          }
-          return comment;
-        })
-      );
-      console.log("댓글 수정 성공!");
-    } catch (error) {
-      console.error("댓글 수정 중 오류 발생", error);
-    }
-  };
+    const handleCompleteEdit = async (commentId) => {
+      try {
+        await updateDoc(doc(db, "comments", commentId), {
+          //updateDoc -> setDoc 으로 바꿔보자
+          content: editedContent
+        });
+        // 수정 모드를 비활성화합니다.
+        setComments((prevComments) =>
+          prevComments.map((comment) => {
+            if (comment.id === commentId) {
+              return { ...comment, isEditing: false };
+            }
+            return comment;
+          })
+        );
+        console.log("댓글 수정 성공!");
+      } catch (error) {
+        console.error("댓글 수정 중 오류 발생", error);
+      }
+    };
 
-  return (
-    <div>
+    return (
       <div>
-        <h2>Comments!CommentList쪽</h2>
+        <div>
+          <h2>Comments!CommentList쪽</h2>
 
-        <ul>
-          {comments.map((comment) => (
-            <li key={comment.id}>
-              <p>{comment.content}</p>
-              <p>{comment.createdAt}</p>
-              {comment.isEditing ? (
-                <>
-                  <textarea value={editedContent} onChange={handleInputChange} />
-                  <button onClick={() => handleCompleteEdit(comment.id)}>완료</button>
-                </>
-              ) : (
-                <>
-                  <p>{comment.content}</p>
-                  <button onClick={() => handleEdit(comment.id)}>수정</button>
-                  <button onClick={() => onDeleteHandler(comment.id)}>삭제</button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
+          <ul>
+            {comments.map((comment) => (
+              <li key={comment.id}>
+                <p>{comment.content}</p>
+                <p>{comment.createdAt}</p>
+                {comment.isEditing ? (
+                  <>
+                    <textarea value={editedContent} onChange={handleInputChange} />
+                    <button onClick={() => handleCompleteEdit(comment.id)}>완료</button>
+                  </>
+                ) : (
+                  <>
+                    <p>{comment.content}</p>
+                    <button onClick={() => handleEdit(comment.id)}>수정</button>
+                    <button onClick={() => onDeleteHandler(comment.id)}>삭제</button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 }
