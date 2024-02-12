@@ -1,6 +1,26 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+export const StyledHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 5vh;
+  background-color: rgba(20, 20, 20, 0.25);
+`;
+export const StyledFooter = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 5vh;
+  background-color: rgba(20, 20, 20, 0.25);
+`;
 export const Background = styled.img`
   width: 100vw;
   height: 100vh;

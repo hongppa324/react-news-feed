@@ -3,16 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { authService } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
 
-import {
-  StyledForm,
-  StyledSection,
-  StyledInput,
-  StyledSign,
-  StyledSignIn,
-  StyledSignUp,
-} from "../styles/MyStyles";
+import { StyledForm, StyledSection, StyledInput, StyledSign, StyledSignIn, StyledSignUp } from "../styles/MyStyles";
 
 function EmailLogin() {
   const [email, setEmail] = useState("");
@@ -21,7 +14,7 @@ function EmailLogin() {
 
   const onChange = (event) => {
     const {
-      target: { name, value },
+      target: { name, value }
     } = event;
     if (name === "email") {
       setEmail(value);
@@ -33,11 +26,17 @@ function EmailLogin() {
 
   const signIn = (event) => {
     event.preventDefault();
-    signInWithEmailAndPassword(authService, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        alert(user.displayName + "님, 돌아오신 것을 환영합니다.") 
-        navigate("/home", { replace: true })
+    setPersistence(authService, browserSessionPersistence)
+      .then(() => {
+        return signInWithEmailAndPassword(authService, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            alert(user.displayName + "님, 돌아오신 것을 환영합니다.");
+            navigate("/home", { replace: true });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
       })
       .catch((error) => {
         alert(error.message);
@@ -48,23 +47,11 @@ function EmailLogin() {
     <StyledForm>
       <StyledSection>
         <label>이메일 : </label>
-        <StyledInput
-          type="email"
-          value={email}
-          name="email"
-          onChange={onChange}
-          required
-        ></StyledInput>
+        <StyledInput type="email" value={email} name="email" onChange={onChange} required></StyledInput>
       </StyledSection>
       <StyledSection>
         <label>비밀번호 : </label>
-        <StyledInput
-          type="password"
-          value={password}
-          name="password"
-          onChange={onChange}
-          required
-        ></StyledInput>
+        <StyledInput type="password" value={password} name="password" onChange={onChange} required></StyledInput>
       </StyledSection>
       <StyledSign>
         <StyledSignIn onClick={signIn}>로그인</StyledSignIn>
