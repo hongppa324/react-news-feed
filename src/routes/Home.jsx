@@ -141,7 +141,8 @@ function Home() {
         <button>정렬기능</button>
       </nav>
 
-      <div>
+      {/* 나중에 컴포넌트로 분리하기 */}
+      <div className="form-content">
         <form onSubmit={onSubmit}>
           제목 : <input type="text" onChange={onChange} value={title} name="title" />
           <br />
