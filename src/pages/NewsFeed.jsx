@@ -1,33 +1,11 @@
-<<<<<<< HEAD
 // import React from "react";
 // import { useState, useEffect } from "react";
-// import {
-//   collection,
-//   query,
-//   doc,
-//   addDoc,
-//   deleteDoc,
-//   Timestamp,
-//   orderBy,
-//   onSnapshot,
-//   startAt,
-//   limit,
-//   getDocs
-// } from "firebase/firestore";
+// import { collection, query, doc, addDoc, deleteDoc, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
 // import { db, auth, storage } from "../api/crudFirebase";
 // import { useNavigate } from "react-router-dom";
 // import { onAuthStateChanged } from "firebase/auth";
 // import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-=======
-import React from "react";
-import { useState, useEffect } from "react";
-import { collection, query, doc, addDoc, deleteDoc, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
-import { db, auth, storage } from "../api/crudFirebase";
-import { useNavigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import defaultImg from "../assets/img/쿼카.jpg";
->>>>>>> 766410739a085f3eb6b946676c4aeb458e60dcc6
+// import defaultImg from "../assets/img/쿼카.jpg";
 
 // function NewsFeed() {
 //   const navigate = useNavigate();
@@ -86,7 +64,11 @@ import defaultImg from "../assets/img/쿼카.jpg";
 //     }
 //   };
 
-<<<<<<< HEAD
+//   const handleFileSelect = (e) => {
+//     // 파일을 선택한 경우에는 첫 번째 파일을, 선택하지 않은 경우에는 null 값을 file
+//     setSelectedFile(e.target.files?.[0]);
+//   };
+
 //   //글 추가하기
 //   const onSubmit = async (e) => {
 //     e.preventDefault();
@@ -95,20 +77,20 @@ import defaultImg from "../assets/img/쿼카.jpg";
 //       return;
 //     }
 
-//     if (!selectedFile) {
-//       alert("사진을 추가해주세요!");
-//       return;
-//     }
+//     //if(selectedFile){    }
+//     const imageRef = ref(storage, `${auth.currentUser.uid}/${selectedFile.name}`);
+//     await uploadBytes(imageRef, selectedFile);
+//     const downloadURL = await getDownloadURL(imageRef);
+
+//     console.log("이미지 있을 때", downloadURL);
 
 //     //기본이미지
 //     const defaultRef = ref(storage, "/defaultImg/쿼카.jpg");
 //     const defaultImgdURL = await getDownloadURL(defaultRef);
-//     console.log("테스트", defaultImgdURL);
+//     console.log("이미지 없을 때", defaultImgdURL);
 
-//     //파일 업로드
-//     const imageRef = ref(storage, `${auth.currentUser.email}/${selectedFile.name}`);
-//     await uploadBytes(imageRef, selectedFile);
-//     const downloadURL = await getDownloadURL(imageRef);
+//     const imgURL = selectedFile ? downloadURL : defaultImgdURL;
+//     console.log("결과", imgURL);
 
 //     const newFeed = {
 //       id: crypto.randomUUID(),
@@ -117,64 +99,19 @@ import defaultImg from "../assets/img/쿼카.jpg";
 //       date: new Date().toLocaleString(),
 //       isEdited: false,
 //       writer: user.email,
-//       img: !selectedFile ? defaultImgdURL : downloadURL
+//       img: imgURL
 //     };
 //     setFeed([newFeed, ...feed]);
-=======
-  const handleFileSelect = (e) => {
-    // 파일을 선택한 경우에는 첫 번째 파일을, 선택하지 않은 경우에는 null 값을 file
-    setSelectedFile(e.target.files?.[0]);
-  };
 
-  //글 추가하기
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!title || !content) {
-      alert("빈곳없이 다 작성해주세요!");
-      return;
-    }
+//     //     const newsFeedRef = collection(db, "newsFeed");
+//     //     await addDoc(newsFeedRef, { ...newFeed, date: Timestamp.fromDate(new Date()) });
 
-    //if(selectedFile){    }
-    const imageRef = ref(storage, `${auth.currentUser.uid}/${selectedFile.name}`);
-    await uploadBytes(imageRef, selectedFile);
-    const downloadURL = await getDownloadURL(imageRef);
-
-    console.log("이미지 있을 때", downloadURL);
-
-    //기본이미지
-    const defaultRef = ref(storage, "/defaultImg/쿼카.jpg");
-    const defaultImgdURL = await getDownloadURL(defaultRef);
-    console.log("이미지 없을 때", defaultImgdURL);
-
-    const imgURL = selectedFile ? downloadURL : defaultImgdURL;
-    console.log("결과", imgURL);
-
-    const newFeed = {
-      id: crypto.randomUUID(),
-      title,
-      content,
-      date: new Date().toLocaleString(),
-      isEdited: false,
-      writer: user.email,
-      img: imgURL
-    };
-    setFeed([newFeed, ...feed]);
->>>>>>> 766410739a085f3eb6b946676c4aeb458e60dcc6
-
-//     const newsFeedRef = collection(db, "newsFeed");
-//     await addDoc(newsFeedRef, { ...newFeed, date: Timestamp.fromDate(new Date()) });
-
-<<<<<<< HEAD
 //     alert("작성 완료!");
 //     setTitle("");
 //     setContent("");
 //     e.target.file.value = "";
-//     //사진input 값 reset
 //   };
 
-//   const handleFileSelect = (e) => {
-//     setSelectedFile(e.target.files[0]);
-//   };
 //   //삭제 & 수정
 //   const deleteHandler = async (selectFeed) => {
 //     alert("정말 삭제하시겠습니까?");
@@ -185,24 +122,6 @@ import defaultImg from "../assets/img/쿼카.jpg";
 //     const newsFeedRef = doc(db, "newsFeed", selectFeed);
 //     await deleteDoc(newsFeedRef);
 //   };
-=======
-    alert("작성 완료!");
-    setTitle("");
-    setContent("");
-    e.target.file.value = "";
-  };
-
-  //삭제 & 수정
-  const deleteHandler = async (selectFeed) => {
-    alert("정말 삭제하시겠습니까?");
-    const deleteFeed = feed.filter((allFeed) => {
-      return allFeed.id !== selectFeed;
-    });
-    setFeed(deleteFeed);
-    const newsFeedRef = doc(db, "newsFeed", selectFeed);
-    await deleteDoc(newsFeedRef);
-  };
->>>>>>> 766410739a085f3eb6b946676c4aeb458e60dcc6
 
 //   const editHandler = (selectFeed) => {
 //     alert("현재 사진삭제가 반영이 안됩니다 ^^");

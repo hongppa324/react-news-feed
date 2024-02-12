@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 function FeedItem() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { id, title, content, date, isEdited, writer, img } = state.editFeed;
+  const { id, title, content, date, writer, img } = state.editFeed;
 
   const [newContent, setNewContent] = useState(content);
 

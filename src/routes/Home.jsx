@@ -17,19 +17,17 @@ function Home() {
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
-      // console.log("현재 로그인 된 유저", user);
+      console.log("현재 로그인 된 유저", user);
     });
   }, []);
 
   //현재 사용자 불러오기
-  const user = authService.currentUser;
+  const user = authService.currentUser.displayName;
 
   // 컬렉션에 있는 값 가져오기
   useEffect(() => {
     const fetchData = async () => {
-      //문서의 첫페이지 조회
       const q = query(collection(db, "newsFeed"), orderBy("date", "desc"));
-
       onSnapshot(q, (querySnapshot) => {
         const docFeed = querySnapshot.docs.map((doc) => {
           return {
@@ -43,9 +41,6 @@ function Home() {
           };
         });
         setFeed(docFeed);
-        //마지막으로 볼 수 있는 문서 가져오기
-
-        // 이 문서에서 시작하는 새 쿼리를 구성합니다,
       });
     };
 
@@ -72,44 +67,52 @@ function Home() {
       return;
     }
 
-    if (!selectedFile) {
-      alert("사진을 추가해주세요!");
-      return;
-    }
-
-    //기본이미지
-    const defaultRef = ref(storage, "/defaultImg/쿼카.jpg");
-    const defaultImgdURL = await getDownloadURL(defaultRef);
-    console.log("테스트", defaultImgdURL);
-
-    //파일 업로드
-    const imageRef = ref(storage, `${authService.currentUser.email}/${selectedFile.name}`);
-    await uploadBytes(imageRef, selectedFile);
-    const downloadURL = await getDownloadURL(imageRef);
-
-    const newFeed = {
-      id: crypto.randomUUID(),
-      title,
-      content,
-      date: new Date().toLocaleString(),
-      isEdited: false,
-      writer: user.displayName,
-      img: !selectedFile ? defaultImgdURL : downloadURL
+    const uploadFeed = async (img) => {
+      // 공통 작업을 수행합니다.
+      setFeed([img, ...feed]);
+      const newsFeedRef = collection(db, "newsFeed");
+      await addDoc(newsFeedRef, { ...img, date: Timestamp.fromDate(new Date()) });
+      setSelectedFile(null);
     };
-    setFeed([newFeed, ...feed]);
 
-    const newsFeedRef = collection(db, "newsFeed");
-    await addDoc(newsFeedRef, { ...newFeed, date: Timestamp.fromDate(new Date()) });
+    if (!selectedFile) {
+      const defaultRef = ref(storage, `/defaultImg/background.png`);
+      const defaultImgdURL = await getDownloadURL(defaultRef);
+      const newFeed = {
+        id: crypto.randomUUID(),
+        title,
+        content,
+        date: new Date().toLocaleString(),
+        isEdited: false,
+        writer: user,
+        img: defaultImgdURL
+      };
+      await uploadFeed(newFeed);
+    } else {
+      // 파일 업로드
+      const imageRef = ref(storage, `${authService.currentUser.email}/${selectedFile.name}`);
+      await uploadBytes(imageRef, selectedFile);
+      const downloadURL = await getDownloadURL(imageRef);
+      const newFeed = {
+        id: crypto.randomUUID(),
+        title,
+        content,
+        date: new Date().toLocaleString(),
+        isEdited: false,
+        writer: user,
+        img: downloadURL
+      };
+      await uploadFeed(newFeed);
+    }
 
     alert("작성 완료!");
     setTitle("");
     setContent("");
     e.target.file.value = "";
-    //사진input 값 reset
   };
 
   const handleFileSelect = (e) => {
-    setSelectedFile(e.target.files[0]);
+    setSelectedFile(e.target.files?.[0]);
   };
   //삭제 & 수정
   const deleteHandler = async (selectFeed) => {
@@ -134,7 +137,7 @@ function Home() {
   return (
     <>
       <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
-        <p>안녕하세요 {user.displayName}님 !</p>
+        <p>안녕하세요 {user} 님 !</p>
         <button>내프로필</button>
         <button>글쓰기</button>
         <button>홈으로가기</button>
@@ -182,15 +185,12 @@ function Home() {
                       </div>
                     </div>
                     <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                      {e.writer} / 좋아요 <Link to="/home">댓글</Link>
+                      {e.writer} / 좋아요 <Link to="/home">댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
                     </div>
+
                     <div className="buttons">
-                      {e.writer !== user.displayName ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
-                      {e.writer !== user.displayName ? (
-                        ""
-                      ) : (
-                        <button onClick={() => deleteHandler(e.id)}>삭제하기</button>
-                      )}
+                      {e.writer !== user ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
+                      {e.writer !== user ? "" : <button onClick={() => deleteHandler(e.id)}>삭제하기</button>}
                     </div>
                   </div>
                 </div>
