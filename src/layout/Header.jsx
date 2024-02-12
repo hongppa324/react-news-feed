@@ -1,21 +1,13 @@
 import React from "react";
-import styled from "styled-components";
+import { StyledHeader } from "../styles/MyStyles";
+import SignOut from "../components/SignOut";
 
 function Header() {
   return (
     <StyledHeader>
-      <p>Header</p>
+      <SignOut />
     </StyledHeader>
   );
 }
 
 export default Header;
-
-const StyledHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 5vh;
-  background-color: rgba(20, 20, 20, 0.25);
-`;

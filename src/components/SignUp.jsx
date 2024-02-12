@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { app, authService } from "../api/crudFirebase";
-import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { StyledForm, StyledSection, StyledInput, StyledButton } from "../styles/MyStyles";
+
 function SignUp() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");

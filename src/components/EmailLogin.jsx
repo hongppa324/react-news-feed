@@ -1,10 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { authService } from "../api/crudFirebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
 import { StyledForm, StyledSection, StyledInput, StyledSign, StyledSignIn, StyledSignUp } from "../styles/MyStyles";
 
 function EmailLogin() {
@@ -26,11 +24,17 @@ function EmailLogin() {
 
   const signIn = (event) => {
     event.preventDefault();
-    signInWithEmailAndPassword(authService, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        alert(user.displayName + "님, 돌아오신 것을 환영합니다.");
-        navigate("/home", { replace: true });
+    setPersistence(authService, browserSessionPersistence)
+      .then(() => {
+        return signInWithEmailAndPassword(authService, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            alert(user.displayName + "님, 돌아오신 것을 환영합니다.");
+            navigate("/home", { replace: true });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
       })
       .catch((error) => {
         alert(error.message);
