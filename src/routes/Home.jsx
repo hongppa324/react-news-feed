@@ -44,83 +44,18 @@ function Home() {
           };
         });
         setFeed(docFeed);
-        //마지막으로 볼 수 있는 문서 가져오기
-
-        // 이 문서에서 시작하는 새 쿼리를 구성합니다,
       });
     };
 
     fetchData();
   }, []);
 
-  const onChange = (event) => {
-    const {
-      target: { name, value }
-    } = event;
-    if (name === "content") {
-      setContent(value);
-    }
-    if (name === "title") {
-      setTitle(value);
-    }
+  //글 작성 이동
+  const writeToFeed = () => {
+    navigate("/feedWrite");
   };
 
-  //글 추가하기
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!title || !content) {
-      alert("빈곳없이 다 작성해주세요!");
-      return;
-    }
-
-    const uploadFeed = async (img) => {
-      // 공통 작업을 수행합니다.
-      setFeed([img, ...feed]);
-      const newsFeedRef = collection(db, "newsFeed");
-      await addDoc(newsFeedRef, { ...img, date: Timestamp.fromDate(new Date()) });
-      setSelectedFile(null);
-    };
-
-    if (!selectedFile) {
-      const defaultRef = ref(storage, `/defaultImg/background.png`);
-      const defaultImgdURL = await getDownloadURL(defaultRef);
-      const newFeed = {
-        id: crypto.randomUUID(),
-        title,
-        content,
-        date: new Date().toLocaleString(),
-        isEdited: false,
-        writer: user,
-        img: defaultImgdURL
-      };
-      await uploadFeed(newFeed);
-    } else {
-      // 파일 업로드
-      const imageRef = ref(storage, `${authService.currentUser.email}/${selectedFile.name}`);
-      await uploadBytes(imageRef, selectedFile);
-      const downloadURL = await getDownloadURL(imageRef);
-      const newFeed = {
-        id: crypto.randomUUID(),
-        title,
-        content,
-        date: new Date().toLocaleString(),
-        isEdited: false,
-        writer: user,
-        img: downloadURL
-      };
-      await uploadFeed(newFeed);
-    }
-
-    alert("작성 완료!");
-    setTitle("");
-    setContent("");
-    e.target.file.value = "";
-  };
-
-  const handleFileSelect = (e) => {
-    setSelectedFile(e.target.files?.[0]);
-  };
-  //삭제 & 수정
+  //피드 삭제
   const deleteHandler = async (selectFeed) => {
     alert("정말 삭제하시겠습니까?");
     const deleteFeed = feed.filter((allFeed) => {
@@ -131,6 +66,7 @@ function Home() {
     await deleteDoc(newsFeedRef);
   };
 
+  //피드 수정
   const editHandler = (selectFeed) => {
     alert("현재 사진삭제가 반영이 안됩니다 ^^");
     const editFeed = feed.find((allFeed) => {
@@ -139,27 +75,15 @@ function Home() {
 
     navigate("/feedItem", { state: { editFeed } });
   };
-  //파일 업로드
+
   return (
     <>
       <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
         <p>안녕하세요 {user} 님 !</p>
         <button>내프로필</button>
-        <button>글쓰기</button>
+        <button onClick={writeToFeed}>글작성하기</button>
         <button>홈으로가기</button>
       </nav>
-
-      {/* 나중에 컴포넌트로 분리하기 */}
-      <div className="form-content">
-        <form onSubmit={onSubmit}>
-          제목 : <input type="text" onChange={onChange} value={title} name="title" />
-          <br />
-          내용 : <textarea type="text" onChange={onChange} value={content} name="content" />
-          <br />
-          <input type="file" onChange={handleFileSelect} name="file" />
-          <button>작성하기</button>
-        </form>
-      </div>
 
       <div className="home-wrap" style={{ border: "1px solid black", margin: "1rem" }}>
         <ul

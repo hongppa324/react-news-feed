@@ -6,6 +6,7 @@ import LoginPage from "../routes/LoginPage";
 import SignUpPage from "../routes/SignUpPage";
 import Home from "../routes/Home";
 import Comment from "../pages/Comment";
+import FeedForm from "../components/crud/FeedForm";
 function Router() {
   return (
     <Routes>
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/feedItem" element={<FeedItem />} />
       <Route path="/comment" element={<Comment />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/feedWrite" element={<FeedForm />} />
     </Routes>
   );
 }
