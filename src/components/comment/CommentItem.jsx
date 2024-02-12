@@ -1,9 +1,8 @@
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../api/firebase";
+import { db } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useParams } from "react-router-dom";
-import CommentList from "./CommentList";
 
 export default function CommentItem() {
   // 이 아이디는 게시물의 아이디를 받아오려고 써놓은 것

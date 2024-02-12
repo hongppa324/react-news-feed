@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { doc, updateDoc, Timestamp } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-import { db, auth, storage } from "../../api/firebase";
+import { db, auth, storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
 function FeedItem() {

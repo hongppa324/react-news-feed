@@ -1,7 +1,7 @@
 import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../../api/firebase";
+import { db } from "../../firebase";
 // import CommentItem from "./CommentItem";
 
 export default function CommentList() {
