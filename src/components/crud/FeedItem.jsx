@@ -1,11 +1,11 @@
 //feedItem
-
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { doc, updateDoc, Timestamp, collection, query, where, getDocs } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-import { db, auth, storage } from "../firebase";
+import { db, auth, storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import Comment from "../../pages/Comment";
 
 function FeedItem() {
   const navigate = useNavigate();
@@ -96,6 +96,7 @@ function FeedItem() {
       <br />
       <br />
       <br />
+      <Comment />
     </>
   );
 }

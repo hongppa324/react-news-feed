@@ -6,12 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
+import Comment from "./pages/Comment";
 import store from "./redux/config/configStore";
 import GlobalStyle from "./styles/GlobalStyle";
 import GlobalFont from "./styles/GlobalFont";
-
-import Comment from "./pages/Comment";
-
+import CommentList from "./components/comment/CommentList";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
@@ -21,8 +20,7 @@ root.render(
         <GlobalFont />
         <Header />
         <App />
-        <Comment />
-        {/* <Crud /> */}
+        {/* <Comment /> */}
         <Footer />
       </React.StrictMode>
     </BrowserRouter>

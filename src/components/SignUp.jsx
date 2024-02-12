@@ -57,10 +57,7 @@ function SignUp() {
         <label>비밀번호 : </label>
         <StyledInput type="password" value={password} name="password" onChange={onChange} required></StyledInput>
       </StyledSection>
-      <StyledSign>
-        <StyledSignUp to="/login">뒤로 가기</StyledSignUp>
-        <StyledSignIn onClick={signUp}>회원가입</StyledSignIn>
-      </StyledSign>
+      <StyledButton onClick={signUp}>회원가입</StyledButton>
     </StyledForm>
   );
 }

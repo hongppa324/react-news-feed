@@ -147,7 +147,6 @@ function Home() {
         <button>내프로필</button>
         <button>글쓰기</button>
         <button>홈으로가기</button>
-        <button>정렬기능</button>
       </nav>
 
       {/* 나중에 컴포넌트로 분리하기 */}
