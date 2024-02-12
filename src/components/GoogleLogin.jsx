@@ -27,6 +27,6 @@ const GoogleLogin = () => {
       });
   };
   return <StyledButton onClick={loginTest}>Google로 로그인</StyledButton>;
-}
+};
 
 export default GoogleLogin;

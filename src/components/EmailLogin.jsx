@@ -7,7 +7,7 @@ import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence }
 
 import { StyledForm, StyledSection, StyledInput, StyledSign, StyledSignIn, StyledSignUp } from "../styles/MyStyles";
 
-const EmailLogin = ()  => {
+const EmailLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -60,6 +60,6 @@ const EmailLogin = ()  => {
       </StyledSign>
     </StyledForm>
   );
-}
+};
 
 export default EmailLogin;

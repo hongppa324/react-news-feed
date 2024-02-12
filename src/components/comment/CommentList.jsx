@@ -1,7 +1,7 @@
 import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../../api/firebase";
+import { db } from "../../firebase";
 import FeedItem from "../crud/FeedItem";
 // import CommentItem from "./CommentItem";
 
@@ -93,7 +93,7 @@ export default function CommentList() {
   return (
     <div>
       <div>
-        <h2>Comments!CommentList쪽</h2>
+        <h2>CommentList쪽</h2>
 
         <ul>
           {comments.map((comment) => (
