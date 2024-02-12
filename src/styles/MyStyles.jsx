@@ -74,7 +74,6 @@ export const SignUpLink = styled(Link)`
     width: 40vw;
     min-width: 540px;
   }
-
 `;
 export const Description = styled.p`
   font-size: 1.8vh;

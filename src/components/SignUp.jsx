@@ -1,17 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { app, authService } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { authService } from "../firebase";
-import {
-  StyledForm,
-  StyledSection,
-  StyledInput,
-  StyledSignIn,
-  StyledSign,
-  StyledSignUp
-} from "../styles/MyStyles";
+import { useNavigate } from "react-router-dom";
+import { StyledForm, StyledSection, StyledInput, StyledButton } from "../styles/MyStyles";
 
 function SignUp() {
   const [userName, setUserName] = useState("");
@@ -65,10 +57,7 @@ function SignUp() {
         <label>비밀번호 : </label>
         <StyledInput type="password" value={password} name="password" onChange={onChange} required></StyledInput>
       </StyledSection>
-      <StyledSign>
-        <StyledSignUp to="/login">뒤로 가기</StyledSignUp>
-        <StyledSignIn onClick={signUp}>회원가입</StyledSignIn>
-      </StyledSign>
+      <StyledButton onClick={signUp}>회원가입</StyledButton>
     </StyledForm>
   );
 }

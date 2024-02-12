@@ -1,7 +1,5 @@
 import React from "react";
-
 import { Container, Content, Background } from "../styles/MyStyles";
-
 import Spartan from "../assets/img/background.png";
 import MainRedir from "../components/MainRedir";
 
