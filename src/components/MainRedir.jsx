@@ -1,7 +1,7 @@
 import React from "react";
 import { SignUpLink, Description } from "../styles/MyStyles";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../api/crudFirebase";
+import { authService } from "../firebase";
 
 function MainRedir() {
   const navigate = useNavigate();

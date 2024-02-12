@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { app, authService } from "../api/crudFirebase";
+import { app, authService } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { StyledForm, StyledSection, StyledInput, StyledButton } from "../styles/MyStyles";

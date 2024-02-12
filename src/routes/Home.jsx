@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { collection, query, doc, addDoc, deleteDoc, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
-import { db, authService, storage } from "../api/crudFirebase";
+import { db, authService, storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -22,12 +22,15 @@ function Home() {
   }, []);
 
   //현재 사용자 불러오기
+  const userId = authService.currentUser;
   const user = authService.currentUser.displayName;
+  console.log("user", user);
 
-  // 컬렉션에 있는 값 가져오기
   useEffect(() => {
     const fetchData = async () => {
+      //문서의 첫페이지 조회
       const q = query(collection(db, "newsFeed"), orderBy("date", "desc"));
+
       onSnapshot(q, (querySnapshot) => {
         const docFeed = querySnapshot.docs.map((doc) => {
           return {
@@ -41,6 +44,9 @@ function Home() {
           };
         });
         setFeed(docFeed);
+        //마지막으로 볼 수 있는 문서 가져오기
+
+        // 이 문서에서 시작하는 새 쿼리를 구성합니다,
       });
     };
 

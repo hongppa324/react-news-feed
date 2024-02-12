@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../api/crudFirebase";
+import { authService } from "../firebase";
 import { setPersistence, GoogleAuthProvider, signInWithPopup, browserSessionPersistence } from "firebase/auth";
 
 import { StyledButton } from "../styles/MyStyles";

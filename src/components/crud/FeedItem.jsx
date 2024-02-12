@@ -4,13 +4,13 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { doc, updateDoc, Timestamp, collection, query, where, getDocs } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-import { db, auth, storage } from "../../api/crudFirebase";
+import { db, auth, storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 
 function FeedItem() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { id, title, content, date, writer, img } = state.editFeed;
+  const { id, title, content, date, isEdited, writer, img } = state.editFeed;
 
   const [newContent, setNewContent] = useState(content);
 

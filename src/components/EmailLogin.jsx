@@ -1,8 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../api/crudFirebase";
+
+import { authService } from "../firebase";
 import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
+
 import { StyledForm, StyledSection, StyledInput, StyledSign, StyledSignIn, StyledSignUp } from "../styles/MyStyles";
 
 function EmailLogin() {
