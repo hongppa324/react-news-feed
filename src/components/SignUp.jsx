@@ -1,17 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { app, authService } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { authService } from "../firebase";
-import {
-  StyledForm,
-  StyledSection,
-  StyledInput,
-  StyledSignIn,
-  StyledSign,
-  StyledSignUp
-} from "../styles/MyStyles";
+import { useNavigate } from "react-router-dom";
+import { StyledForm, StyledSection, StyledInput, StyledButton } from "../styles/MyStyles";
 
 function SignUp() {
   const [userName, setUserName] = useState("");
