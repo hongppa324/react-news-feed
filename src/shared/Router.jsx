@@ -7,6 +7,8 @@ import SignUpPage from "../routes/SignUpPage";
 import Home from "../routes/Home";
 import Comment from "../pages/Comment";
 import FeedForm from "../components/crud/FeedForm";
+import FeedDetail from "../components/crud/FeedDetail";
+
 function Router() {
   return (
     <Routes>
@@ -14,8 +16,8 @@ function Router() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
       <Route path="/home" element={<Home />} />
+      {/* <Route path="/home/:id" element={<FeedDetail />} /> */}
       <Route path="/feedWrite" element={<FeedForm />} />
-      <Route path="/home/:id" element={<FeedItem />} />
       <Route path="/feedItem" element={<FeedItem />} />
       <Route path="/comment" element={<Comment />} />
     </Routes>

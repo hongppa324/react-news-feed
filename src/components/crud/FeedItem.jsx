@@ -96,7 +96,6 @@ function FeedItem() {
       <br />
       <br />
       <br />
-      <Comment />
     </>
   );
 }

@@ -96,7 +96,7 @@ function Home() {
         >
           {feed.map((e) => {
             return (
-              <Link to="/feedItem">
+              <Link to={`/home/${e.id}`}>
                 <li key={e.id}>
                   <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
                     <div className="img" style={{ border: "1px solid black", height: "200px" }}>

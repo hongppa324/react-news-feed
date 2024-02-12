@@ -35,7 +35,7 @@ export default function CommentList() {
 
     fetchComments();
   }, []);
-  console.log(comments);
+  // console.log(comments);
 
   const onDeleteHandler = async (commentId) => {
     const answer = window.confirm("이 댓글을 삭제하시겠습니까?");
