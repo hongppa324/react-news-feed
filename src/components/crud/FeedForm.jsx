@@ -6,14 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import styled from "styled-components";
-import Spartan from "../../assets/img/background.png";
 
 function FeedForm() {
   const [feed, setFeed] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,12 +40,11 @@ function FeedForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!title || !content) {
-      alert("빈곳없이 다 작성해주세요!");
+      alert("빈칸없이 다 작성해주세요!");
       return;
     }
 
     const uploadFeed = async (img) => {
-      // 공통 작업을 수행합니다.
       setFeed([img, ...feed]);
       const newsFeedRef = collection(db, "newsFeed");
       await addDoc(newsFeedRef, { ...img, date: Timestamp.fromDate(new Date()) });
@@ -55,6 +52,7 @@ function FeedForm() {
     };
 
     if (!selectedFile) {
+      //기본이미지
       const defaultRef = ref(storage, `/defaultImg/background.png`);
       const defaultImgdURL = await getDownloadURL(defaultRef);
       const newFeed = {
@@ -84,7 +82,7 @@ function FeedForm() {
       await uploadFeed(newFeed);
     }
 
-    alert("작성 완료!");
+    alert("작성이 완료됐습니다!");
     setTitle("");
     setContent("");
     e.target.file.value = "";
@@ -96,7 +94,7 @@ function FeedForm() {
   };
 
   const writingCancle = (e) => {
-    alert("작성을 취소하겠습니까?");
+    alert("작성을 취소하시겠습니까?");
     navigate("/home");
   };
 

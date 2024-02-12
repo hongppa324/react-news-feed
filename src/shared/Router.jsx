@@ -13,10 +13,11 @@ function Router() {
       <Route path="/" element={<Main />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
-      <Route path="/feedItem" element={<FeedItem />} />
-      <Route path="/comment" element={<Comment />} />
       <Route path="/home" element={<Home />} />
       <Route path="/feedWrite" element={<FeedForm />} />
+      <Route path="/home/:id" element={<FeedItem />} />
+      <Route path="/feedItem" element={<FeedItem />} />
+      <Route path="/comment" element={<Comment />} />
     </Routes>
   );
 }

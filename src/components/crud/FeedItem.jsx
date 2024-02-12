@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { doc, updateDoc, Timestamp, collection, query, where, getDocs } from "firebase/firestore";
-import { getStorage, ref, deleteObject } from "firebase/storage";
-import { db, auth, storage } from "../../firebase";
+import { ref, deleteObject } from "firebase/storage";
+import { db, storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import Comment from "../../pages/Comment";
 
@@ -15,21 +15,19 @@ function FeedItem() {
   const [newContent, setNewContent] = useState(content);
 
   const [modify, setModify] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = query(collection(db, "newsFeed"), where("id", "==", id));
-      const querySnapshot = await getDocs(q);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const q = query(collection(db, "newsFeed"), where("id", "==", id));
+  //     const querySnapshot = await getDocs(q);
+  //     const modifyFeed = [];
+  //     querySnapshot.forEach((doc) => {
+  //       modifyFeed.push({ id: doc.id, img: doc.data().img, ...doc.data() });
+  //     });
 
-      const modifyFeed = [];
-
-      querySnapshot.forEach((doc) => {
-        modifyFeed.push({ id: doc.id, img: doc.data().img, ...doc.data() });
-      });
-
-      setModify(modifyFeed);
-    };
-    fetchData();
-  }, [img]);
+  //     setModify(modifyFeed);
+  //   };
+  //   fetchData();
+  // }, [img]);
 
   const onChange = (e) => {
     const editContent = e.target.value;
@@ -42,16 +40,16 @@ function FeedItem() {
     setNewContent(editContent);
   };
 
-  ///사진 삭제 구현 수정중....
   const deleteImg = async () => {
     try {
       const defaultImg = ref(storage, `/defaultImg/background.png`);
       if (defaultImg) {
-        alert("기본 이미지입니다.");
+        alert("기본 이미지는 삭제할 수 없습니다.");
         return;
       }
       const desertRef = ref(storage, img);
 
+      //사진 삭제 실시간 반영 구현 수정중....
       await deleteObject(desertRef);
       alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
     } catch (error) {
@@ -63,7 +61,7 @@ function FeedItem() {
     e.preventDefault();
 
     if (newContent === content) {
-      alert("수정값이 없습니다.");
+      alert("수정된 부분이 없습니다!");
       return;
     }
 
@@ -79,10 +77,6 @@ function FeedItem() {
 
   return (
     <>
-      ---------------------------------
-      <br />
-      <br />
-      <br />
       <h1>상세페이지</h1>
       <div>작성자 :{writer}</div>
       <div>제목 : {title}</div>

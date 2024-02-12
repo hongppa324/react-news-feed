@@ -96,34 +96,36 @@ function Home() {
         >
           {feed.map((e) => {
             return (
-              <li key={e.id}>
-                <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
-                  <div className="img" style={{ border: "1px solid black", height: "200px" }}>
-                    <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
-                  </div>
-                  <div className="content" style={{ height: "150px" }}>
-                    <div className="title" style={{ border: "1px solid black", height: "25px" }}>
-                      제목 : {e.title}
+              <Link to="/feedItem">
+                <li key={e.id}>
+                  <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
+                    <div className="img" style={{ border: "1px solid black", height: "200px" }}>
+                      <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
                     </div>
-                    <div className="text" style={{ border: "1px solid black", height: "50px" }}>
-                      글내용 : : {e.content}
-                    </div>
-                    <div className="time-wrap" style={{ border: "1px solid black", height: "25px" }}>
-                      <div className="time" style={{ border: "1px solid black" }}>
-                        {e.date}
+                    <div className="content" style={{ height: "150px" }}>
+                      <div className="title" style={{ border: "1px solid black", height: "25px" }}>
+                        제목 : {e.title}
+                      </div>
+                      <div className="text" style={{ border: "1px solid black", height: "50px" }}>
+                        글내용 : : {e.content}
+                      </div>
+                      <div className="time-wrap" style={{ border: "1px solid black", height: "25px" }}>
+                        <div className="time" style={{ border: "1px solid black" }}>
+                          {e.date}
+                        </div>
+                      </div>
+                      <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
+                        {e.writer} / 좋아요 <Link to="/home">댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
+                      </div>
+
+                      <div className="buttons">
+                        {e.writer !== user ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
+                        {e.writer !== user ? "" : <button onClick={() => deleteHandler(e.id)}>삭제하기</button>}
                       </div>
                     </div>
-                    <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                      {e.writer} / 좋아요 <Link to="/home">댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
-                    </div>
-
-                    <div className="buttons">
-                      {e.writer !== user ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
-                      {e.writer !== user ? "" : <button onClick={() => deleteHandler(e.id)}>삭제하기</button>}
-                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              </Link>
             );
           })}
         </ul>
