@@ -61,10 +61,23 @@ export default function MyProfile({ userId }) {
         <Header>
           <NavLink to="/">Home</NavLink>
           <h1>My Profile</h1>
-          <button>완료</button>
         </Header>
-
-        <ButtonContainer></ButtonContainer>
+        <FormContainer>
+          <form onSubmit={submitMyInfoHandler}>
+            <label>
+              이름 : <input type="text" name="name" value={profile.name} onChange={editMyInfoHandler} />
+            </label>
+            <label>
+              이메일 :
+              <input type="email" name="email" value={profile.email} onChange={editMyInfoHandler} />
+            </label>
+            <label>
+              소개 :
+              <textarea name="intro" value={profile.intro} onChange={editMyInfoHandler} />
+            </label>
+            <button type="submit">저장</button>
+          </form>
+        </FormContainer>
       </MyProfileContainer>
     </>
   );
@@ -80,10 +93,7 @@ const MyProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const ButtonContainer = styled.div`
+const FormContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
-
-const EditingIsDoneButton = styled.button``;
-const EditMyInfoButton = styled.button``;
