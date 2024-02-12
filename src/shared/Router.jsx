@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import NewsFeed from "../pages/NewsFeed";
-import FeedItem from "../components/crud/FeedItem";
+import Comment from "../pages/Comment";
 
 function Router() {
   return (
     <Routes>
-      <Route path="/feed" element={<NewsFeed />} />
-      <Route path="/feedItem" element={<FeedItem />} />
+      <Route path="/comment" element={<Comment />} />
+      {/* <Route path="/feedItem" element={<FeedItem />} /> */}
     </Routes>
   );
 }

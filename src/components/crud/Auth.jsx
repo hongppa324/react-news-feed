@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { app, auth } from "../../api/crudFirebase";
+import { app, auth } from "../../api/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 

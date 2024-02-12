@@ -1,8 +1,9 @@
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
+import { db } from "../../api/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useParams } from "react-router-dom";
+import CommentList from "./CommentList";
 
 export default function CommentItem() {
   // 이 아이디는 게시물의 아이디를 받아오려고 써놓은 것
@@ -67,10 +68,14 @@ export default function CommentItem() {
       <>
         <div>
           <br />
+          <br />
+          <br />
+          <br />
+          <br />
           <p> Replies </p>
           <hr />
           <ul></ul>
-          {/* Comment Lists */}
+          <br />
           <br />
           {/* Comment Form */}
           <form onSubmit={onSubmitHandler}>
@@ -80,9 +85,7 @@ export default function CommentItem() {
             <textarea onChange={onTextHandler} value={content} placeholder="댓글을 작성해 주세요." required />
             <input type="password" value={password} onChange={onPwdHandler} required />
             <br />
-            <button type="submit" onSubmitHandler={onSubmitHandler}>
-              ADD
-            </button>
+            <button type="submit">ADD</button>
           </form>
         </div>
       </>

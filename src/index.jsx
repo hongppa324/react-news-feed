@@ -10,6 +10,7 @@ import store from "./redux/config/configStore";
 import GlobalStyle from "./styles/GlobalStyle";
 import GlobalFont from "./styles/GlobalFont";
 import Crud from "./components/crud/Auth";
+import Comment from "./pages/Comment";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,7 +21,8 @@ root.render(
         <GlobalFont />
         <Header />
         <App />
-        <Crud />
+        {/* <Crud /> */}
+        <Comment />
         <Footer />
       </React.StrictMode>
     </BrowserRouter>
