@@ -65,30 +65,28 @@ export default function CommentItem() {
   };
   return (
     <>
-      <>
-        <div>
+      <div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <p> Replies </p>
+        <hr />
+        <ul></ul>
+        <br />
+        <br />
+        {/* Comment Form */}
+        <form onSubmit={onSubmitHandler}>
+          <input value={userId} readOnly />
           <br />
           <br />
+          <textarea onChange={onTextHandler} value={content} placeholder="댓글을 작성해 주세요." required />
+          <input type="password" value={password} onChange={onPwdHandler} required />
           <br />
-          <br />
-          <br />
-          <p> Replies </p>
-          <hr />
-          <ul></ul>
-          <br />
-          <br />
-          {/* Comment Form */}
-          <form onSubmit={onSubmitHandler}>
-            <input value={userId} readOnly />
-            <br />
-            <br />
-            <textarea onChange={onTextHandler} value={content} placeholder="댓글을 작성해 주세요." required />
-            <input type="password" value={password} onChange={onPwdHandler} required />
-            <br />
-            <button type="submit">ADD</button>
-          </form>
-        </div>
-      </>
+          <button type="submit">ADD</button>
+        </form>
+      </div>
     </>
   );
 }
