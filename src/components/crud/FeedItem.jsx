@@ -47,11 +47,7 @@ function FeedItem() {
     try {
       const desertRef = ref(storage, img);
       await deleteObject(desertRef);
-
       alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
-
-      const feedRef = doc(db, "newsFeed", where("id", "==", id));
-      await updateDoc(feedRef, { ...feedRef, img: "null" });
     } catch (error) {
       console.log("사진 errorCode=>", error.errorCode);
     }
