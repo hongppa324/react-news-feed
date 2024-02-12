@@ -72,7 +72,7 @@ function FeedItem() {
       date: Timestamp.fromDate(new Date()),
       isEdited: !state.editFeed.isEdited
     });
-    navigate("/feed");
+    navigate("/home");
   };
 
   return (
