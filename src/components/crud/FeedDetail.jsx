@@ -32,20 +32,19 @@ function FeedDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(1);
+      // console.log(1);
       const col = collection(db, "newsFeed");
       const q = query(col, where("id", "==", postId));
       const querySnapshot = await getDocs(col);
-      console.log(2);
+      // console.log(2);
 
       if (querySnapshot.empty) {
-        console.log(3);
-        console.log("오류,,,");
+        // console.log(3);
+        console.log("불러올 피드가 없습니다!");
         return;
       }
-      console.log(4);
+      // console.log(4);
 
-      let docID = "";
       const item = querySnapshot.docs.map((doc) => {
         return {
           postId: doc.id,
@@ -67,7 +66,7 @@ function FeedDetail() {
       setDetailFeed(findData);
       setNewContent(findData.content);
       console.log("1111111", newContent);
-      console.log(5);
+      // console.log(5);
     };
 
     fetchData();
@@ -93,52 +92,41 @@ function FeedDetail() {
 
   const { writer, content, title, date, isEdited, img, postId: id } = detailFeed;
 
-  const onChange = (e) => {
+  const onChange = async (e) => {
     const editContent = e.target.value;
 
     // console.log(editContent);
     if (!editContent) {
       alert("내용을 입력해주세요");
+      setNewContent("");
       return;
     }
 
     setNewContent(editContent);
-    console.log("22222222", newContent);
-    console.log(editContent);
   };
 
   const changeContent = async (e) => {
     e.preventDefault();
 
     if (newContent.length === 0) {
-      alert("수정할 값이 없습니다!");
-      console.log("333333333", newContent);
-    } else if (newContent === content) {
-      console.log("4444444", newContent);
-      alert("값이 변경점이 없습니다!");
+      alert("글을 입력해주세요!");
+      return;
     }
-    // if (newContent.length === 0) {
-    //   alert("수정 값이 없습니다!");
-    //   console.log("1", newContent);
-    //   console.log("1", prevContent);
-    //   return;
-    // } else if (newContent === content) {
-    //   alert("값이 변경점이 없습니다!");
-    //   console.log("2", newContent);
-    //   console.log("2", prevContent);
-    //   return;
-    // }
+    if (newContent === content) {
+      alert("변경된 내용이 없어요 ㅠㅠ");
+      return;
+    }
 
-    // const editFeedRef = doc(db, "newsFeed", postId);
-    // await updateDoc(editFeedRef, {
-    //   detailFeed,
-    //   content: newContent,
-    //   date: Timestamp.fromDate(new Date()),
-    //   isEdited: !detailFeed.isEdited
-    // });
+    const editFeedRef = doc(db, "newsFeed", postId);
+    await updateDoc(editFeedRef, {
+      detailFeed,
+      content: newContent,
+      date: Timestamp.fromDate(new Date()),
+      isEdited: !detailFeed.isEdited
+    });
 
-    // alert("수정이 완료됐습니다.");
-    // navigate("/home");
+    alert("수정이 완료됐습니다.");
+    navigate("/home");
   };
 
   //   삭제
