@@ -12,7 +12,6 @@ export default function CommentItem({ postId }) {
 
   useEffect(() => {
     const auth = getAuth();
-    const user = auth.currentUser;
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -50,7 +49,8 @@ export default function CommentItem({ postId }) {
       console.log("이 comment의 아이디는 : ", docRef.id);
 
       setContent("");
-      // setPassword("");
+      // 페이지 새로고침
+      window.location.reload();
     } catch (error) {
       console.error("Error : ", error);
     }

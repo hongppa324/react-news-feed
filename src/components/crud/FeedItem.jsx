@@ -1,110 +1,112 @@
 //feedItem
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { doc, updateDoc, Timestamp, collection, query, where, getDocs } from "firebase/firestore";
-import { getStorage, ref, deleteObject } from "firebase/storage";
-import { db, auth, storage } from "../../firebase";
-import { useNavigate } from "react-router-dom";
-import Comment from "../../pages/Comment";
 
-function FeedItem() {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-  const { id, title, content, date, isEdited, writer, img } = state.editFeed;
+// //feedItem
+// import React, { useState, useEffect } from "react";
+// import { useLocation } from "react-router-dom";
+// import { doc, updateDoc, Timestamp, collection, query, where, getDocs } from "firebase/firestore";
+// import { getStorage, ref, deleteObject } from "firebase/storage";
+// import { db, auth, storage } from "../../firebase";
+// import { useNavigate } from "react-router-dom";
+// import Comment from "../../pages/Comment";
 
-  const [newContent, setNewContent] = useState(content);
+// function FeedItem() {
+//   const navigate = useNavigate();
+//   const { state } = useLocation();
+//   const { id, title, content, date, isEdited, writer, img } = state.editFeed;
 
-  const [modify, setModify] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = query(collection(db, "newsFeed"), where("id", "==", id));
-      const querySnapshot = await getDocs(q);
+//   const [newContent, setNewContent] = useState(content);
 
-      const modifyFeed = [];
+//   const [modify, setModify] = useState([]);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const q = query(collection(db, "newsFeed"), where("id", "==", id));
+//       const querySnapshot = await getDocs(q);
 
-      querySnapshot.forEach((doc) => {
-        modifyFeed.push({ id: doc.id, img: doc.data().img, ...doc.data() });
-      });
+//       const modifyFeed = [];
 
-      setModify(modifyFeed);
-    };
-    fetchData();
-  }, [img]);
+//       querySnapshot.forEach((doc) => {
+//         modifyFeed.push({ id: doc.id, img: doc.data().img, ...doc.data() });
+//       });
 
-  const onChange = (e) => {
-    const editContent = e.target.value;
+//       setModify(modifyFeed);
+//     };
+//     fetchData();
+//   }, [img]);
 
-    if (!editContent) {
-      alert("내용을 입력해주세요");
-      return;
-    }
+//   const onChange = (e) => {
+//     const editContent = e.target.value;
 
-    setNewContent(editContent);
-  };
+//     if (!editContent) {
+//       alert("내용을 입력해주세요");
+//       return;
+//     }
 
-  ///사진 삭제 구현 수정중....
-  const deleteImg = async () => {
-    try {
-      const defaultImg = ref(storage, `/defaultImg/background.png`);
-      if (defaultImg) {
-        alert("기본 이미지입니다.");
-        return;
-      }
-      const desertRef = ref(storage, img);
+//     setNewContent(editContent);
+//   };
 
-      await deleteObject(desertRef);
-      alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
-    } catch (error) {
-      console.log("사진 errorCode=>", error.errorCode);
-    }
-  };
+//   ///사진 삭제 구현 수정중....
+//   const deleteImg = async () => {
+//     try {
+//       const defaultImg = ref(storage, `/defaultImg/background.png`);
+//       if (defaultImg) {
+//         alert("기본 이미지입니다.");
+//         return;
+//       }
+//       const desertRef = ref(storage, img);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+//       await deleteObject(desertRef);
+//       alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
+//     } catch (error) {
+//       console.log("사진 errorCode=>", error.errorCode);
+//     }
+//   };
 
-    if (newContent === content) {
-      alert("수정값이 없습니다.");
-      return;
-    }
+//   const onSubmit = async (e) => {
+//     e.preventDefault();
 
-    const editFeedRef = doc(db, "newsFeed", id);
-    await updateDoc(editFeedRef, {
-      ...state.editFeed,
-      content: newContent,
-      date: Timestamp.fromDate(new Date()),
-      isEdited: !state.editFeed.isEdited
-    });
-    navigate("/home");
-  };
+//     if (newContent === content) {
+//       alert("수정값이 없습니다.");
+//       return;
+//     }
 
-  return (
-    <>
-      ---------------------------------
-      <br />
-      <br />
-      <br />
-      <h1>상세페이지</h1>
-      <div>작성자 :{writer}</div>
-      <div>제목 : {title}</div>
-      <div> {date}</div>
-      <div>
-        <img src={img} style={{ width: "200px", height: "200px" }} />
-      </div>
-      <div>
-        <form onSubmit={onSubmit}>
-          <textarea defaultValue={content} type="text" name="newContent" onChange={onChange} />
-          <button>수정완료</button>
-        </form>
-        <br />
-        <button onClick={deleteImg}>사진삭제</button>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <Comment />
-    </>
-  );
-}
+//     const editFeedRef = doc(db, "newsFeed", id);
+//     await updateDoc(editFeedRef, {
+//       ...state.editFeed,
+//       content: newContent,
+//       date: Timestamp.fromDate(new Date()),
+//       isEdited: !state.editFeed.isEdited
+//     });
+//     navigate("/home");
+//   };
 
-export default FeedItem;
+//   return (
+//     <>
+//       ---------------------------------
+//       <br />
+//       <br />
+//       <br />
+//       <h1>상세페이지</h1>
+//       <div>작성자 :{writer}</div>
+//       <div>제목 : {title}</div>
+//       <div> {date}</div>
+//       <div>
+//         <img src={img} style={{ width: "200px", height: "200px" }} />
+//       </div>
+//       <div>
+//         <form onSubmit={onSubmit}>
+//           <textarea defaultValue={content} type="text" name="newContent" onChange={onChange} />
+//           <button>수정완료</button>
+//         </form>
+//         <br />
+//         <button onClick={deleteImg}>사진삭제</button>
+//       </div>
+//       <br />
+//       <br />
+//       <br />
+//       <br />
+//       <Comment />
+//     </>
+//   );
+// }
+
+// export default FeedItem;

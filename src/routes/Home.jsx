@@ -24,7 +24,6 @@ function Home() {
   //현재 사용자 불러오기
   const userId = authService.currentUser;
   const user = authService.currentUser.displayName;
-  console.log("user", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,27 +54,6 @@ function Home() {
     navigate("/feedWrite");
   };
 
-  //피드 삭제
-  const deleteHandler = async (selectFeed) => {
-    alert("정말 삭제하시겠습니까?");
-    const deleteFeed = feed.filter((allFeed) => {
-      return allFeed.postId !== selectFeed;
-    });
-    setFeed(deleteFeed);
-    const newsFeedRef = doc(db, "newsFeed", selectFeed);
-    await deleteDoc(newsFeedRef);
-  };
-
-  //피드 수정
-  const editHandler = (selectFeed) => {
-    alert("현재 사진삭제가 반영이 안됩니다 ^^");
-    const editFeed = feed.find((allFeed) => {
-      return allFeed.postId === selectFeed;
-    });
-
-    navigate("/feedItem", { state: { editFeed } });
-  };
-
   return (
     <>
       <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
@@ -84,7 +62,6 @@ function Home() {
         <button onClick={writeToFeed}>글작성하기</button>
         <button>홈으로가기</button>
       </nav>
-
       <div className="home-wrap" style={{ border: "1px solid black", margin: "1rem" }}>
         <ul
           style={{
@@ -96,34 +73,32 @@ function Home() {
         >
           {feed.map((e) => {
             return (
-              <li key={e.postId}>
-                <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
-                  <div className="img" style={{ border: "1px solid black", height: "200px" }}>
-                    <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
-                  </div>
-                  <div className="content" style={{ height: "150px" }}>
-                    <div className="title" style={{ border: "1px solid black", height: "25px" }}>
-                      제목 : {e.title}
+              <Link to={`/home/${e.postId}`} style={{ textDecoration: "none", color: "black" }}>
+                <li key={e.postId}>
+                  <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
+                    <div className="img" style={{ border: "1px solid black", height: "200px" }}>
+                      <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
                     </div>
-                    <div className="text" style={{ border: "1px solid black", height: "50px" }}>
-                      글내용 : : {e.content}
-                    </div>
-                    <div className="time-wrap" style={{ border: "1px solid black", height: "25px" }}>
-                      <div className="time" style={{ border: "1px solid black" }}>
-                        {e.date}
+                    <div className="content" style={{ height: "150px" }}>
+                      <div className="title" style={{ border: "1px solid black", height: "25px" }}>
+                        제목 : {e.title}
+                      </div>
+                      <div className="text" style={{ border: "1px solid black", height: "50px" }}>
+                        글내용 : {e.content}
+                      </div>
+                      <div className="time-wrap" style={{ border: "1px solid black", height: "25px" }}>
+                        <div className="time" style={{ border: "1px solid black" }}>
+                          {e.date}
+                        </div>
+                      </div>
+                      <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
+                        {e.writer} / 좋아요 <Link to={`/comment/${e.postId}`}>댓글</Link> /
+                        {!e.isEdited ? "" : "(수정됨)"}
                       </div>
                     </div>
-                    <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                      {e.writer} / 좋아요 <Link to={`/comment/${e.postId}`}>댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
-                    </div>
-
-                    <div className="buttons">
-                      {e.writer !== user ? "" : <button onClick={() => editHandler(e.postId)}>수정하기</button>}
-                      {e.writer !== user ? "" : <button onClick={() => deleteHandler(e.postId)}>삭제하기</button>}
-                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              </Link>
             );
           })}
         </ul>

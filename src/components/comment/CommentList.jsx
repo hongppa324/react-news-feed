@@ -2,6 +2,7 @@ import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "f
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { db } from "../../firebase";
+// import CommentItem from "./CommentItem";
 
 export default function CommentList({ postId }) {
   const { id } = useParams(); // 현재 페이지의 ID를
@@ -89,11 +90,11 @@ export default function CommentList({ postId }) {
   };
 
   const hiddenId = (id) => {
-    if (id.length <= 5) {
+    if (id === undefined || id.length <= 5) {
       return id;
     }
     const visiblePart = id.substring(0, 5);
-    const hiddenPart = "*".repeat(id.length - 5, 0);
+    const hiddenPart = "*".repeat(id.length - 5);
     return visiblePart + hiddenPart;
   };
 
