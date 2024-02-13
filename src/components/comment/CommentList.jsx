@@ -1,19 +1,18 @@
 import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { db } from "../../firebase";
 // import CommentItem from "./CommentItem";
 
-export default function CommentList() {
-  const { id } = useParams();
+export default function CommentList({ postId }) {
+  const { id } = useParams(); // 현재 페이지의 ID를
   const [comments, setComments] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState("");
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const q = query(collection(db, "comments"));
+        const q = query(collection(db, `comments-${postId}`));
         const querySnapshot = await getDocs(q);
 
         const initialComments = [];
@@ -23,8 +22,8 @@ export default function CommentList() {
             id: doc.id,
             content: doc.data().content,
             createdAt: doc.data().createdAt,
-            isEditing: doc.data().isEditing,
-            password: doc.data().password
+            writer: doc.data().writer,
+            isEditing: doc.data().isEditing
           });
         });
 
@@ -36,17 +35,18 @@ export default function CommentList() {
 
     fetchComments();
   }, []);
-  console.log(comments);
 
   const onDeleteHandler = async (commentId) => {
     const answer = window.confirm("이 댓글을 삭제하시겠습니까?");
+
     if (answer) {
       try {
-        await deleteDoc(doc(db, "comments", commentId));
+        await deleteDoc(doc(db, `comments-${postId}`, commentId));
         setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
-        console.log("댓글이 성공적으로 삭제되었습니다.");
+        console.log("댓글이 성공적으로 삭제되었습니다:-)");
       } catch (error) {
-        console.error("댓글 삭제 중 오류가 발생했습니다:", error);
+        alert("댓글 삭제 오류가 발생했넴 .. ");
+        console.error("댓글 삭제 중 오류가 발생했습니다:-(", error);
       }
     }
   };
@@ -70,23 +70,32 @@ export default function CommentList() {
 
   const handleCompleteEdit = async (commentId) => {
     try {
-      await updateDoc(doc(db, "comments", commentId), {
+      await setDoc(doc(db, `comments-${postId}`, commentId), {
         //updateDoc -> setDoc 으로 바꿔보자
         content: editedContent
       });
-      // 수정 모드를 비활성화합니다.
       setComments((prevComments) =>
         prevComments.map((comment) => {
           if (comment.id === commentId) {
-            return { ...comment, isEditing: false };
+            return { ...comment, isEditing: false, content: editedContent };
           }
           return comment;
         })
       );
       console.log("댓글 수정 성공!");
     } catch (error) {
+      alert("오류가 발생했네..?ㅜㅡㅜ");
       console.error("댓글 수정 중 오류 발생", error);
     }
+  };
+
+  const hiddenId = (id) => {
+    if (id === undefined || id.length <= 5) {
+      return id;
+    }
+    const visiblePart = id.substring(0, 5);
+    const hiddenPart = "*".repeat(id.length - 5);
+    return visiblePart + hiddenPart;
   };
 
   return (
@@ -96,9 +105,9 @@ export default function CommentList() {
 
         <ul>
           {comments.map((comment) => (
-            <li key={comment.id}>
+            <li id={comment.id} key={comment.id}>
               {/* <p>{comment.content}</p> */}
-              <p>{comment.createdAt}</p>
+              <p>아이디 : {hiddenId(comment.writer)}</p>
               {comment.isEditing ? (
                 <>
                   <textarea value={editedContent} onChange={handleInputChange} />
@@ -111,6 +120,7 @@ export default function CommentList() {
                   <button onClick={() => onDeleteHandler(comment.id)}>삭제</button>
                 </>
               )}
+              <p>{comment.createdAt}</p>
             </li>
           ))}
         </ul>

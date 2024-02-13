@@ -2,14 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { collection, query, doc, addDoc, deleteDoc, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
 import { db, authService, storage } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Link } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
-
+  const { id } = useParams();
   const [feed, setFeed] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -93,7 +93,8 @@ function Home() {
                         </div>
                       </div>
                       <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                        {e.writer} / 좋아요 <Link to="/home">댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
+                        {e.writer} / 좋아요 <Link to={`/comment/${e.postId}`}>댓글</Link> /
+                        {!e.isEdited ? "" : "(수정됨)"}
                       </div>
                     </div>
                   </div>
