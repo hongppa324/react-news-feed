@@ -58,7 +58,6 @@ body {
 }
 #root {
   font-family: "nanum";
-  min-width: 800px; 
 }
 h3 {
   font-size: 4vh;
