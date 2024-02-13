@@ -122,22 +122,22 @@ const FormHead = styled.p`
 const FormWrap = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 왼쪽 정렬 */
+  align-items: flex-start;
   justify-content: center;
-  width: 1200px; /* 폼 너비 지정 */
-  margin: 0 auto; /* 가운데 정렬 */
+  width: 1200px;
+  margin: 0 auto;
 `;
 
 const UserIdForm = styled.input`
   border: none;
   font-size: 1.1rem;
   font-weight: 600;
-  margin-right: auto; /* 우측 여백 자동으로 마진 설정 */
+  margin-right: auto;
 `;
 
 const Formtitle = styled.p`
   font-size: 1.1rem;
-  margin-bottom: 10px; /* 아래 여백 추가 */
+  margin-bottom: 10px;
   color: #333;
 `;
 
@@ -157,8 +157,8 @@ const InputComment = styled.textarea`
 
 const AddBtn = styled.span`
   display: flex;
-  justify-content: flex-end; /* 오른쪽 정렬 */
-  width: 100%; /* 버튼을 폼 너비에 맞게 설정 */
+  justify-content: flex-end;
+  width: 100%;
   & button {
     background-color: lightblue;
     color: white;
