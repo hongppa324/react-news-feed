@@ -147,8 +147,8 @@ function FeedForm() {
                 </div>
                 {/* 버튼 */}
                 <div display={{ alignItems: "center", justifyContent: "center" }}>
-                  <FormButton onClick={writingCancle}>작성취소</FormButton>
                   <FormButton>작성하기</FormButton>
+                  <FormButton onClick={writingCancle}>작성취소</FormButton>
                 </div>
               </form>
             </div>

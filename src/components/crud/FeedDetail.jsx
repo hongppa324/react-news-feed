@@ -9,10 +9,10 @@ import { db, authService, storage } from "../../firebase";
 
 function FeedDetail() {
   const [detailFeed, setDetailFeed] = useState([]);
-  const [newContent, setNewContent] = useState("");
+
   //   const [docID, setdocID] = useState("");
   const [click, setClick] = useState(false);
-
+  const [newContent, setNewContent] = useState();
   const params = useParams();
   const navigate = useNavigate();
 
@@ -88,15 +88,17 @@ function FeedDetail() {
   }
   //   console.log("찾은데이터", detailFeed);
 
-  const { writer, content, date, isEdited, img } = detailFeed;
+  const { writer, content, date, isEdited, img, postId: id } = detailFeed;
 
   const onChange = (e) => {
     const editContent = e.target.value;
-    console.log(editContent);
+
+    // console.log(editContent);
     if (!editContent) {
       alert("내용을 입력해주세요");
       return;
     }
+
     setNewContent(editContent);
   };
 
@@ -109,8 +111,9 @@ function FeedDetail() {
         return;
       }
       const desertRef = ref(storage, img);
-      await deleteObject(desertRef);
-      alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
+
+      //   await deleteObject(desertRef);
+      //   alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
     } catch (error) {
       console.log("사진 errorCode=>", error.errorCode);
     }
@@ -118,12 +121,15 @@ function FeedDetail() {
 
   const changeContent = async (e) => {
     e.preventDefault();
-    console.log("원래 내용", content);
-    console.log("수정 내용", newContent);
-    if (newContent === content) {
-      alert("수정값이 없습니다.");
+    const prevContent = e.target.defaultValue;
+
+    if (!newContent) {
+      alert("수정 값이 없습니다!");
+      console.log(newContent);
+      console.log(prevContent);
       return;
     }
+
     const editFeedRef = doc(db, "newsFeed", postId);
     await updateDoc(editFeedRef, {
       detailFeed,
@@ -150,19 +156,29 @@ function FeedDetail() {
       <br />
       날짜 : {date}
       <br />
-      편집여부 : {isEdited}
+      편집여부 : {isEdited ? "" : "수정됨"}
       <br />
       <img src={img} style={{ width: "200px", height: "200px" }} />
+      <br />
       {writer !== userName ? "" : <button onClick={editHandler}>수정하기</button>}
       {writer !== userName ? "" : <button onClick={deleteHandler}>삭제하기</button>}
       <button onClick={gotoHome}>홈으로 돌아가기</button>
       <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <form onSubmit={changeContent}>
         <textarea defaultValue={content} type="text" name="newContent" onChange={onChange} />
-        <button>수정완료</button>
+        <br /> <button>수정완료</button>
       </form>
+      -----------사진 삭제 테스트
       <br />
-      <button onClick={deleteImg}>사진삭제</button>
+      <br />
+      <br />
+      <br />
+      <br />
+      <button onClick={() => deleteImg(img)}>사진삭제</button>
     </>
   );
 }
