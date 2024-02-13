@@ -6,10 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 function FeedForm() {
   const [feed, setFeed] = useState([]);
+  //피드 redux
+  const FeedData = useSelector((state) => state.FeeRedux);
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -65,7 +68,7 @@ function FeedForm() {
       await uploadFeed(newFeed);
     } else {
       // 파일 업로드
-      const imageRef = ref(storage, `${authService.UserInfo.email}/${selectedFile.name}`);
+      const imageRef = ref(storage, `${userInfo.email}/${selectedFile.name}`);
       await uploadBytes(imageRef, selectedFile);
       const downloadURL = await getDownloadURL(imageRef);
       const newFeed = {

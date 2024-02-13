@@ -11,6 +11,10 @@ import { useSelector } from "react-redux";
 function Home() {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const FeedData = useSelector((state) => state.FeeRedux);
+  console.log("feedData", FeedData);
+
   const [feed, setFeed] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

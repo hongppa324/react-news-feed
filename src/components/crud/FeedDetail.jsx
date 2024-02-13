@@ -16,16 +16,19 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { useParams } from "react-router-dom";
 import { db, authService, storage } from "../../firebase";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteFeed } from "../../redux/modules/FeedRedux";
 
 function FeedDetail() {
   const [detailFeed, setDetailFeed] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   //   const [docID, setdocID] = useState("");
   const [click, setClick] = useState(false);
   const [newContent, setNewContent] = useState();
   const params = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const postId = params.id;
   //   console.log("param", postId);
@@ -108,33 +111,51 @@ function FeedDetail() {
   const changeContent = async (e) => {
     e.preventDefault();
 
-    if (newContent.length === 0) {
-      alert("글을 입력해주세요!");
-      return;
-    }
-    if (newContent === content) {
-      alert("변경된 내용이 없어요 ㅠㅠ");
-      return;
-    }
+    if (!selectedFile) {
+      if (newContent.length === 0) {
+        alert("내용 입력하라구요!!");
+        return;
+      }
+      if (newContent === content) {
+        alert("변경 내용이 없어용 ㅠㅠ");
+        return;
+      }
 
-    const editFeedRef = doc(db, "newsFeed", postId);
-    await updateDoc(editFeedRef, {
-      detailFeed,
-      content: newContent,
-      date: Timestamp.fromDate(new Date()),
-      isEdited: !detailFeed.isEdited
-    });
+      const editFeedRef = doc(db, "newsFeed", postId);
+      await updateDoc(editFeedRef, {
+        detailFeed,
+        content: newContent,
+        date: Timestamp.fromDate(new Date()),
+        isEdited: !detailFeed.isEdited
+      });
 
-    alert("수정이 완료됐습니다.");
-    navigate("/home");
+      alert("수정이 완료됐습니다.");
+      navigate("/home");
+    } else {
+      const imageRef = ref(storage, `${userInfo.email}/${selectedFile.name}`);
+      await uploadBytes(imageRef, selectedFile);
+      const downloadURL = await getDownloadURL(imageRef);
+      const editFeedRef = doc(db, "newsFeed", postId);
+      await updateDoc(editFeedRef, {
+        detailFeed,
+        content: newContent,
+        img: downloadURL,
+        date: Timestamp.fromDate(new Date()),
+        isEdited: !detailFeed.isEdited
+      });
+
+      alert("수정이 완료됐습니다.");
+      navigate("/home");
+    }
   };
 
   //   삭제
   const deleteHandler = async () => {
     alert("삭제하시겠습니까?");
-    await deleteDoc(doc(db, "newsFeed", postId));
+    await dispatch(deleteFeed(postId));
     navigate("/home");
   };
+
   const deleteImg = async () => {
     try {
       const selectRef = ref(storage, `${img}`);
@@ -164,6 +185,12 @@ function FeedDetail() {
       console.log("사진삭제 errorCode=>", error.errorCode);
     }
   };
+
+  //사진변경
+  const handleFileSelect = (e) => {
+    setSelectedFile(e.target.files?.[0]);
+  };
+
   return (
     <>
       작성자 : {writer} <br />
@@ -190,9 +217,13 @@ function FeedDetail() {
       <br />
       {isEdited ? "" : "편집여부 :수정됨"}
       <br />
+      -----------사진 삭제 테스트
+      {!click ? "" : <button onClick={() => deleteImg(img)}>사진삭제</button>}
+      {!click ? "" : <input type="file" onChange={handleFileSelect} name="file" />}
+      <br />
       <img src={img} style={{ width: "200px", height: "200px" }} />
       <br />
-      {writer !== userInfo.name ? "" : <button onClick={editHandler}>내용수정</button>}
+      {!click ? writer !== userInfo.name ? "" : <button onClick={editHandler}>내용수정</button> : ""}
       {writer !== userInfo.name ? "" : <button onClick={deleteHandler}>삭제하기</button>}
       <button onClick={gotoHome}>홈으로 돌아가기</button>
       <br />
@@ -200,17 +231,6 @@ function FeedDetail() {
       <br />
       <br />
       <br />
-      {/* <form onSubmit={changeContent}>
-        <textarea defaultValue={content} type="text" name="newContent" onChange={onChange} />
-        <br />
-      </form> */}
-      -----------사진 삭제 테스트
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <button onClick={() => deleteImg(img)}>사진삭제</button>
     </>
   );
 }
