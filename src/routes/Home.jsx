@@ -17,14 +17,14 @@ function Home() {
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
-      console.log("현재 로그인 된 유저", user);
+      // console.log("현재 로그인 된 유저", user);
     });
   }, []);
 
   //현재 사용자 불러오기
   const userId = authService.currentUser;
   const user = authService.currentUser.displayName;
-  console.log("user", user);
+  // console.log("user", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +34,7 @@ function Home() {
       onSnapshot(q, (querySnapshot) => {
         const docFeed = querySnapshot.docs.map((doc) => {
           return {
-            id: doc.id,
+            id: doc.data().id,
             title: doc.data().title,
             content: doc.data().content,
             isEdited: doc.data().isEdited,
