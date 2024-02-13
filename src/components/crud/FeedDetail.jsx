@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { useParams } from "react-router-dom";
 import { db, authService, storage } from "../../firebase";
+import Comment from "../../pages/Comment";
 
 function FeedDetail() {
   const [detailFeed, setDetailFeed] = useState([]);
@@ -181,6 +182,7 @@ function FeedDetail() {
       {writer !== userName ? "" : <button onClick={editHandler}>내용수정</button>}
       {writer !== userName ? "" : <button onClick={deleteHandler}>삭제하기</button>}
       <button onClick={gotoHome}>홈으로 돌아가기</button>
+      <Comment />
       <br />
       <br />
       <br />

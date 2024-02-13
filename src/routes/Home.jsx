@@ -23,6 +23,7 @@ function Home() {
 
   //현재 사용자 불러오기
   const userId = authService.currentUser;
+  // const userName = user.displayName;
   const user = authService.currentUser.displayName;
 
   useEffect(() => {
