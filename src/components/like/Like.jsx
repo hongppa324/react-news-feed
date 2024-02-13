@@ -1,6 +1,6 @@
 import { doc, updateDoc } from "firebase/firestore";
-import { AiFillHeart } from "react-icons/ai";
-import { AiOutlineHeart } from "react-icons/ai";
+import { FcLike } from "react-icons/fc";
+import { FcLikePlaceholder } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { authService, db } from "../../firebase";
 
@@ -51,7 +51,7 @@ const Like = ({ likes, feedId }) => {
 
   return (
     <span onClick={onClickLike}>
-      {isLike ? <AiFillHeart /> : <AiOutlineHeart />} {likeCount}
+      {isLike ? <FcLike /> : <FcLikePlaceholder />} {likeCount}
     </span>
   );
 };
