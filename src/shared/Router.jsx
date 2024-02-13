@@ -5,11 +5,11 @@ import Main from "../routes/Main";
 import LoginPage from "../routes/LoginPage";
 import SignUpPage from "../routes/SignUpPage";
 import Home from "../routes/Home";
-import Comment from "../pages/Comment";
 import ResetPassword from "../routes/ResetPassword";
-import CommentList from "../components/comment/CommentList";
+import FeedForm from "../components/crud/FeedForm";
+import Comment from "../pages/Comment";
 import CommentItem from "../components/comment/CommentItem";
-
+import CommentList from "../components/comment/CommentList";
 function Router() {
   return (
     <Routes>
@@ -22,6 +22,7 @@ function Router() {
       <Route path="/commentitem" element={<CommentItem />} />
       <Route path="/commentlist" element={<CommentList />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/feedWrite" element={<FeedForm />} />
     </Routes>
   );
 }

@@ -11,7 +11,6 @@ import store from "./redux/config/configStore";
 import GlobalStyle from "./styles/GlobalStyle";
 import GlobalFont from "./styles/GlobalFont";
 import CommentList from "./components/comment/CommentList";
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

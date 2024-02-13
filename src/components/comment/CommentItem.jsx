@@ -5,9 +5,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useParams } from "react-router-dom";
 import CommentList from "./CommentList";
 
-export default function CommentItem() {
+export default function CommentItem({ postId }) {
   // 이 아이디는 게시물의 아이디를 받아오려고 써놓은 것
-  const { id } = useParams;
+  // const { id } = useParams;
 
   const [content, setContent] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +48,7 @@ export default function CommentItem() {
 
     // Firestore에 데이터 추가
     try {
-      const docRef = await addDoc(collection(db, `comments-${id}`), newComment);
+      const docRef = await addDoc(collection(db, `comments-${postId}`), newComment);
       setEditCommentId(docRef.id);
       console.log("이 comment의 아이디는 : ", docRef.id);
 
@@ -64,8 +64,7 @@ export default function CommentItem() {
         <br />
         <br />
         <br />
-        {/* <Link to={`/commentlist/${id}`}>맵</Link> */}
-        <CommentList />
+        <CommentList postId={postId} />
         <br />
         <br />
         <p> Replies </p>
