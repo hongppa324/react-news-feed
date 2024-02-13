@@ -7,6 +7,8 @@ import SignUpPage from "../routes/SignUpPage";
 import Home from "../routes/Home";
 import Comment from "../pages/Comment";
 import FeedForm from "../components/crud/FeedForm";
+import MyPage from "../pages/MyPage";
+import ResetPassword from "../routes/ResetPassword";
 function Router() {
   return (
     <Routes>
@@ -17,6 +19,8 @@ function Router() {
       <Route path="/comment" element={<Comment />} />
       <Route path="/home" element={<Home />} />
       <Route path="/feedWrite" element={<FeedForm />} />
+      <Route path="/reset" element={<ResetPassword />} />
+      <Route path="/my-page" element={<MyPage />} />
     </Routes>
   );
 }
