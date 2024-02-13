@@ -6,7 +6,7 @@ import { db } from "../../firebase";
 export default function CommentList({ postId }) {
   const { id } = useParams(); // 현재 페이지의 ID를 가져와
   const [comments, setComments] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState("");
 
   useEffect(() => {
