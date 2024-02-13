@@ -3,14 +3,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { authService } from "../firebase";
-import { setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
+import { setPersistence, signInWithEmailAndPassword, browserLocalPersistence } from "firebase/auth";
 
 import { StyledForm, StyledSection, StyledInput, StyledSign, StyledSignIn, StyledSignUp } from "../styles/MyStyles";
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/modules/UserInfo";
 
-const EmailLogin = ()  => {
+const EmailLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onChange = (event) => {
     const {
@@ -26,13 +29,16 @@ const EmailLogin = ()  => {
 
   const signIn = (event) => {
     event.preventDefault();
-    setPersistence(authService, browserSessionPersistence)
+    setPersistence(authService, browserLocalPersistence)
       .then(() => {
         return signInWithEmailAndPassword(authService, email, password)
           .then((userCredential) => {
             const user = userCredential.user;
             alert(user.displayName + "님, 돌아오신 것을 환영합니다.");
             navigate("/home", { replace: true });
+            
+            const newUser = { userId: user.uid, email: user.email, name: user.displayName };
+            dispatch(addUser(newUser));
           })
           .catch((error) => {
             alert(error.message);
@@ -60,6 +66,6 @@ const EmailLogin = ()  => {
       </StyledSign>
     </StyledForm>
   );
-}
+};
 
 export default EmailLogin;
