@@ -90,7 +90,7 @@ export default function CommentItem({ postId }) {
 }
 
 const FormHead = styled.p`
-  margin-left: 50px;
+  margin-left: 60px;
   font-size: 2.7rem;
   color: #333;
 `;
@@ -100,7 +100,7 @@ const FormWrap = styled.form`
   flex-direction: column;
   align-items: flex-start; /* 왼쪽 정렬 */
   justify-content: center;
-  width: 1300px; /* 폼 너비 지정 */
+  width: 1200px; /* 폼 너비 지정 */
   margin: 0 auto; /* 가운데 정렬 */
 `;
 
@@ -114,6 +114,7 @@ const UserIdForm = styled.input`
 const Formtitle = styled.p`
   font-size: 1.1rem;
   margin-bottom: 10px; /* 아래 여백 추가 */
+  color: #333;
 `;
 
 const InputComment = styled.textarea`
@@ -121,7 +122,7 @@ const InputComment = styled.textarea`
   align-items: center;
   justify-content: center;
   resize: none;
-  height: 150px;
+  height: 130px;
   width: 100%;
   background-color: #f5fcfd;
   border-radius: 5px;

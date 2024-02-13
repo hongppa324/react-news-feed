@@ -100,7 +100,7 @@ export default function CommentList({ postId }) {
     <div>
       <div>
         <CommentsWrapper>
-          <hr />
+          <HorizontalRule />
           {comments.map((comment) => (
             <ListWrap id={comment.id} key={comment.id}>
               {/* <p>{comment.content}</p> */}
@@ -109,16 +109,16 @@ export default function CommentList({ postId }) {
               {comment.isEditing ? (
                 <>
                   <CommentContent value={editedContent} onChange={handleInputChange} />
-                  <CommentButton onClick={() => handleCompleteEdit(comment.id)}>완료</CommentButton>
+                  <CommentDoneButton onClick={() => handleCompleteEdit(comment.id)}>완료</CommentDoneButton>
                 </>
               ) : (
                 <>
                   <p>{comment.content}</p>
-                  <CommentButton onClick={() => handleEdit(comment.id)}>수정하기</CommentButton>
-                  <CommentButton onClick={() => onDeleteHandler(comment.id)}>삭제하기</CommentButton>
+                  <CommentEditButton onClick={() => handleEdit(comment.id)}>수정하기</CommentEditButton>
+                  <CommentDeleteButton onClick={() => onDeleteHandler(comment.id)}>삭제하기</CommentDeleteButton>
                 </>
               )}
-              <hr />
+              <HorizontalRule />
             </ListWrap>
           ))}
         </CommentsWrapper>
@@ -135,7 +135,7 @@ const CommentsWrapper = styled.ul`
 `;
 
 const ListWrap = styled.li`
-  margin-bottom: 10px; /* 각 댓글 요소 사이에 여백 추가 */
+  margin-bottom: 10px;
 `;
 
 const ListIDandCreated = styled.p`
@@ -147,9 +147,50 @@ const ListIDandCreated = styled.p`
 
 const CommentContent = styled.p`
   margin-bottom: 5px; /* 댓글 내용 아래 여백 추가 */
-  font-size: 20px;
+  font-size: 25px;
 `;
 
-const CommentButton = styled.button`
-  margin: 5px; /* 버튼 사이 여백 추가 */
+const CommentDoneButton = styled.button`
+  background-color: lightblue;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  & button:hover {
+    background-color: #1e6dff;
+  }
+`;
+
+const CommentEditButton = styled.button`
+  background-color: #fcd99a;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ffb81e;
+  }
+`;
+
+const CommentDeleteButton = styled.button`
+  background-color: #fab3d7;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f772b0;
+  }
+`;
+
+const HorizontalRule = styled.hr`
+  margin-right: 60px; /* 오른쪽 여백 추가 */
 `;
