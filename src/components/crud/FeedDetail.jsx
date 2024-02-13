@@ -36,9 +36,17 @@ function FeedDetail() {
 
       let docID = "";
       const item = querySnapshot.docs.map((doc) => {
-        return { postId: doc.id, ...doc.data() };
+        return {
+          postId: doc.id,
+          title: doc.data().title,
+          content: doc.data().content,
+          isEdited: doc.data().isEdited,
+          date: doc.data().date.toDate().toLocaleString(),
+          writer: doc.data().writer,
+          img: doc.data().img
+        };
       });
-      console.log("item", item);
+      //   console.log("item", item);
       //   console.log("docID", docID);
       const findData = item.find((e) => {
         // console.log("e.id", e);
@@ -82,10 +90,9 @@ function FeedDetail() {
 
   const { writer, content, date, isEdited, img } = detailFeed;
 
-  //   const today = date.toDate().toLocaleString();
-
   const onChange = (e) => {
     const editContent = e.target.value;
+    console.log(editContent);
     if (!editContent) {
       alert("내용을 입력해주세요");
       return;
@@ -95,35 +102,41 @@ function FeedDetail() {
 
   //   ///사진 삭제 구현 수정중....
   const deleteImg = async () => {
-    //     //     try {
-    //     //       const defaultImg = ref(storage, `/defaultImg/background.png`);
-    //     //       if (defaultImg) {
-    //     //         alert("기본 이미지입니다.");
-    //     //         return;
-    //     //       }
-    //     //       const desertRef = ref(storage, img);
-    //     //       await deleteObject(desertRef);
-    //     //       alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
-    //     //     } catch (error) {
-    //     //       console.log("사진 errorCode=>", error.errorCode);
-    //     //     }
+    try {
+      const defaultImg = ref(storage, `/defaultImg/background.png`);
+      if (defaultImg) {
+        alert("기본 이미지입니다.");
+        return;
+      }
+      const desertRef = ref(storage, img);
+      await deleteObject(desertRef);
+      alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
+    } catch (error) {
+      console.log("사진 errorCode=>", error.errorCode);
+    }
   };
 
   const changeContent = async (e) => {
     e.preventDefault();
+    console.log("원래 내용", content);
+    console.log("수정 내용", newContent);
     if (newContent === content) {
       alert("수정값이 없습니다.");
       return;
     }
-    // const editFeedRef = doc(db, "newsFeed", id);
-    // await updateDoc(editFeedRef, {
-    //   editFeed,
-    //   content: newContent,
-    //   date: Timestamp.fromDate(new Date()),
-    //   isEdited: !editFeed.isEdited
-    // });
+    const editFeedRef = doc(db, "newsFeed", postId);
+    await updateDoc(editFeedRef, {
+      detailFeed,
+      content: newContent,
+      date: Timestamp.fromDate(new Date()),
+      isEdited: !detailFeed.isEdited
+    });
+
+    alert("수정이 완료됐습니다.");
+    navigate("/home");
   };
 
+  //   삭제
   const deleteHandler = async () => {
     alert("삭제하시겠습니까?");
     await deleteDoc(doc(db, "newsFeed", postId));
@@ -135,7 +148,7 @@ function FeedDetail() {
       작성자 : {writer} <br />
       내용 : {content}
       <br />
-      {/* 날짜 : {date} */}
+      날짜 : {date}
       <br />
       편집여부 : {isEdited}
       <br />
