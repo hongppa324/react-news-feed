@@ -10,7 +10,7 @@ export default function CommentItem({ postId }) {
   // const { id } = useParams;
 
   const [content, setContent] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
   const [editCommentId, setEditCommentId] = useState("");
 
@@ -30,9 +30,9 @@ export default function CommentItem({ postId }) {
     setContent(e.currentTarget.value);
   };
 
-  const onPwdHandler = (e) => {
-    setPassword(e.target.value);
-  };
+  // const onPwdHandler = (e) => {
+  //   setPassword(e.target.value);
+  // };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ export default function CommentItem({ postId }) {
       id: crypto.randomUUID(),
       content: content,
       createdAt: new Date().toLocaleDateString(),
-      password,
+      // password,
       isEditing: false
     };
     // console.log(newComment); // 콘솔에 쭉 잘찍힘
@@ -53,7 +53,7 @@ export default function CommentItem({ postId }) {
       console.log("이 comment의 아이디는 : ", docRef.id);
 
       setContent("");
-      setPassword("");
+      // setPassword("");
     } catch (error) {
       console.error("Error : ", error);
     }
@@ -78,7 +78,7 @@ export default function CommentItem({ postId }) {
           <br />
           <br />
           <textarea onChange={onTextHandler} value={content} placeholder="댓글을 작성해 주세요." required />
-          <input type="password" value={password} onChange={onPwdHandler} required />
+          {/* <input type="password" value={password} onChange={onPwdHandler} required /> */}
           <br />
           <button type="submit">ADD</button>
         </form>
