@@ -141,7 +141,7 @@ const ListWrap = styled.li`
 const ListIDandCreated = styled.p`
   display: flex;
   justify-content: space-between; /* 아이디와 생성일 사이를 좌우 정렬 */
-  font-size: 15px;
+  font-size: 18px;
   margin-bottom: 5px; /* 각 댓글 내부 요소 사이에 여백 추가 */
 `;
 
@@ -169,8 +169,7 @@ const CommentEditButton = styled.button`
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
-  margin: 5px;
-
+  margin: 10px;
   cursor: pointer;
 
   &:hover {

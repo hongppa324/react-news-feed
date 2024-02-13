@@ -122,6 +122,8 @@ const InputComment = styled.textarea`
   align-items: center;
   justify-content: center;
   resize: none;
+  padding: 15px;
+  font-size: 15px;
   height: 130px;
   width: 100%;
   background-color: #f5fcfd;
