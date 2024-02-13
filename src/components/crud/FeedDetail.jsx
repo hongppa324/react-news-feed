@@ -75,7 +75,9 @@ function FeedDetail() {
   //   console.log("유저", userName);
 
   //피드 수정
-  const editHandler = () => {};
+  const editHandler = () => {
+    setClick(!click);
+  };
 
   const gotoHome = (e) => {
     alert("홈으로 이동하겠습니까?");
@@ -152,11 +154,20 @@ function FeedDetail() {
   return (
     <>
       작성자 : {writer} <br />
-      내용 : {content}
+      내용 :{" "}
+      {!click ? (
+        content
+      ) : (
+        <form onSubmit={changeContent}>
+          <textarea defaultValue={content} type="text" name="newContent" onChange={onChange} />
+          <br />
+          <button>수정완료</button>
+        </form>
+      )}
       <br />
       날짜 : {date}
       <br />
-      편집여부 : {isEdited ? "" : "수정됨"}
+      {isEdited ? "" : "편집여부 :수정됨"}
       <br />
       <img src={img} style={{ width: "200px", height: "200px" }} />
       <br />
@@ -168,10 +179,10 @@ function FeedDetail() {
       <br />
       <br />
       <br />
-      <form onSubmit={changeContent}>
+      {/* <form onSubmit={changeContent}>
         <textarea defaultValue={content} type="text" name="newContent" onChange={onChange} />
-        <br /> <button>수정완료</button>
-      </form>
+        <br />
+      </form> */}
       -----------사진 삭제 테스트
       <br />
       <br />
