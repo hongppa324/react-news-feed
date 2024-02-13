@@ -21,3 +21,4 @@ function Router() {
   );
 }
 export default Router;
+export default Router;
