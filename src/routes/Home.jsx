@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Home() {
   const navigate = useNavigate();
@@ -15,16 +16,10 @@ function Home() {
   const [content, setContent] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
-  useEffect(() => {
-    onAuthStateChanged(authService, (user) => {
-      console.log("현재 로그인 된 유저", user);
-    });
-  }, []);
-
-  //현재 사용자 불러오기
-  const userId = authService.currentUser;
-  // const userName = user.displayName;
-  const user = authService.currentUser.displayName;
+  //현재 사용자 정보불러오기
+  const userInfo = useSelector((state) => state.UserInfo.userInfo);
+  //현재 사용자 정보불러오기
+  // console.log("userInfo", userInfo);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +53,7 @@ function Home() {
   return (
     <>
       <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
-        <p>안녕하세요 {user} 님 !</p>
+        <p>안녕하세요 {userInfo.name} 님 !</p>
         <button>내프로필</button>
         <button onClick={writeToFeed}>글작성하기</button>
         <button>홈으로가기</button>

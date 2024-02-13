@@ -16,6 +16,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { useParams } from "react-router-dom";
 import { db, authService, storage } from "../../firebase";
+import { useSelector } from "react-redux";
 
 function FeedDetail() {
   const [detailFeed, setDetailFeed] = useState([]);
@@ -72,15 +73,8 @@ function FeedDetail() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    onAuthStateChanged(authService, (user) => {
-      // console.log("현재 로그인 된 유저", user);
-    });
-  }, []);
-
   //현재 사용자 불러오기
-  const userName = authService.currentUser.displayName;
-
+  const userInfo = useSelector((state) => state.UserInfo.userInfo);
   //피드 수정
   const editHandler = () => {
     setClick(!click);
@@ -210,8 +204,8 @@ function FeedDetail() {
       <br />
       <img src={img} style={{ width: "200px", height: "200px" }} />
       <br />
-      {writer !== userName ? "" : <button onClick={editHandler}>내용수정</button>}
-      {writer !== userName ? "" : <button onClick={deleteHandler}>삭제하기</button>}
+      {writer !== userInfo.name ? "" : <button onClick={editHandler}>내용수정</button>}
+      {writer !== userInfo.name ? "" : <button onClick={deleteHandler}>삭제하기</button>}
       <button onClick={gotoHome}>홈으로 돌아가기</button>
       <br />
       <br />
