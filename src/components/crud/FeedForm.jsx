@@ -15,9 +15,7 @@ function FeedForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    onAuthStateChanged(authService, (user) => {
-      console.log("현재 로그인 된 유저", user);
-    });
+    onAuthStateChanged(authService, (user) => {});
   }, []);
 
   //현재 사용자 불러오기
@@ -56,7 +54,7 @@ function FeedForm() {
       const defaultRef = ref(storage, `/defaultImg/background.png`);
       const defaultImgdURL = await getDownloadURL(defaultRef);
       const newFeed = {
-        id: crypto.randomUUID(),
+        // id: crypto.randomUUID(),
         title,
         content,
         date: new Date().toLocaleString(),
@@ -71,7 +69,7 @@ function FeedForm() {
       await uploadBytes(imageRef, selectedFile);
       const downloadURL = await getDownloadURL(imageRef);
       const newFeed = {
-        id: crypto.randomUUID(),
+        // id: crypto.randomUUID(),
         title,
         content,
         date: new Date().toLocaleString(),

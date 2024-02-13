@@ -34,7 +34,7 @@ function Home() {
       onSnapshot(q, (querySnapshot) => {
         const docFeed = querySnapshot.docs.map((doc) => {
           return {
-            id: doc.data().id,
+            postId: doc.id,
             title: doc.data().title,
             content: doc.data().content,
             isEdited: doc.data().isEdited,
@@ -53,27 +53,6 @@ function Home() {
   //글 작성 이동
   const writeToFeed = () => {
     navigate("/feedWrite");
-  };
-
-  //피드 삭제
-  const deleteHandler = async (selectFeed) => {
-    alert("정말 삭제하시겠습니까?");
-    const deleteFeed = feed.filter((allFeed) => {
-      return allFeed.id !== selectFeed;
-    });
-    setFeed(deleteFeed);
-    const newsFeedRef = doc(db, "newsFeed", selectFeed);
-    await deleteDoc(newsFeedRef);
-  };
-
-  //피드 수정
-  const editHandler = (selectFeed) => {
-    alert("현재 사진삭제가 반영이 안됩니다 ^^");
-    const editFeed = feed.find((allFeed) => {
-      return allFeed.id === selectFeed;
-    });
-
-    navigate("/feedItem", { state: { editFeed } });
   };
 
   return (
@@ -96,8 +75,9 @@ function Home() {
         >
           {feed.map((e) => {
             return (
-              <Link to={`/home/${e.id}`}>
-                <li key={e.id}>
+              <Link to={`/home/${e.postId}`}>
+                <li key={e.postId}>
+                  {e.postId}
                   <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
                     <div className="img" style={{ border: "1px solid black", height: "200px" }}>
                       <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
@@ -116,11 +96,6 @@ function Home() {
                       </div>
                       <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
                         {e.writer} / 좋아요 <Link to="/home">댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
-                      </div>
-
-                      <div className="buttons">
-                        {e.writer !== user ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
-                        {e.writer !== user ? "" : <button onClick={() => deleteHandler(e.id)}>삭제하기</button>}
                       </div>
                     </div>
                   </div>

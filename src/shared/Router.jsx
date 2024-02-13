@@ -18,8 +18,8 @@ function Router() {
       <Route path="/home" element={<Home />} />
       <Route path="/home/:id" element={<FeedDetail />} />
       <Route path="/feedWrite" element={<FeedForm />} />
-      <Route path="/feedItem" element={<FeedItem />} />
       <Route path="/comment" element={<Comment />} />
+      {/* <Route path="/feedItem" element={<FeedItem />} /> */}
     </Routes>
   );
 }
