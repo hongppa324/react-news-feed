@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useParams } from "react-router-dom";
+import CommentList from "./CommentList";
 
 export default function CommentItem() {
   // 이 아이디는 게시물의 아이디를 받아오려고 써놓은 것
@@ -47,12 +48,7 @@ export default function CommentItem() {
 
     // Firestore에 데이터 추가
     try {
-      const docRef = await addDoc(collection(db, "comments"), {
-        content: content,
-        create: new Date(),
-        isEditing: false,
-        password: password
-      });
+      const docRef = await addDoc(collection(db, `comments-${id}`), newComment);
       setEditCommentId(docRef.id);
       console.log("이 comment의 아이디는 : ", docRef.id);
 
@@ -68,6 +64,8 @@ export default function CommentItem() {
         <br />
         <br />
         <br />
+        {/* <Link to={`/commentlist/${id}`}>맵</Link> */}
+        <CommentList />
         <br />
         <br />
         <p> Replies </p>

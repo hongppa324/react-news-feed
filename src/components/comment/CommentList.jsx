@@ -1,12 +1,10 @@
 import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { db } from "../../firebase";
-import FeedItem from "../crud/FeedItem";
-// import CommentItem from "./CommentItem";
 
 export default function CommentList() {
-  const { id } = useParams();
+  const { id } = useParams(); // 현재 페이지의 ID를 가져와
   const [comments, setComments] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState("");
@@ -14,6 +12,7 @@ export default function CommentList() {
   useEffect(() => {
     const fetchComments = async () => {
       try {
+        // const q = query(collection(db, "comments"));
         const q = query(collection(db, "comments"));
         const querySnapshot = await getDocs(q);
 
@@ -71,7 +70,7 @@ export default function CommentList() {
 
   const handleCompleteEdit = async (commentId) => {
     try {
-      await updateDoc(doc(db, "comments", commentId), {
+      await setDoc(doc(db, "comments", commentId), {
         //updateDoc -> setDoc 으로 바꿔보자
         content: editedContent
       });
@@ -97,22 +96,25 @@ export default function CommentList() {
 
         <ul>
           {comments.map((comment) => (
-            <li key={comment.id}>
-              {/* <p>{comment.content}</p> */}
-              <p>{comment.createdAt}</p>
-              {comment.isEditing ? (
-                <>
-                  <textarea value={editedContent} onChange={handleInputChange} />
-                  <button onClick={() => handleCompleteEdit(comment.id)}>완료</button>
-                </>
-              ) : (
-                <>
-                  <p>{comment.content}</p>
-                  <button onClick={() => handleEdit(comment.id)}>수정</button>
-                  <button onClick={() => onDeleteHandler(comment.id)}>삭제</button>
-                </>
-              )}
-            </li>
+            <Link to={`/commentlist/${comment.id}`} key={comment.id}>
+              댓글
+              <li id={comment.id}>
+                {/* <p>{comment.content}</p> */}
+                <p>{comment.createdAt}</p>
+                {comment.isEditing ? (
+                  <>
+                    <textarea value={editedContent} onChange={handleInputChange} />
+                    <button onClick={() => handleCompleteEdit(comment.id)}>완료</button>
+                  </>
+                ) : (
+                  <>
+                    <p>{comment.content}</p>
+                    <button onClick={() => handleEdit(comment.id)}>수정</button>
+                    <button onClick={() => onDeleteHandler(comment.id)}>삭제</button>
+                  </>
+                )}
+              </li>
+            </Link>
           ))}
         </ul>
       </div>

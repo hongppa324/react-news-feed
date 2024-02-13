@@ -6,6 +6,10 @@ import LoginPage from "../routes/LoginPage";
 import SignUpPage from "../routes/SignUpPage";
 import Home from "../routes/Home";
 import Comment from "../pages/Comment";
+import ResetPassword from "../routes/ResetPassword";
+import CommentList from "../components/comment/CommentList";
+import CommentItem from "../components/comment/CommentItem";
+
 function Router() {
   return (
     <Routes>
@@ -13,7 +17,10 @@ function Router() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
       <Route path="/feedItem" element={<FeedItem />} />
-      <Route path="/comment" element={<Comment />} />
+      <Route path="/resetpassword" element={<ResetPassword />} />
+      <Route path="/comment/:id" element={<Comment />} />
+      <Route path="/commentitem" element={<CommentItem />} />
+      <Route path="/commentlist" element={<CommentList />} />
       <Route path="/home" element={<Home />} />
     </Routes>
   );

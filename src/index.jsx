@@ -21,7 +21,7 @@ root.render(
         <GlobalFont />
         <Header />
         <App />
-        <Comment />
+        {/* <Comment /> */}
         <Footer />
       </React.StrictMode>
     </BrowserRouter>
