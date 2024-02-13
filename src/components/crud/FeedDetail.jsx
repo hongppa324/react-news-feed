@@ -90,7 +90,7 @@ function FeedDetail() {
   }
   //   console.log("찾은데이터", detailFeed);
 
-  const { writer, content, date, isEdited, img, postId: id } = detailFeed;
+  const { writer, content, title, date, isEdited, img, postId: id } = detailFeed;
 
   const onChange = (e) => {
     const editContent = e.target.value;
@@ -154,7 +154,11 @@ function FeedDetail() {
   return (
     <>
       작성자 : {writer} <br />
-      내용 :{" "}
+      <br />
+      제목 : {title}
+      <br />
+      <br />
+      내용 :
       {!click ? (
         content
       ) : (
@@ -165,13 +169,16 @@ function FeedDetail() {
         </form>
       )}
       <br />
+      <br />
       날짜 : {date}
+      <br />
+      <br />
       <br />
       {isEdited ? "" : "편집여부 :수정됨"}
       <br />
       <img src={img} style={{ width: "200px", height: "200px" }} />
       <br />
-      {writer !== userName ? "" : <button onClick={editHandler}>수정하기</button>}
+      {writer !== userName ? "" : <button onClick={editHandler}>내용수정</button>}
       {writer !== userName ? "" : <button onClick={deleteHandler}>삭제하기</button>}
       <button onClick={gotoHome}>홈으로 돌아가기</button>
       <br />

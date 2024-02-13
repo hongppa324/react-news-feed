@@ -73,9 +73,8 @@ function Home() {
         >
           {feed.map((e) => {
             return (
-              <Link to={`/home/${e.postId}`}>
+              <Link to={`/home/${e.postId}`} style={{ textDecoration: "none", color: "black" }}>
                 <li key={e.postId}>
-                  {e.postId}
                   <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
                     <div className="img" style={{ border: "1px solid black", height: "200px" }}>
                       <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
@@ -85,7 +84,7 @@ function Home() {
                         제목 : {e.title}
                       </div>
                       <div className="text" style={{ border: "1px solid black", height: "50px" }}>
-                        글내용 : : {e.content}
+                        글내용 : {e.content}
                       </div>
                       <div className="time-wrap" style={{ border: "1px solid black", height: "25px" }}>
                         <div className="time" style={{ border: "1px solid black" }}>
