@@ -153,7 +153,7 @@ const CommentContent = styled.p`
 const CommentDoneButton = styled.button`
   background-color: lightblue;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -167,7 +167,7 @@ const CommentDoneButton = styled.button`
 const CommentEditButton = styled.button`
   background-color: #fcd99a;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 5px;
   margin: 10px;
@@ -182,7 +182,7 @@ const CommentEditButton = styled.button`
 const CommentDeleteButton = styled.button`
   background-color: #fab3d7;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;

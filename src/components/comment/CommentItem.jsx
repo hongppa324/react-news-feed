@@ -162,7 +162,7 @@ const AddBtn = styled.span`
   & button {
     background-color: lightblue;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.7rem 1.2rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
