@@ -1,11 +1,9 @@
 import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import { db } from "../../firebase";
-// import CommentItem from "./CommentItem";
+import styled from "styled-components";
 
 export default function CommentList({ postId }) {
-  const { id } = useParams(); // 현재 페이지의 ID를
   const [comments, setComments] = useState([]);
   const [editedContent, setEditedContent] = useState("");
 
@@ -101,31 +99,57 @@ export default function CommentList({ postId }) {
   return (
     <div>
       <div>
-        <h2>CommentList쪽</h2>
-
-        <ul>
+        <CommentsWrapper>
+          <hr />
           {comments.map((comment) => (
-            <li id={comment.id} key={comment.id}>
+            <ListWrap id={comment.id} key={comment.id}>
               {/* <p>{comment.content}</p> */}
-              <p>아이디 : {hiddenId(comment.writer)}</p>
+              <ListIDandCreated>아이디 : {hiddenId(comment.writer)}</ListIDandCreated>
+              <ListIDandCreated>{comment.createdAt}</ListIDandCreated>
               {comment.isEditing ? (
                 <>
-                  <textarea value={editedContent} onChange={handleInputChange} />
-                  <button onClick={() => handleCompleteEdit(comment.id)}>완료</button>
+                  <CommentContent value={editedContent} onChange={handleInputChange} />
+                  <CommentButton onClick={() => handleCompleteEdit(comment.id)}>완료</CommentButton>
                 </>
               ) : (
                 <>
                   <p>{comment.content}</p>
-                  <button onClick={() => handleEdit(comment.id)}>수정</button>
-                  <button onClick={() => onDeleteHandler(comment.id)}>삭제</button>
+                  <CommentButton onClick={() => handleEdit(comment.id)}>수정하기</CommentButton>
+                  <CommentButton onClick={() => onDeleteHandler(comment.id)}>삭제하기</CommentButton>
                 </>
               )}
-              <p>{comment.createdAt}</p>
-            </li>
+              <hr />
+            </ListWrap>
           ))}
-        </ul>
+        </CommentsWrapper>
       </div>
       <br />
     </div>
   );
 }
+
+const CommentsWrapper = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin-left: 30px;
+`;
+
+const ListWrap = styled.li`
+  margin-bottom: 10px; /* 각 댓글 요소 사이에 여백 추가 */
+`;
+
+const ListIDandCreated = styled.p`
+  display: flex;
+  justify-content: space-between; /* 아이디와 생성일 사이를 좌우 정렬 */
+  font-size: 15px;
+  margin-bottom: 5px; /* 각 댓글 내부 요소 사이에 여백 추가 */
+`;
+
+const CommentContent = styled.p`
+  margin-bottom: 5px; /* 댓글 내용 아래 여백 추가 */
+  font-size: 20px;
+`;
+
+const CommentButton = styled.button`
+  margin: 5px; /* 버튼 사이 여백 추가 */
+`;

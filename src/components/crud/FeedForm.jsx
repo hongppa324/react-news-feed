@@ -64,7 +64,12 @@ function FeedForm() {
         date: new Date().toLocaleString(),
         isEdited: false,
         writer: user,
-        img: defaultImgdURL
+        img: defaultImgdURL,
+        // 좋아요 default 값 추가
+        likes: {
+          likeCount: 0,
+          users: []
+        }
       };
       await uploadFeed(newFeed);
     } else {
@@ -79,7 +84,11 @@ function FeedForm() {
         date: new Date().toLocaleString(),
         isEdited: false,
         writer: user,
-        img: downloadURL
+        img: downloadURL,
+        likes: {
+          likeCount: 0,
+          users: []
+        }
       };
       await uploadFeed(newFeed);
     }
