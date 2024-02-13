@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { db } from "../../../firebase";
 
 export default function MyPosts({ userId }) {
+  console.log(userId);
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,6 +14,7 @@ export default function MyPosts({ userId }) {
       try {
         const q = query(collection(db, "newsFeed"), where("writerId", "==", userId));
         const querySnapshot = await getDocs(q);
+        console.log(querySnapshot);
 
         const userPostsData = [];
 
@@ -40,7 +42,7 @@ export default function MyPosts({ userId }) {
       <ul>
         {userPosts.map((post) => (
           <li key={post.id}>
-            <NavLink to={`/post/${post.id}`}>{post.title}</NavLink>
+            <NavLink to={`/my-page?${post.Id}`}>{post.title}</NavLink>
           </li>
         ))}
       </ul>

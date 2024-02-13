@@ -11,6 +11,7 @@ function FeedItem() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { id, title, content, date, isEdited, writer, img } = state.editFeed;
+  console.log(writer);
 
   const [newContent, setNewContent] = useState(content);
 
@@ -96,7 +97,7 @@ function FeedItem() {
       <br />
       <br />
       <br />
-      <MyPosts userId={state.editFeed.writerId} />
+      <MyPosts userId={writer} />
     </>
   );
 }

@@ -22,9 +22,11 @@ function Home() {
   }, []);
 
   //현재 사용자 불러오기
+  console.log(authService);
   const userId = authService.currentUser;
+  console.log(userId);
   const user = authService.currentUser.displayName;
-  console.log("user", user);
+  // console.log("user", user);
 
   useEffect(() => {
     const fetchData = async () => {

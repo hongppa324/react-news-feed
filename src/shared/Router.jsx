@@ -7,6 +7,7 @@ import SignUpPage from "../routes/SignUpPage";
 import Home from "../routes/Home";
 import Comment from "../pages/Comment";
 import MyPage from "../pages/MyPage";
+import ResetPassword from "../routes/ResetPassword";
 
 function Router() {
   return (
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/feedItem" element={<FeedItem />} />
       <Route path="/comment" element={<Comment />} />
       <Route path="/my-page" element={<MyPage />} />
+      <Route path="/reset" element={<ResetPassword />} />
       <Route path="/home" element={<Home />} />
     </Routes>
   );
