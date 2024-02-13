@@ -140,13 +140,13 @@ const ListWrap = styled.li`
 
 const ListIDandCreated = styled.p`
   display: flex;
-  justify-content: space-between; /* 아이디와 생성일 사이를 좌우 정렬 */
+  justify-content: space-between;
   font-size: 18px;
-  margin-bottom: 5px; /* 각 댓글 내부 요소 사이에 여백 추가 */
+  margin-bottom: 5px;
 `;
 
 const CommentContent = styled.p`
-  margin-bottom: 5px; /* 댓글 내용 아래 여백 추가 */
+  margin-bottom: 5px;
   font-size: 25px;
 `;
 
@@ -160,6 +160,7 @@ const CommentDoneButton = styled.button`
 
   & button:hover {
     background-color: #1e6dff;
+    transition: all 0.3s;
   }
 `;
 
@@ -174,6 +175,7 @@ const CommentEditButton = styled.button`
 
   &:hover {
     background-color: #ffb81e;
+    transition: all 0.3s;
   }
 `;
 
@@ -187,9 +189,10 @@ const CommentDeleteButton = styled.button`
 
   &:hover {
     background-color: #f772b0;
+    transition: all 0.3s;
   }
 `;
 
 const HorizontalRule = styled.hr`
-  margin-right: 60px; /* 오른쪽 여백 추가 */
+  margin-right: 60px;
 `;

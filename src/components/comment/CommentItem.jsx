@@ -4,10 +4,12 @@ import { db } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CommentList from "./CommentList";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export default function CommentItem({ postId }) {
+  const navigate = useNavigate();
+
   const [content, setContent] = useState("");
-  // const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
   const [editCommentId, setEditCommentId] = useState("");
 
@@ -56,9 +58,16 @@ export default function CommentItem({ postId }) {
       console.error("Error : ", error);
     }
   };
+
+  const homeBtn = () => {
+    navigate("/home");
+  };
+
   return (
     <>
       <div>
+        <br />
+        <HomeBtn onClick={homeBtn}>홈으로</HomeBtn>
         <br />
         <br />
         <FormHead> Replies </FormHead>
@@ -88,6 +97,21 @@ export default function CommentItem({ postId }) {
     </>
   );
 }
+
+const HomeBtn = styled.button`
+  background-color: black;
+  color: white;
+  margin: 25px 25px 25px 35px;
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f74562;
+    transition: all 0.3s;
+  }
+`;
 
 const FormHead = styled.p`
   margin-left: 60px;
@@ -145,5 +169,6 @@ const AddBtn = styled.span`
   }
   & button:hover {
     background-color: #1e6dff;
+    transition: all 0.3s;
   }
 `;
