@@ -38,7 +38,7 @@ function FeedForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!title || !content) {
-      alert("빈칸없이 다 작성해주세요!");
+      alert("빈곳없이 다 작성해주세요!");
       return;
     }
 

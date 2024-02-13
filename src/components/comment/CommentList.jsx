@@ -2,6 +2,7 @@ import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "f
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
+// import CommentItem from "./CommentItem";
 
 export default function CommentList() {
   const { id } = useParams();
@@ -35,7 +36,7 @@ export default function CommentList() {
 
     fetchComments();
   }, []);
-  // console.log(comments);
+  console.log(comments);
 
   const onDeleteHandler = async (commentId) => {
     const answer = window.confirm("이 댓글을 삭제하시겠습니까?");

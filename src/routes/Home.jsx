@@ -17,14 +17,13 @@ function Home() {
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
-      // console.log("현재 로그인 된 유저", user);
+      console.log("현재 로그인 된 유저", user);
     });
   }, []);
 
   //현재 사용자 불러오기
   const userId = authService.currentUser;
   const user = authService.currentUser.displayName;
-  // console.log("user", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +62,6 @@ function Home() {
         <button onClick={writeToFeed}>글작성하기</button>
         <button>홈으로가기</button>
       </nav>
-
       <div className="home-wrap" style={{ border: "1px solid black", margin: "1rem" }}>
         <ul
           style={{
