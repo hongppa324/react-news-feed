@@ -2,7 +2,6 @@ import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "f
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
-import FeedItem from "../crud/FeedItem";
 // import CommentItem from "./CommentItem";
 
 export default function CommentList() {
