@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { db } from "../../firebase";
 
 export default function CommentList({ postId }) {
-  const { id } = useParams(); // 현재 페이지의 ID를 가져와
+  const { id } = useParams(); // 현재 페이지의 ID를
   const [comments, setComments] = useState([]);
   const [editedContent, setEditedContent] = useState("");
 
