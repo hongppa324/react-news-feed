@@ -21,6 +21,7 @@ export default function CommentList({ postId }) {
             id: doc.id,
             content: doc.data().content,
             createdAt: doc.data().createdAt,
+            writer: doc.data().writer,
             isEditing: doc.data().isEditing
           });
         });
@@ -75,7 +76,7 @@ export default function CommentList({ postId }) {
       setComments((prevComments) =>
         prevComments.map((comment) => {
           if (comment.id === commentId) {
-            return { ...comment, isEditing: false };
+            return { ...comment, isEditing: false, content: editedContent };
           }
           return comment;
         })
@@ -87,6 +88,15 @@ export default function CommentList({ postId }) {
     }
   };
 
+  const hiddenId = (id) => {
+    if (id.length <= 5) {
+      return id;
+    }
+    const visiblePart = id.substring(0, 5);
+    const hiddenPart = "*".repeat(id.length - 5, 0);
+    return visiblePart + hiddenPart;
+  };
+
   return (
     <div>
       <div>
@@ -96,6 +106,7 @@ export default function CommentList({ postId }) {
           {comments.map((comment) => (
             <li id={comment.id} key={comment.id}>
               {/* <p>{comment.content}</p> */}
+              <p>아이디 : {hiddenId(comment.writer)}</p>
               {comment.isEditing ? (
                 <>
                   <textarea value={editedContent} onChange={handleInputChange} />

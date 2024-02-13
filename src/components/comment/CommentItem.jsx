@@ -2,13 +2,9 @@ import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useParams } from "react-router-dom";
 import CommentList from "./CommentList";
 
 export default function CommentItem({ postId }) {
-  // 이 아이디는 게시물의 아이디를 받아오려고 써놓은 것
-  // const { id } = useParams;
-
   const [content, setContent] = useState("");
   // const [password, setPassword] = useState("");
   const [userId, setUserId] = useState("");
@@ -16,6 +12,8 @@ export default function CommentItem({ postId }) {
 
   useEffect(() => {
     const auth = getAuth();
+    const user = auth.currentUser;
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserId(user.uid);
@@ -41,12 +39,11 @@ export default function CommentItem({ postId }) {
       id: crypto.randomUUID(),
       content: content,
       createdAt: new Date().toLocaleDateString(),
-      // password,
+      writer: userId,
       isEditing: false
+      // password,
     };
-    // console.log(newComment); // 콘솔에 쭉 잘찍힘
 
-    // Firestore에 데이터 추가
     try {
       const docRef = await addDoc(collection(db, `comments-${postId}`), newComment);
       setEditCommentId(docRef.id);
