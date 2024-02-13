@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Link } from "react-router-dom";
+import Like from "../components/like/Like";
 
 function Home() {
   const navigate = useNavigate();
@@ -17,14 +18,14 @@ function Home() {
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
-      console.log("현재 로그인 된 유저", user);
+      // console.log("현재 로그인 된 유저", user);
     });
   }, []);
 
   //현재 사용자 불러오기
   const userId = authService.currentUser;
   const user = authService.currentUser.displayName;
-  console.log("user", user);
+  // console.log("user", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +41,9 @@ function Home() {
             isEdited: doc.data().isEdited,
             date: doc.data().date.toDate().toLocaleString(),
             writer: doc.data().writer,
-            img: doc.data().img
+            img: doc.data().img,
+            likes: doc.data().likes
+            //
           };
         });
         setFeed(docFeed);
@@ -113,7 +116,8 @@ function Home() {
                       </div>
                     </div>
                     <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                      {e.writer} / 좋아요 <Link to="/home">댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
+                      {e.writer} / <Like likes={e.likes} feedId={e.id} /> <Link to="/home">댓글</Link> /
+                      {!e.isEdited ? "" : "(수정됨)"}
                     </div>
 
                     <div className="buttons">

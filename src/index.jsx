@@ -16,14 +16,14 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <React.StrictMode>
-        <GlobalStyle />
-        <GlobalFont />
-        <Header />
-        <App />
-        {/* <Comment /> */}
-        <Footer />
-      </React.StrictMode>
+      {/* <React.StrictMode> */}
+      <GlobalStyle />
+      <GlobalFont />
+      <Header />
+      <App />
+      {/* <Comment /> */}
+      <Footer />
+      {/* </React.StrictMode> */}
     </BrowserRouter>
   </Provider>
 );

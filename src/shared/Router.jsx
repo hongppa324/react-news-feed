@@ -9,6 +9,7 @@ import Comment from "../pages/Comment";
 import FeedForm from "../components/crud/FeedForm";
 import MyPage from "../pages/MyPage";
 import ResetPassword from "../routes/ResetPassword";
+
 function Router() {
   return (
     <Routes>
