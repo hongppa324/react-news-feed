@@ -4,15 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import { db } from "../../firebase";
 
 export default function CommentList({ postId }) {
-  const { id } = useParams(); // 현재 페이지의 ID를 가져와
+  // const { id } = useParams(); // 현재 페이지의 ID를 가져와
   const [comments, setComments] = useState([]);
-  // const [isEditing, setIsEditing] = useState(false);
+  const [inputPwd, setInputPwd] = useState("");
   const [editedContent, setEditedContent] = useState("");
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        // const q = query(collection(db, "comments"));
         const q = query(collection(db, `comments-${postId}`));
         const querySnapshot = await getDocs(q);
 
@@ -37,16 +36,21 @@ export default function CommentList({ postId }) {
     fetchComments();
   }, []);
 
-  const onDeleteHandler = async (commentId) => {
-    const answer = window.confirm("이 댓글을 삭제하시겠습니까?");
-    if (answer) {
+  const onDeleteHandler = async (commentId, commentPwd) => {
+    const answer = window.prompt("댓글의 비밀번호를 입력해주세요.");
+
+    //비밀번호 확인
+    if (answer === commentPwd) {
       try {
         await deleteDoc(doc(db, `comments-${postId}`, commentId));
         setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
-        console.log("댓글이 성공적으로 삭제되었습니다.");
+        console.log("댓글이 성공적으로 삭제되었습니다:-)");
       } catch (error) {
-        console.error("댓글 삭제 중 오류가 발생했습니다:", error);
+        alert("댓글 삭제 오류가 발생했넴 .. ");
+        console.error("댓글 삭제 중 오류가 발생했습니다:-(", error);
       }
+    } else {
+      alert("비밀번호가 일치하지 않아요~~!");
     }
   };
 
@@ -83,6 +87,7 @@ export default function CommentList({ postId }) {
       );
       console.log("댓글 수정 성공!");
     } catch (error) {
+      alert("오류가 발생했네..?ㅜㅡㅜ");
       console.error("댓글 수정 중 오류 발생", error);
     }
   };
@@ -105,7 +110,7 @@ export default function CommentList({ postId }) {
                 <>
                   <p>{comment.content}</p>
                   <button onClick={() => handleEdit(comment.id)}>수정</button>
-                  <button onClick={() => onDeleteHandler(comment.id)}>삭제</button>
+                  <button onClick={() => onDeleteHandler(comment.id, comment.password)}>삭제</button>
                 </>
               )}
               <p>{comment.createdAt}</p>

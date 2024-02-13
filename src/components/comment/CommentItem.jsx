@@ -44,7 +44,7 @@ export default function CommentItem({ postId }) {
       password,
       isEditing: false
     };
-    console.log(newComment); // 콘솔에 쭉 잘찍힘
+    // console.log(newComment); // 콘솔에 쭉 잘찍힘
 
     // Firestore에 데이터 추가
     try {
