@@ -1,6 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { collection, doc, query, where, getDocs, updateDoc, Timestamp, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  Timestamp,
+  deleteDoc,
+  deleteField
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
@@ -117,6 +127,20 @@ function FeedDetail() {
       }
       await deleteObject(selectRef);
       alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
+
+      try {
+        const oneRef = doc(db, "newsFeed", postId);
+
+        const defaultRef = ref(storage, `/defaultImg/background.png`);
+        const defaultImgdURL = await getDownloadURL(defaultRef);
+
+        // Remove the 'capital' field from the document
+        await updateDoc(oneRef, {
+          img: defaultImgdURL
+        });
+      } catch (error) {
+        console.log("디비삭제 errorCode=>", error.errorCode);
+      }
     } catch (error) {
       console.log("사진 errorCode=>", error.errorCode);
     }
@@ -166,6 +190,7 @@ function FeedDetail() {
         <form onSubmit={changeContent}>
           <textarea defaultValue={content} type="text" name="newContent" onChange={onChange} />
           <br />
+
           <button>수정완료</button>
         </form>
       )}
