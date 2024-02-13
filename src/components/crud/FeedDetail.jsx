@@ -64,7 +64,8 @@ function FeedDetail() {
       });
       //   console.log("찾은데이터", findData);
       setDetailFeed(findData);
-
+      setNewContent(findData.content);
+      console.log("1111111", newContent);
       console.log(5);
     };
 
@@ -78,11 +79,7 @@ function FeedDetail() {
   }, []);
 
   //현재 사용자 불러오기
-
-  //   console.log("useEffec밖", detailFeed);
   const userName = authService.currentUser.displayName;
-
-  //   console.log("유저", userName);
 
   //피드 수정
   const editHandler = () => {
@@ -112,9 +109,50 @@ function FeedDetail() {
     }
 
     setNewContent(editContent);
+    console.log("22222222", newContent);
+    console.log(editContent);
   };
 
-  //   ///사진 삭제 구현 수정중....
+  const changeContent = async (e) => {
+    e.preventDefault();
+
+    if (newContent.length === 0) {
+      alert("수정할 값이 없습니다!");
+      console.log("333333333", newContent);
+    } else if (newContent === content) {
+      console.log("4444444", newContent);
+      alert("값이 변경점이 없습니다!");
+    }
+    // if (newContent.length === 0) {
+    //   alert("수정 값이 없습니다!");
+    //   console.log("1", newContent);
+    //   console.log("1", prevContent);
+    //   return;
+    // } else if (newContent === content) {
+    //   alert("값이 변경점이 없습니다!");
+    //   console.log("2", newContent);
+    //   console.log("2", prevContent);
+    //   return;
+    // }
+
+    // const editFeedRef = doc(db, "newsFeed", postId);
+    // await updateDoc(editFeedRef, {
+    //   detailFeed,
+    //   content: newContent,
+    //   date: Timestamp.fromDate(new Date()),
+    //   isEdited: !detailFeed.isEdited
+    // });
+
+    // alert("수정이 완료됐습니다.");
+    // navigate("/home");
+  };
+
+  //   삭제
+  const deleteHandler = async () => {
+    alert("삭제하시겠습니까?");
+    await deleteDoc(doc(db, "newsFeed", postId));
+    navigate("/home");
+  };
   const deleteImg = async () => {
     try {
       const selectRef = ref(storage, `${img}`);
@@ -134,7 +172,6 @@ function FeedDetail() {
         const defaultRef = ref(storage, `/defaultImg/background.png`);
         const defaultImgdURL = await getDownloadURL(defaultRef);
 
-        // Remove the 'capital' field from the document
         await updateDoc(oneRef, {
           img: defaultImgdURL
         });
@@ -142,40 +179,9 @@ function FeedDetail() {
         console.log("디비삭제 errorCode=>", error.errorCode);
       }
     } catch (error) {
-      console.log("사진 errorCode=>", error.errorCode);
+      console.log("사진삭제 errorCode=>", error.errorCode);
     }
   };
-
-  const changeContent = async (e) => {
-    e.preventDefault();
-    const prevContent = e.target.defaultValue;
-
-    if (!newContent) {
-      alert("수정 값이 없습니다!");
-      console.log(newContent);
-      console.log(prevContent);
-      return;
-    }
-
-    const editFeedRef = doc(db, "newsFeed", postId);
-    await updateDoc(editFeedRef, {
-      detailFeed,
-      content: newContent,
-      date: Timestamp.fromDate(new Date()),
-      isEdited: !detailFeed.isEdited
-    });
-
-    alert("수정이 완료됐습니다.");
-    navigate("/home");
-  };
-
-  //   삭제
-  const deleteHandler = async () => {
-    alert("삭제하시겠습니까?");
-    await deleteDoc(doc(db, "newsFeed", postId));
-    navigate("/home");
-  };
-
   return (
     <>
       작성자 : {writer} <br />
