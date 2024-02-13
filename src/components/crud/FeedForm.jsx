@@ -64,7 +64,12 @@ function FeedForm() {
         date: new Date().toLocaleString(),
         isEdited: false,
         writer: user,
-        img: defaultImgdURL
+        img: defaultImgdURL,
+        // 좋아요 default 값 추가_남지현
+        likes: {
+          likeCount: 0,
+          users: []
+        }
       };
       await uploadFeed(newFeed);
     } else {
@@ -79,7 +84,11 @@ function FeedForm() {
         date: new Date().toLocaleString(),
         isEdited: false,
         writer: user,
-        img: downloadURL
+        img: downloadURL, // 좋아요 default 값 추가_남지현
+        likes: {
+          likeCount: 0,
+          users: []
+        }
       };
       await uploadFeed(newFeed);
     }

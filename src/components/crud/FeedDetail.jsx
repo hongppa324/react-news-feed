@@ -107,15 +107,16 @@ function FeedDetail() {
   //   ///사진 삭제 구현 수정중....
   const deleteImg = async () => {
     try {
-      const defaultImg = ref(storage, `/defaultImg/background.png`);
-      if (defaultImg) {
-        alert("기본 이미지입니다.");
+      const selectRef = ref(storage, `${img}`);
+      const downdURL = await getDownloadURL(selectRef);
+      // console.log("path", downdURL);
+      // console.log(selectRef);
+      if (downdURL.includes("defaultImg")) {
+        alert("기본 이미지는 삭제할 수 없습니다!");
         return;
       }
-      const desertRef = ref(storage, img);
-
-      //   await deleteObject(desertRef);
-      //   alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
+      await deleteObject(selectRef);
+      alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
     } catch (error) {
       console.log("사진 errorCode=>", error.errorCode);
     }
