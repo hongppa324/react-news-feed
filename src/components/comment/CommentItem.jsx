@@ -147,7 +147,7 @@ const InputComment = styled.textarea`
   justify-content: center;
   resize: none;
   padding: 15px;
-  font-size: 15px;
+  font-size: 16px;
   height: 130px;
   width: 100%;
   background-color: #f5fcfd;
