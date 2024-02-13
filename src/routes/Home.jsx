@@ -144,7 +144,9 @@ function Home() {
     <>
       <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
         <p>안녕하세요 {user} 님 !</p>
-        <button>내프로필</button>
+        <Link to="/my-page">
+          <button>내프로필</button>
+        </Link>
         <button>글쓰기</button>
         <button>홈으로가기</button>
         <button>정렬기능</button>

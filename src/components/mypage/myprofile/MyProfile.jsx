@@ -1,9 +1,9 @@
-import { doc, updateDoc } from "../../../api/firebase";
-import React, { useState, useMemo, useEffect } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import MyInfo from "./MyInfo";
-import { db } from "../../../api/firebase";
+import { db } from "../../../firebase";
+import MyPosts from "./MyPosts";
 
 export default function MyProfile({ userId }) {
   const [profile, setProfile] = useState({
@@ -38,10 +38,9 @@ export default function MyProfile({ userId }) {
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 수정 완료 버튼
+  // 수정 내용 저장 버튼
   const submitMyInfoHandler = async (event) => {
     event.preventDefault();
-    // 서버에 데이터를 보낼 때까지 기다려!
     try {
       const updatedProfile = doc(db, "profiles", userId);
       await updateDoc(updatedProfile, { ...profile });
@@ -59,9 +58,10 @@ export default function MyProfile({ userId }) {
     <>
       <MyProfileContainer>
         <Header>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/home">Home</NavLink>
           <h1>My Profile</h1>
         </Header>
+
         <FormContainer>
           <form onSubmit={submitMyInfoHandler}>
             <label>
@@ -78,6 +78,7 @@ export default function MyProfile({ userId }) {
             <button type="submit">저장</button>
           </form>
         </FormContainer>
+        <MyPosts />
       </MyProfileContainer>
     </>
   );
@@ -93,6 +94,7 @@ const MyProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
 const FormContainer = styled.div`
   display: flex;
   flex-direction: row;

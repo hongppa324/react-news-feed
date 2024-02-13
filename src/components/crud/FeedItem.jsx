@@ -5,6 +5,7 @@ import { doc, updateDoc, Timestamp, collection, query, where, getDocs } from "fi
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import { db, auth, storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import MyPosts from "../mypage/myprofile/MyPosts";
 
 function FeedItem() {
   const navigate = useNavigate();
@@ -95,6 +96,7 @@ function FeedItem() {
       <br />
       <br />
       <br />
+      <MyPosts userId={state.editFeed.writerId} />
     </>
   );
 }
