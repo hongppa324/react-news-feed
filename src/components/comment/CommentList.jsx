@@ -149,6 +149,9 @@ const ListIDandCreated = styled.p`
 const CommentContent = styled.textarea`
   margin-bottom: 5px;
   font-size: 25px;
+  padding: 30px 400px;
+  resize: none;
+  margin-right: 20px;
 `;
 
 const CommentDoneButton = styled.button`
