@@ -165,9 +165,7 @@ const FormBackImg = styled.div`
   height: 100%;
 `;
 
-const FormBox = styled.div`
-  background: linear-gradient(135deg, #ffefba, #ffffff);
-`;
+const FormBox = styled.div``;
 
 const FormContent = styled.div`
   display: flex;

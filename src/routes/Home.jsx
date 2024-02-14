@@ -47,11 +47,16 @@ function Home() {
     navigate("/my-page");
   };
   return (
-    <HomeBg>
+    <div>
       <HomeNav>
+        <br />
+        <br />
         <p>안녕하세요 {userInfo.name} 님 !</p>
         <InputProfileBtn onClick={moveToMyProfile}>내프로필</InputProfileBtn>
         <InputTextBtn onClick={writeToFeed}>글작성하기</InputTextBtn>
+        <hr />
+        <br />
+        <br />
       </HomeNav>
       <HomeWrap>
         <FeedListWrapper>
@@ -87,38 +92,51 @@ function Home() {
           })}
         </FeedListWrapper>
       </HomeWrap>
-    </HomeBg>
+    </div>
   );
 }
 export default Home;
 
-const HomeBg = styled.div`
-  background: linear-gradient(135deg, #ffefba, #ffffff);
-`;
+// const HomeBg = styled.div`
+//   background: linear-gradient(135deg, #ffefba, #ffffff);
+// `;
 
 const HomeNav = styled.nav`
   /* border: "1px solid black" display: "flex", height: "40px" */
   background-color: #fafcfd;
+  margin: 30px 20px 40px 100px;
 `;
 
 const HomeWrap = styled.div`
-  margin: 1rem;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10px;
+  width: 1000px;
+  margin: 0 auto;
 `;
 
 const FeedListWrapper = styled.ul`
   display: grid;
   gap: 50px;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  /* grid-template-columns: repeat(auto-fill, minmax(1000px, 1fr)); */
   margin: 10px auto 10px auto;
   scrollbar-width: none;
 `;
 
 const ContentWrap = styled.div`
+  display: flex;
   margin: 0 auto;
-  width: 400px;
+  width: 1000px;
   padding: 3rem;
   box-shadow: 3px 10px 5px gray;
-  background: #fff;
+  background-color: aliceblue;
+
+  &:hover {
+    background-color: #e9e7e7;
+    transition: all 0.3s;
+  }
 `;
 
 const ContentImg = styled.div`
@@ -127,17 +145,18 @@ const ContentImg = styled.div`
 `;
 
 const ContentImage = styled.img`
-  width: 320px;
-  height: 250px;
+  width: 400px;
+  height: 260px;
 `;
 
 const FeedList = styled.li``;
 
 const ContentText = styled.div`
   height: 150px;
+  margin: 20px auto 20px auto;
   text-align: center;
   font-size: 19px;
-  line-height: 1.7;
+  line-height: 2;
 `;
 
 const LinkStyle = styled(Link)`
