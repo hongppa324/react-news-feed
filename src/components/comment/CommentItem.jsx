@@ -52,8 +52,6 @@ export default function CommentItem({ postId }) {
       <div>
         <br />
         <HomeBtn onClick={homeBtn}>홈으로</HomeBtn>
-        <br />
-        <br />
         <FormHead> Replies </FormHead>
         <hr />
         <br />
@@ -71,11 +69,7 @@ export default function CommentItem({ postId }) {
             <button type="submit">ADD</button>
           </AddBtn>
         </FormWrap>
-        <br />
-        <br />
         <CommentList postId={postId} />
-        <br />
-        <br />
       </div>
     </>
   );

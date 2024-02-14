@@ -114,7 +114,7 @@ export default function CommentList({ postId }) {
                 </>
               ) : (
                 <>
-                  <p>{comment.content}</p>
+                  <CommentViewText>{comment.content}</CommentViewText>
                   <CommentEditButton onClick={() => handleEdit(comment.id)}>수정하기</CommentEditButton>
                   <CommentDeleteButton onClick={() => onDeleteHandler(comment.id)}>삭제하기</CommentDeleteButton>
                 </>
@@ -142,18 +142,22 @@ const ListWrap = styled.li`
 const ListIDandCreated = styled.p`
   display: flex;
   justify-content: space-between;
-  font-size: 18px;
-  margin-bottom: 5px;
+  font-size: 17px;
+  line-height: 2;
 `;
 
 const CommentContent = styled.textarea`
   margin-bottom: 5px;
   font-size: 25px;
-  padding: 30px 400px;
+  width: 1000px;
   resize: none;
   margin-right: 20px;
 `;
 
+const CommentViewText = styled.p`
+  font-size: 32px;
+  line-height: 2;
+`;
 const CommentDoneButton = styled.button`
   background-color: lightblue;
   color: white;
