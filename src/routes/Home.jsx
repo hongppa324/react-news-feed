@@ -53,24 +53,24 @@ function Home() {
         <button onClick={moveToMyProfile}>내프로필</button>
         <button onClick={writeToFeed}>글작성하기</button>
       </HomeNav>
-      <HomeWrap className="home-wrap">
+      <HomeWrap>
         <FeedListWrapper>
           {feed.map((e) => {
             return (
               <FeedList key={e.postId}>
-                <ContentWrap className="content-wrap">
-                  <ContentImg className="img">
+                <ContentWrap>
+                  <ContentImg>
                     <ContentImage src={e.img} alt="사진이없어용" />
                   </ContentImg>
                   <ContentText className="content">
                     <LinkStyle to={`/home/${e.postId}`}>
-                      <div className="title">제목 : {e.title}</div>
-                      <div className="text">글내용 : {e.content}</div>
-                      <div className="time-wrap">
-                        <div className="time">{e.date}</div>
+                      <div>제목 : {e.title}</div>
+                      <div>글내용 : {e.content}</div>
+                      <div>
+                        <div>{e.date}</div>
                       </div>
                     </LinkStyle>
-                    <div className="writer">
+                    <div>
                       이름 : {e.writer}
                       <br /> <Like likes={e.likes} feedId={e.postId} />
                       <br />
@@ -78,7 +78,6 @@ function Home() {
                         <FcSms />
                         댓글
                       </CommentStyle>{" "}
-                      {!e.isEdited ? "" : "(수정됨)"}
                     </div>
                   </ContentText>
                 </ContentWrap>

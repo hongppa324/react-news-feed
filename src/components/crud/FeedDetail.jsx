@@ -170,44 +170,59 @@ function FeedDetail() {
 
   return (
     <>
-      작성자 : {writer} <br />
-      <br />
-      제목 : {title}
-      <br />
-      <br />
-      내용 :
-      {!click ? (
-        content
-      ) : (
-        <form onSubmit={changeContent}>
-          <textarea defaultValue={content} type="text" name="newContent" onChange={onChange} />
-          <br />
+      <div
+        className="wrap"
+        style={{
+          height: "700px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <div
+          className="feed-wrap"
+          style={{
+            border: "1px solid black",
+            height: "90%",
+            width: "800px",
+            borderRadius: "50px",
+            textAlign: "center",
+            alignItems: "center"
+          }}
+        >
+          <div className="content-wrap" style={{ height: "85%" }}>
+            <div className="header-wrapper" style={{ height: "20%", margin: "1rem" }}>
+              <div style={{ height: "50%" }}>제목 </div>
+              <div
+                style={{
+                  border: "1px solid black",
+                  height: "20%",
+                  display: "flex",
+                  justifyContent: " space-between"
+                }}
+              >
+                <span>작성자</span> <span>날짜</span>
+              </div>
+              <input type="file" onChange={handleFileSelect} name="file" />
+            </div>
 
-          <button>수정완료</button>
-        </form>
-      )}
-      <br />
-      <br />
-      날짜 : {date}
-      <br />
-      <br />
-      <br />
-      {isEdited ? "" : "편집여부 :수정됨"}
-      <br />
-      -----------사진 삭제 테스트
-      {!click ? "" : <button onClick={() => deleteImg(img)}>사진삭제</button>}
-      {!click ? "" : <input type="file" onChange={handleFileSelect} name="file" />}
-      <br />
-      <img src={img} style={{ width: "200px", height: "200px" }} />
-      <br />
-      {!click ? writer !== userInfo.name ? "" : <button onClick={editHandler}>내용수정</button> : ""}
-      {writer !== userInfo.name ? "" : <button onClick={deleteHandler}>삭제하기</button>}
-      <button onClick={gotoHome}>홈으로 돌아가기</button>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+            <div className="main-wrap" style={{ border: "1px solid black", height: "80%", margin: "1rem" }}>
+              <div style={{ border: "1px solid black", height: "50%" }}>사진</div>
+              <div style={{ border: "1px solid black", height: "40%" }}>내용</div>
+            </div>
+          </div>
+          <div
+            className="buttons"
+            style={{ border: "1px solid black", display: "flex", justifyContent: " space-between", margin: "1rem" }}
+          >
+            <div style={{ border: "1px solid black" }}>
+              <button>수정하기</button>
+              <button>삭제하기</button>
+            </div>
+            <div style={{ border: "1px solid black" }}>댓글/ 좋아요</div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
