@@ -15,12 +15,14 @@ export const StyledFooter = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 2.5vh;
+  gap: 20px;
+  height: 3.5vh;
   background-color: rgba(20, 20, 20, 0.25);
 `;
+
 export const Background = styled.img`
   width: 100vw;
   height: 100vh;

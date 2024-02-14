@@ -79,11 +79,11 @@ function Home() {
                       이름 : {e.writer}
                       <br /> <Like likes={e.likes} feedId={e.postId} />
                       <br />
-                      <Link to={`/comment/${e.postId}`}>
+                      <CommentStyle to={`/comment/${e.postId}`}>
                         <FcSms />
-                      </Link>{" "}
+                        댓글
+                      </CommentStyle>{" "}
                       {!e.isEdited ? "" : "(수정됨)"}
-                      댓글
                     </div>
                   </ContentText>
                 </ContentWrap>
@@ -97,19 +97,13 @@ function Home() {
 }
 export default Home;
 
-// const HomeBg = styled.div`
-//   background: linear-gradient(135deg, #ffefba, #ffffff);
-// `;
-
 const HomeNav = styled.nav`
-  /* border: "1px solid black" display: "flex", height: "40px" */
   background-color: #fafcfd;
-  margin: 30px 20px 40px 100px;
+  margin: 30px 20px 40px 20px;
 `;
 
 const HomeWrap = styled.div`
   display: flex;
-  /* flex-direction: column; */
   align-items: flex-start;
   justify-content: center;
   padding: 10px;
@@ -120,7 +114,6 @@ const HomeWrap = styled.div`
 const FeedListWrapper = styled.ul`
   display: grid;
   gap: 50px;
-  /* grid-template-columns: repeat(auto-fill, minmax(1000px, 1fr)); */
   margin: 10px auto 10px auto;
   scrollbar-width: none;
 `;
@@ -159,7 +152,14 @@ const ContentText = styled.div`
   line-height: 2;
 `;
 
+const CommentStyle = styled(Link)`
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+`;
+
 const LinkStyle = styled(Link)`
+  cursor: pointer;
   text-decoration: none;
   color: black;
 `;
