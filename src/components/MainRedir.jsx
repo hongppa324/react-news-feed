@@ -1,13 +1,11 @@
 import React from "react";
 import { SignUpLink, Description } from "../styles/MyStyles";
-import { useNavigate } from "react-router-dom";
-import { authService } from "../firebase";
+import { useSelector } from "react-redux";
 
 const MainRedir = () => {
-  const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.UserInfo.userInfo);
 
-  return authService.currentUser ? (
-    navigate("/home", { replace: true })
+  return userInfo.length !== 0 ? (<></>
   ) : (
     <>
       <SignUpLink to="/login">지금 가입</SignUpLink>

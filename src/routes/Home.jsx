@@ -2,30 +2,29 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { collection, query, doc, addDoc, deleteDoc, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
 import { db, authService, storage } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Link } from "react-router-dom";
 import Like from "../components/like/Like";
+import { useSelector } from "react-redux";
 
 function Home() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const FeedData = useSelector((state) => state.FeeRedux);
+  console.log("feedData", FeedData);
 
   const [feed, setFeed] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
-  useEffect(() => {
-    onAuthStateChanged(authService, (user) => {
-      // console.log("현재 로그인 된 유저", user);
-    });
-  }, []);
-
-  //현재 사용자 불러오기
-  const userId = authService.currentUser;
-  const user = authService.currentUser.displayName;
-  // console.log("user", user);
+  //현재 사용자 정보불러오기
+  const userInfo = useSelector((state) => state.UserInfo.userInfo);
+  //현재 사용자 정보불러오기
+  // console.log("userInfo", userInfo);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +34,7 @@ function Home() {
       onSnapshot(q, (querySnapshot) => {
         const docFeed = querySnapshot.docs.map((doc) => {
           return {
-            id: doc.id,
+            postId: doc.id,
             title: doc.data().title,
             content: doc.data().content,
             isEdited: doc.data().isEdited,
@@ -57,31 +56,10 @@ function Home() {
     navigate("/feedWrite");
   };
 
-  //피드 삭제
-  const deleteHandler = async (selectFeed) => {
-    alert("정말 삭제하시겠습니까?");
-    const deleteFeed = feed.filter((allFeed) => {
-      return allFeed.id !== selectFeed;
-    });
-    setFeed(deleteFeed);
-    const newsFeedRef = doc(db, "newsFeed", selectFeed);
-    await deleteDoc(newsFeedRef);
-  };
-
-  //피드 수정
-  const editHandler = (selectFeed) => {
-    alert("현재 사진삭제가 반영이 안됩니다 ^^");
-    const editFeed = feed.find((allFeed) => {
-      return allFeed.id === selectFeed;
-    });
-
-    navigate("/feedItem", { state: { editFeed } });
-  };
-
   return (
     <>
       <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
-        <p>안녕하세요 {user} 님 !</p>
+        <p>안녕하세요 {userInfo.name} 님 !</p>
         <button>내프로필</button>
         <button onClick={writeToFeed}>글작성하기</button>
         <button>홈으로가기</button>
@@ -115,8 +93,7 @@ function Home() {
                       </div>
                     </div>
                     <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                      {e.writer} / <Like likes={e.likes} feedId={e.id} /> <Link to="/home">댓글</Link> /
-                      {!e.isEdited ? "" : "(수정됨)"}
+                      {e.writer} / 좋아요 <Link to="/home">댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
                     </div>
 
                     <div className="buttons">

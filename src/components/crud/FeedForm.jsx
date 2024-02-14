@@ -6,25 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import styled from "styled-components";
-import Spartan from "../../assets/img/background.png";
+import { useSelector, useDispatch } from "react-redux";
 
 function FeedForm() {
   const [feed, setFeed] = useState([]);
+  //피드 redux
+  const FeedData = useSelector((state) => state.FeeRedux);
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    onAuthStateChanged(authService, (user) => {
-      console.log("현재 로그인 된 유저", user);
-    });
-  }, []);
-
-  //현재 사용자 불러오기
-  const userId = authService.currentUser;
-  const user = authService.currentUser.displayName;
+  const userInfo = useSelector((state) => state.UserInfo.userInfo);
 
   const onChange = (event) => {
     const {
@@ -58,34 +52,28 @@ function FeedForm() {
       const defaultRef = ref(storage, `/defaultImg/background.png`);
       const defaultImgdURL = await getDownloadURL(defaultRef);
       const newFeed = {
-        id: crypto.randomUUID(),
+        postId: crypto.randomUUID(),
         title,
         content,
         date: new Date().toLocaleString(),
         isEdited: false,
         writer: user,
-        img: defaultImgdURL,
-        // 좋아요 default 값 추가_남지현
-        likes: {
-          likeCount: 0,
-          users: []
-        }
+        img: defaultImgdURL
       };
       await uploadFeed(newFeed);
     } else {
       // 파일 업로드
-      const imageRef = ref(storage, `${authService.currentUser.email}/${selectedFile.name}`);
+      const imageRef = ref(storage, `${userInfo.email}/${selectedFile.name}`);
       await uploadBytes(imageRef, selectedFile);
       const downloadURL = await getDownloadURL(imageRef);
       const newFeed = {
-        id: crypto.randomUUID(),
+        postId: crypto.randomUUID(),
         title,
         content,
         date: new Date().toLocaleString(),
         isEdited: false,
-        writer: user,
-        img: downloadURL,
-        // 좋아요 default 값 추가_남지현
+        writer: userInfo.name,
+        img: downloadURL, // 좋아요 default 값 추가_남지현
         likes: {
           likeCount: 0,
           users: []
