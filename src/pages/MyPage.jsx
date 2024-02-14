@@ -65,7 +65,6 @@ const MyPage = () => {
 
 export default MyPage;
 
-// import React, { useState, useRef } from "react";
 // import { authService } from "../firebase";
 // import { updateProfile } from "firebase/auth";
 // import { useNavigate } from "react-router-dom";

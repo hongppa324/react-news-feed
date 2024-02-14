@@ -33,12 +33,11 @@ const SignOutBtn = styled.button`
   color: #fff;
   height: 100%;
   font-size: 15px;
-  transform: translateY(-20px);
-  transition: transform 0.2s ease;
   cursor: pointer;
 
   &:hover {
-    transform: translateY(0); /* Move the button back to its original position */
+    background-color: #75011a;
+    transition: all 0.3s;
     height: 100%;
   }
 `;
