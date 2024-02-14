@@ -80,9 +80,8 @@ export default function CommentList({ postId }) {
           return comment;
         })
       );
-      console.log("댓글 수정 성공!");
     } catch (error) {
-      alert("오류가 발생했네..?ㅜㅡㅜ");
+      alert("오류가 발생했네요..?ㅜㅡㅜ");
       console.error("댓글 수정 중 오류 발생", error);
     }
   };

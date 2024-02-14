@@ -30,10 +30,6 @@ export default function CommentItem({ postId }) {
     setContent(e.currentTarget.value);
   };
 
-  // const onPwdHandler = (e) => {
-  //   setPassword(e.target.value);
-  // };
-
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
@@ -43,7 +39,6 @@ export default function CommentItem({ postId }) {
       createdAt: new Date().toLocaleDateString(),
       writer: userId,
       isEditing: false
-      // password,
     };
 
     try {
@@ -82,7 +77,6 @@ export default function CommentItem({ postId }) {
           <br />
           <br />
           <InputComment onChange={onTextHandler} value={content} placeholder="댓글을 작성해 주세요." required />
-          {/* <input type="password" value={password} onChange={onPwdHandler} required /> */}
           <br />
           <AddBtn>
             <button type="submit">ADD</button>
