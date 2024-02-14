@@ -7,29 +7,26 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Like from "../components/like/Like";
+import { FcComments } from "react-icons/fc";
 
 function Home() {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const FeedData = useSelector((state) => state.FeeRedux);
   console.log("feedData", FeedData);
-
   const [feed, setFeed] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-
   //현재 사용자 정보불러오기
   const userInfo = useSelector((state) => state.UserInfo.userInfo);
   //현재 사용자 정보불러오기
   // console.log("userInfo", userInfo);
-
   useEffect(() => {
     const fetchData = async () => {
       //문서의 첫페이지 조회
       const q = query(collection(db, "newsFeed"), orderBy("date", "desc"));
-
       onSnapshot(q, (querySnapshot) => {
         const docFeed = querySnapshot.docs.map((doc) => {
           return {
@@ -39,21 +36,19 @@ function Home() {
             isEdited: doc.data().isEdited,
             date: doc.data().date.toDate().toLocaleString(),
             writer: doc.data().writer,
-            img: doc.data().img
+            img: doc.data().img,
+            likes: doc.data().likes
           };
         });
         setFeed(docFeed);
       });
     };
-
     fetchData();
   }, []);
-
   //글 작성 이동
   const writeToFeed = () => {
     navigate("/feedWrite");
   };
-
   return (
     <>
       <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
@@ -73,8 +68,8 @@ function Home() {
         >
           {feed.map((e) => {
             return (
-              <Link to={`/home/${e.postId}`} style={{ textDecoration: "none", color: "black" }}>
-                <li key={e.postId}>
+              <li key={e.postId}>
+                <Link to={`/home/${e.postId}`} style={{ textDecoration: "none", color: "black" }}>
                   <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
                     <div className="img" style={{ border: "1px solid black", height: "200px" }}>
                       <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
@@ -91,14 +86,17 @@ function Home() {
                           {e.date}
                         </div>
                       </div>
-                      <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                        {e.writer} / 좋아요 <Link to={`/comment/${e.postId}`}>댓글</Link> /
-                        {!e.isEdited ? "" : "(수정됨)"}
-                      </div>
                     </div>
                   </div>
-                </li>
-              </Link>
+                </Link>
+                <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
+                  {e.writer} / <Like likes={e.likes} feedId={e.postId} />{" "}
+                  <Link to={`/comment/${e.postId}`}>
+                    <FcComments />
+                  </Link>{" "}
+                  /{!e.isEdited ? "" : "(수정됨)"}
+                </div>
+              </li>
             );
           })}
         </ul>
@@ -106,5 +104,4 @@ function Home() {
     </>
   );
 }
-
 export default Home;
