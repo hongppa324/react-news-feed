@@ -57,8 +57,12 @@ function FeedForm() {
         content,
         date: new Date().toLocaleString(),
         isEdited: false,
-        writer: user,
-        img: defaultImgdURL
+        writer: userInfo.name,
+        img: defaultImgdURL,
+        likes: {
+          likeCount: 0,
+          users: []
+        }
       };
       await uploadFeed(newFeed);
     } else {

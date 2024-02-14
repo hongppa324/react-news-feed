@@ -6,31 +6,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Link } from "react-router-dom";
-import Like from "../components/like/Like";
 import { useSelector } from "react-redux";
+import Like from "../components/like/Like";
+import { FcComments } from "react-icons/fc";
 
 function Home() {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const FeedData = useSelector((state) => state.FeeRedux);
   console.log("feedData", FeedData);
-
   const [feed, setFeed] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-
   //현재 사용자 정보불러오기
   const userInfo = useSelector((state) => state.UserInfo.userInfo);
   //현재 사용자 정보불러오기
   // console.log("userInfo", userInfo);
-
   useEffect(() => {
     const fetchData = async () => {
       //문서의 첫페이지 조회
       const q = query(collection(db, "newsFeed"), orderBy("date", "desc"));
-
       onSnapshot(q, (querySnapshot) => {
         const docFeed = querySnapshot.docs.map((doc) => {
           return {
@@ -47,15 +43,12 @@ function Home() {
         setFeed(docFeed);
       });
     };
-
     fetchData();
   }, []);
-
   //글 작성 이동
   const writeToFeed = () => {
     navigate("/feedWrite");
   };
-
   return (
     <>
       <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
@@ -75,110 +68,40 @@ function Home() {
         >
           {feed.map((e) => {
             return (
-              <li key={e.id}>
-                <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
-                  <div className="img" style={{ border: "1px solid black", height: "200px" }}>
-                    <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
-                  </div>
-                  <div className="content" style={{ height: "150px" }}>
-                    <div className="title" style={{ border: "1px solid black", height: "25px" }}>
-                      제목 : {e.title}
+              <Link to={`/home/${e.postId}`} style={{ textDecoration: "none", color: "black" }}>
+                <li key={e.postId}>
+                  <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
+                    <div className="img" style={{ border: "1px solid black", height: "200px" }}>
+                      <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
                     </div>
-                    <div className="text" style={{ border: "1px solid black", height: "50px" }}>
-                      글내용 : : {e.content}
-                    </div>
-                    <div className="time-wrap" style={{ border: "1px solid black", height: "25px" }}>
-                      <div className="time" style={{ border: "1px solid black" }}>
-                        {e.date}
+                    <div className="content" style={{ height: "150px" }}>
+                      <div className="title" style={{ border: "1px solid black", height: "25px" }}>
+                        제목 : {e.title}
+                      </div>
+                      <div className="text" style={{ border: "1px solid black", height: "50px" }}>
+                        글내용 : {e.content}
+                      </div>
+                      <div className="time-wrap" style={{ border: "1px solid black", height: "25px" }}>
+                        <div className="time" style={{ border: "1px solid black" }}>
+                          {e.date}
+                        </div>
+                      </div>
+                      <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
+                        {e.writer} / <Like likes={e.likes} feedId={e.postId} />{" "}
+                        <Link to={`/comment/${e.postId}`}>
+                          <FcComments />
+                        </Link>{" "}
+                        /{!e.isEdited ? "" : "(수정됨)"}
                       </div>
                     </div>
-                    <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                      {e.writer} / 좋아요 <Link to="/home">댓글</Link> /{!e.isEdited ? "" : "(수정됨)"}
-                    </div>
-
-                    <div className="buttons">
-                      {e.writer !== user ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
-                      {e.writer !== user ? "" : <button onClick={() => deleteHandler(e.id)}>삭제하기</button>}
-                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              </Link>
             );
           })}
         </ul>
       </div>
-
-      {/* <main>
-        <section style={{ border: "1px solid black" }}>
-          <article style={{ border: "1px solid blue" }}>
-            1
-            <figure>
-              내용
-              <div>사진</div>
-              <div>
-                <div>제목</div>
-                <div>글내용</div>
-                <div>
-                  <div>시간</div>
-                </div>
-              </div>
-              <div>작성자</div>
-            </figure>
-          </article>
-          <article style={{ border: "1px solid blue" }}>
-            2<figure>내용</figure>
-          </article>
-          <article style={{ border: "1px solid blue" }}>
-            3<figure>내용</figure>
-          </article>
-          <article style={{ border: "1px solid blue" }}>
-            4<figure>내용</figure>
-          </article>
-          <article style={{ border: "1px solid blue" }}>
-            5<figure>내용</figure>
-          </article>
-          <article style={{ border: "1px solid blue" }}>
-            6<figure>내용</figure>
-          </article>
-        </section>
-      </main> */}
-      {/* <div>
-        {feed.map((e) => {
-          return (
-            <div key={e.id} style={{ border: "1px solid blue" }}>
-              <div> 제목 : {e.title}</div>
-              <div> 내용 : {e.content}</div>
-              <div>사진 </div>
-              <div>{e.date}</div>
-              <div>{!e.isEdited ? "" : "(수정됨)"}</div>
-              <div>작성자 : {e.writer}</div>
-              <div>
-                <img src={e.img} style={{ width: "200px", height: "200px" }} alt="사진이없어용" />
-              </div>
-              {e.writer !== user.displayName ? "" : <button onClick={() => editHandler(e.id)}>수정하기</button>}
-              {e.writer !== user.displayName ? "" : <button onClick={() => deleteHandler(e.id)}>삭제하기</button>}
-            </div>
-          );
-        })}
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>
-        <form onSubmit={onSubmit}>
-          제목 : <input type="text" onChange={onChange} value={title} name="title" />
-          <br />
-          내용 : <textarea type="text" onChange={onChange} value={content} name="content" />
-          <br />
-          <input type="file" onChange={handleFileSelect} name="file" />
-          <button>작성하기</button>
-        </form>
-      </div>
-      <br />
-      <br /> */}
     </>
   );
 }
-
 export default Home;
