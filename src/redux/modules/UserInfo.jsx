@@ -7,8 +7,8 @@ export const addUser = (input) => {
     payload: {
       userId: input.userId,
       email: input.email,
-      name: input.name,
-    },
+      name: input.name
+    }
   };
 };
 
@@ -16,8 +16,8 @@ export const removeUser = (input) => {
   return {
     type: REMOVE_USER,
     payload: {
-      userId: input.id,
-    },
+      userId: input.id
+    }
   };
 };
 
@@ -28,14 +28,14 @@ const UserInfo = (state = initialState, action) => {
     case ADD_USER:
       return {
         ...state,
-        userInfo: action.payload,
+        userInfo: action.payload
       };
     case REMOVE_USER:
       return initialState;
-      
+
     default:
       return state;
   }
-}
+};
 
-export default UserInfo
+export default UserInfo;

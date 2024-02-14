@@ -36,7 +36,7 @@ const EmailLogin = () => {
             const user = userCredential.user;
             alert(user.displayName + "님, 돌아오신 것을 환영합니다.");
             navigate("/home", { replace: true });
-            
+
             const newUser = { userId: user.uid, email: user.email, name: user.displayName };
             dispatch(addUser(newUser));
           })

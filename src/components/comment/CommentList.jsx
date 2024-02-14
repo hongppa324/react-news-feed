@@ -2,10 +2,13 @@ import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "f
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 export default function CommentList({ postId }) {
   const [comments, setComments] = useState([]);
   const [editedContent, setEditedContent] = useState("");
+
+  // const userInfo = useSelector((state) => state.UserInfo.userInfo);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -16,6 +19,7 @@ export default function CommentList({ postId }) {
         const initialComments = [];
 
         querySnapshot.forEach((doc) => {
+          console.log(doc.data());
           initialComments.push({
             id: doc.id,
             content: doc.data().content,
@@ -64,6 +68,7 @@ export default function CommentList({ postId }) {
 
   const handleInputChange = (e) => {
     setEditedContent(e.target.value);
+    console.log(editedContent);
   };
 
   const handleCompleteEdit = async (commentId) => {
@@ -80,13 +85,14 @@ export default function CommentList({ postId }) {
           return comment;
         })
       );
+      setEditedContent("");
     } catch (error) {
       alert("오류가 발생했네요..?ㅜㅡㅜ");
       console.error("댓글 수정 중 오류 발생", error);
     }
   };
 
-  const hiddenId = (id) => {
+  const substringAfter5 = (id) => {
     if (id === undefined || id.length <= 5) {
       return id;
     }
@@ -101,9 +107,8 @@ export default function CommentList({ postId }) {
         <CommentsWrapper>
           <HorizontalRule />
           {comments.map((comment) => (
-            <ListWrap id={comment.id} key={comment.id}>
-              {/* <p>{comment.content}</p> */}
-              <ListIDandCreated>아이디 : {hiddenId(comment.writer)}</ListIDandCreated>
+            <ListWrap key={comment.id} id={comment.id}>
+              <ListIDandCreated>아이디 : {substringAfter5(comment.writer)}</ListIDandCreated>
               <ListIDandCreated>{comment.createdAt}</ListIDandCreated>
               {comment.isEditing ? (
                 <>
@@ -127,6 +132,8 @@ export default function CommentList({ postId }) {
   );
 }
 
+//id={comment.id}
+
 const CommentsWrapper = styled.ul`
   list-style: none;
   padding: 0;
@@ -144,7 +151,7 @@ const ListIDandCreated = styled.p`
   margin-bottom: 5px;
 `;
 
-const CommentContent = styled.p`
+const CommentContent = styled.textarea`
   margin-bottom: 5px;
   font-size: 25px;
 `;

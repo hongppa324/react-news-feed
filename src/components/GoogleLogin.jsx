@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../firebase";
 import { setPersistence, GoogleAuthProvider, signInWithPopup, browserLocalPersistence } from "firebase/auth";
+import { authService } from "../firebase";
 
 import { StyledButton } from "../styles/MyStyles";
 import { useDispatch } from "react-redux";

@@ -6,7 +6,6 @@ import { BrowserRouter } from "react-router-dom";
 import store from "./redux/config/configStore";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
-
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import GlobalStyle from "./styles/GlobalStyle";

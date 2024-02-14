@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import FeedItem from "../components/crud/FeedItem";
 import Main from "../routes/Main";
 import LoginPage from "../routes/LoginPage";
 import SignUpPage from "../routes/SignUpPage";

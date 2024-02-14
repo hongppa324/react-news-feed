@@ -5,26 +5,29 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CommentList from "./CommentList";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function CommentItem({ postId }) {
   const navigate = useNavigate();
 
   const [content, setContent] = useState("");
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [editCommentId, setEditCommentId] = useState("");
 
-  useEffect(() => {
-    const auth = getAuth();
+  const userInfo = useSelector((state) => state.UserInfo.userInfo);
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserId(user.uid);
-      } else {
-        setUserId(""); // 사용자가 로그아웃한 경우 초기화
-      }
-    });
-    return () => unsubscribe();
-  }, []);
+  // useEffect(() => {
+  //   const auth = getAuth();
+
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       setUserId(user.uid);
+  //     } else {
+  //       setUserId(""); // 사용자가 로그아웃한 경우 초기화
+  //     }
+  //   });
+  //   return () => unsubscribe();
+  // }, []);
 
   const onTextHandler = (e) => {
     setContent(e.currentTarget.value);
@@ -37,9 +40,10 @@ export default function CommentItem({ postId }) {
       id: crypto.randomUUID(),
       content: content,
       createdAt: new Date().toLocaleDateString(),
-      writer: userId,
+      writer: userInfo.userId,
       isEditing: false
     };
+    console.log("코멘트!: ", newComment);
 
     try {
       const docRef = await addDoc(collection(db, `comments-${postId}`), newComment);
@@ -71,7 +75,7 @@ export default function CommentItem({ postId }) {
         {/* Comment Form */}
         <FormWrap onSubmit={onSubmitHandler}>
           <Formtitle>
-            <UserIdForm value={userId} readOnly />
+            <UserIdForm value={userInfo.userId} readOnly />
             님! 댓글을 남겨주세요
           </Formtitle>
           <br />
