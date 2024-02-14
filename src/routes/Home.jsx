@@ -123,7 +123,7 @@ const ContentWrap = styled.div`
   margin: 0 auto;
   width: 1000px;
   padding: 3rem;
-  box-shadow: 3px 10px 5px gray;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   background-color: aliceblue;
 
   &:hover {
