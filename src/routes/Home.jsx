@@ -14,7 +14,7 @@ function Home() {
   const navigate = useNavigate();
   const { id } = useParams();
   const FeedData = useSelector((state) => state.FeeRedux);
-  console.log("feedData", FeedData);
+  // console.log("feedData", FeedData);
   const [feed, setFeed] = useState([]);
 
   //현재 사용자 정보불러오기
@@ -75,10 +75,13 @@ function Home() {
                       </div>
                     </LinkStyle>
                     <div className="writer">
-                      이름 : {e.writer} <Like likes={e.likes} feedId={e.postId} />
+                      이름 : {e.writer}
+                      <br /> <Like likes={e.likes} feedId={e.postId} />
+                      <br />
                       <Link to={`/comment/${e.postId}`}>
                         <FcComments />
-                      </Link>{" "}
+                      </Link>
+                      댓글
                       {!e.isEdited ? "" : "(수정됨)"}
                     </div>
                   </ContentText>
@@ -113,7 +116,7 @@ const FeedListWrapper = styled.ul`
 const ContentWrap = styled.div`
   margin: 0 auto;
   width: 400px;
-  padding: 2rem;
+  padding: 3rem;
   box-shadow: 3px 10px 5px gray;
 `;
 
