@@ -59,7 +59,6 @@ function FeedForm() {
         isEdited: false,
         writer: userInfo.name,
         img: defaultImgdURL,
-        // 좋아요 default 값 추가_남지현
         likes: {
           likeCount: 0,
           users: []
