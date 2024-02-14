@@ -1,13 +1,26 @@
-import { createStore } from 'redux'
-import { combineReducers } from 'redux'
-
-import Reducer from '../modules/BoardItems';
+import { createStore } from "redux";
+import { combineReducers, applyMiddleware } from "redux";
+import UserInfo from "../modules/UserInfo";
+import { thunk } from "redux-thunk";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import FeedRedux from "../modules/FeedRedux";
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["UserInfo"]
+};
 
 const rootReducer = combineReducers({
-  Reducer
-  });
-const store = createStore(rootReducer);
+  UserInfo,
+  FeedRedux
+});
 
-export default store
+const perReducer = persistReducer(persistConfig, rootReducer);
 
+const middlewares = [thunk];
+const enhancer = applyMiddleware(...middlewares);
 
+const store = createStore(perReducer, enhancer);
+
+export default store;
