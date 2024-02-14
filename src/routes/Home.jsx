@@ -68,8 +68,8 @@ function Home() {
         >
           {feed.map((e) => {
             return (
-              <Link to={`/home/${e.postId}`} style={{ textDecoration: "none", color: "black" }}>
-                <li key={e.postId}>
+              <li key={e.postId}>
+                <Link to={`/home/${e.postId}`} style={{ textDecoration: "none", color: "black" }}>
                   <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
                     <div className="img" style={{ border: "1px solid black", height: "200px" }}>
                       <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
@@ -86,17 +86,17 @@ function Home() {
                           {e.date}
                         </div>
                       </div>
-                      <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                        {e.writer} / <Like likes={e.likes} feedId={e.postId} />{" "}
-                        <Link to={`/comment/${e.postId}`}>
-                          <FcComments />
-                        </Link>{" "}
-                        /{!e.isEdited ? "" : "(수정됨)"}
-                      </div>
                     </div>
                   </div>
-                </li>
-              </Link>
+                </Link>
+                <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
+                  {e.writer} / <Like likes={e.likes} feedId={e.postId} />{" "}
+                  <Link to={`/comment/${e.postId}`}>
+                    <FcComments />
+                  </Link>{" "}
+                  /{!e.isEdited ? "" : "(수정됨)"}
+                </div>
+              </li>
             );
           })}
         </ul>
