@@ -2,19 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Like from "../components/like/Like";
-import { FcComments } from "react-icons/fc";
+import { FcSms } from "react-icons/fc";
 import styled from "styled-components";
-import { colors } from "../styles/Colors";
 
 function Home() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const FeedData = useSelector((state) => state.FeeRedux);
-  // console.log("feedData", FeedData);
   const [feed, setFeed] = useState([]);
 
   //현재 사용자 정보불러오기
@@ -79,10 +75,10 @@ function Home() {
                       <br /> <Like likes={e.likes} feedId={e.postId} />
                       <br />
                       <Link to={`/comment/${e.postId}`}>
-                        <FcComments />
-                      </Link>
-                      댓글
+                        <FcSms />
+                      </Link>{" "}
                       {!e.isEdited ? "" : "(수정됨)"}
+                      댓글
                     </div>
                   </ContentText>
                 </ContentWrap>
