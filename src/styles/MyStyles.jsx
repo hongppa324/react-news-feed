@@ -11,14 +11,14 @@ export const StyledHeader = styled.div`
 `;
 export const StyledFooter = styled.div`
   display: flex;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 5vh;
+  height: 2.5vh;
   background-color: rgba(20, 20, 20, 0.25);
 `;
 export const Background = styled.img`

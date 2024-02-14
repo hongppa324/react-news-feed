@@ -103,25 +103,16 @@ function FeedForm() {
   return (
     <>
       {/* 전체 컨테이너 wrap */}
-      <div style={{ border: "1px solid black", height: "100vh" }}>
+      <FormWrapper>
         {/* 컨테이너 wrap */}
-        <FormBackImg style={{ display: "flex", height: "100%", backgroundColor: "blue" }}>
+        <FormBackImg>
           {/* 박스1 */}
-          <div style={{ border: "1px solid black", flex: "1" }}></div>
+          {/* <FormBox /> */}
 
           {/* 박스2 */}
-          <div style={{ border: "1px solid black", flex: "3", backgroundColor: "white" }}>
+          <FormBox>
             {/* form css */}
-            <div
-              className="form-content"
-              style={{
-                display: "flex",
-                flexDirection: " column",
-                margin: "1rem",
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-            >
+            <FormContent className="form-content">
               <form onSubmit={onSubmit}>
                 <div
                   style={{
@@ -155,19 +146,36 @@ function FeedForm() {
                   <FormButton>작성하기</FormButton>
                 </div>
               </form>
-            </div>
-          </div>
+            </FormContent>
+          </FormBox>
 
           {/* 박스3 */}
           <div style={{ border: "1px solid black", flex: "1" }}></div>
         </FormBackImg>
-      </div>
+      </FormWrapper>
     </>
   );
 }
 
+const FormWrapper = styled.div``;
+
 const FormBackImg = styled.div`
   background-image: url("../../assets/img/background.png");
+  display: flex;
+  height: 100%;
+`;
+
+const FormBox = styled.div`
+  background-color: red;
+`;
+
+const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
 `;
 
 const FeedTitle = styled.input`
@@ -196,4 +204,7 @@ const FormButton = styled.button`
   font-size: 2vh;
   cursor: pointer;
 `;
+
+/* style={{ border: "1px solid black", height: "100vh" }} */
+
 export default FeedForm;

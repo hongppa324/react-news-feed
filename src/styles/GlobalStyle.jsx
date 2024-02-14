@@ -67,7 +67,6 @@ p {
   margin-top: .1rem;
   line-height: 150%;
 }
-
 `;
 
 export default GlobalStyle;
