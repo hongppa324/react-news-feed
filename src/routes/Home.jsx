@@ -43,7 +43,6 @@ function Home() {
             writer: doc.data().writer,
             img: doc.data().img,
             likes: doc.data().likes
-            //
           };
         });
         setFeed(docFeed);
