@@ -74,11 +74,11 @@ function Home() {
                       이름 : {e.writer}
                       <br /> <Like likes={e.likes} feedId={e.postId} />
                       <br />
-                      <Link to={`/comment/${e.postId}`}>
+                      <CommentStyle to={`/comment/${e.postId}`}>
                         <FcSms />
-                      </Link>{" "}
+                        댓글
+                      </CommentStyle>{" "}
                       {!e.isEdited ? "" : "(수정됨)"}
-                      댓글
                     </div>
                   </ContentText>
                 </ContentWrap>
@@ -135,11 +135,14 @@ const ContentText = styled.div`
   line-height: 1.7;
 `;
 
-const LikeStyle = styled(Link)`
+const CommentStyle = styled(Link)`
   cursor: pointer;
+  text-decoration: none;
+  color: black;
 `;
 
 const LinkStyle = styled(Link)`
+  cursor: pointer;
   text-decoration: none;
   color: black;
 `;
