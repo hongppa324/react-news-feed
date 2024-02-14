@@ -47,13 +47,13 @@ function Home() {
     navigate("/my-page");
   };
   return (
-    <>
+    <HomeBg>
       <HomeNav>
         <p>안녕하세요 {userInfo.name} 님 !</p>
-        <button onClick={moveToMyProfile}>내프로필</button>
-        <button onClick={writeToFeed}>글작성하기</button>
+        <InputProfileBtn onClick={moveToMyProfile}>내프로필</InputProfileBtn>
+        <InputTextBtn onClick={writeToFeed}>글작성하기</InputTextBtn>
       </HomeNav>
-      <HomeWrap className="home-wrap">
+      <HomeWrap>
         <FeedListWrapper>
           {feed.map((e) => {
             return (
@@ -87,14 +87,18 @@ function Home() {
           })}
         </FeedListWrapper>
       </HomeWrap>
-    </>
+    </HomeBg>
   );
 }
 export default Home;
 
+const HomeBg = styled.div`
+  background: linear-gradient(135deg, #ffefba, #ffffff);
+`;
+
 const HomeNav = styled.nav`
   /* border: "1px solid black" display: "flex", height: "40px" */
-  background-color: aliceblue;
+  background-color: #fafcfd;
 `;
 
 const HomeWrap = styled.div`
@@ -114,6 +118,7 @@ const ContentWrap = styled.div`
   width: 400px;
   padding: 3rem;
   box-shadow: 3px 10px 5px gray;
+  background: #fff;
 `;
 
 const ContentImg = styled.div`
@@ -135,11 +140,36 @@ const ContentText = styled.div`
   line-height: 1.7;
 `;
 
-const LikeStyle = styled(Link)`
-  cursor: pointer;
-`;
-
 const LinkStyle = styled(Link)`
   text-decoration: none;
   color: black;
+`;
+
+const InputProfileBtn = styled.button`
+  background-color: #fcd99a;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ffb81e;
+    transition: all 0.3s;
+  }
+`;
+
+const InputTextBtn = styled.button`
+  background-color: #fab3d7;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f772b0;
+    transition: all 0.3s;
+  }
 `;

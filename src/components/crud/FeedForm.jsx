@@ -166,7 +166,7 @@ const FormBackImg = styled.div`
 `;
 
 const FormBox = styled.div`
-  background-color: red;
+  background: linear-gradient(135deg, #ffefba, #ffffff);
 `;
 
 const FormContent = styled.div`
