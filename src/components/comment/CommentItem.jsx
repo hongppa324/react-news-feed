@@ -1,7 +1,6 @@
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CommentList from "./CommentList";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -15,19 +14,6 @@ export default function CommentItem({ postId }) {
   const [editCommentId, setEditCommentId] = useState("");
 
   const userInfo = useSelector((state) => state.UserInfo.userInfo);
-
-  // useEffect(() => {
-  //   const auth = getAuth();
-
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       setUserId(user.uid);
-  //     } else {
-  //       setUserId(""); // 사용자가 로그아웃한 경우 초기화
-  //     }
-  //   });
-  //   return () => unsubscribe();
-  // }, []);
 
   const onTextHandler = (e) => {
     setContent(e.currentTarget.value);
