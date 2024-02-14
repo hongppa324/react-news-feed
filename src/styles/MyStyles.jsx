@@ -6,8 +6,8 @@ export const StyledHeader = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 5vh;
-  background-color: rgba(20, 20, 20, 0.25);
+  height: 2.5vh;
+  background-color: rgba(56, 56, 56, 0.25);
 `;
 export const StyledFooter = styled.div`
   display: flex;

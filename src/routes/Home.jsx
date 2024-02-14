@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Like from "../components/like/Like";
 import { FcComments } from "react-icons/fc";
+import styled from "styled-components";
 
 function Home() {
   const navigate = useNavigate();
@@ -46,21 +47,14 @@ function Home() {
   };
   return (
     <>
-      <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
+      <HomeNav>
         <p>안녕하세요 {userInfo.name} 님 !</p>
         <button>내프로필</button>
         <button onClick={writeToFeed}>글작성하기</button>
         <button>홈으로가기</button>
-      </nav>
+      </HomeNav>
       <div className="home-wrap" style={{ border: "1px solid black", margin: "1rem" }}>
-        <ul
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "20px",
-            textAlign: "center"
-          }}
-        >
+        <FeedListWrapper>
           {feed.map((e) => {
             return (
               <li key={e.postId}>
@@ -94,9 +88,25 @@ function Home() {
               </li>
             );
           })}
-        </ul>
+        </FeedListWrapper>
       </div>
     </>
   );
 }
 export default Home;
+
+const HomeNav = styled.nav`
+  /* border: "1px solid black" display: "flex", height: "40px" */
+  background-color: aliceblue;
+`;
+
+const FeedListWrapper = styled.ul`
+  display: grid;
+  gap: 50px;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  place-items: center;
+  margin: 10px auto 10px auto;
+
+  /* & > li {
+    width: calc(25% - 10px); /* 4개의 아이템이므로 각 아이템의 너비는 25%입니다. }*/
+`;
