@@ -6,21 +6,23 @@ export const StyledHeader = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 5vh;
-  background-color: rgba(20, 20, 20, 0.25);
+  height: 2.5vh;
+  background-color: rgba(56, 56, 56, 0.25);
 `;
 export const StyledFooter = styled.div`
   display: flex;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 5vh;
+  gap: 20px;
+  height: 3.5vh;
   background-color: rgba(20, 20, 20, 0.25);
 `;
+
 export const Background = styled.img`
   width: 100vw;
   height: 100vh;

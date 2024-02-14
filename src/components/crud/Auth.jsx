@@ -6,10 +6,6 @@ import { useNavigate } from "react-router-dom";
 
 function Crud() {
   const navigate = useNavigate();
-  //firebase 계정
-  // useEffect(() => {
-  //   console.log("app", app);
-  // }, []);
 
   //회원가입
   const [email, setEmail] = useState("");
@@ -54,7 +50,6 @@ function Crud() {
       setEmail("");
       setPassword("");
       setClick(true);
-      //   console.log(`uer`, userCredential.user);
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
