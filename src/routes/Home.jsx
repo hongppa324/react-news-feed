@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import Like from "../components/like/Like";
 import { FcComments } from "react-icons/fc";
 import styled from "styled-components";
+import { colors } from "../styles/Colors";
 
 function Home() {
   const navigate = useNavigate();
@@ -110,7 +111,18 @@ const FeedListWrapper = styled.ul`
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   place-items: center;
   margin: 10px auto 10px auto;
+  line-height: 1;
+  background: linear-gradient(
+    185deg,
+    ${colors.lilac} 0%,
+    ${colors.light} 25%,
+    ${colors.pastel} 50%,
+    ${colors.lavender} 75%
+  );
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
-  /* & > li {
-    width: calc(25% - 10px); /* 4개의 아이템이므로 각 아이템의 너비는 25%입니다. }*/
+  & > li {
+    width: calc(25% - 10px);
+  }
 `;
