@@ -132,8 +132,6 @@ export default function CommentList({ postId }) {
   );
 }
 
-//id={comment.id}
-
 const CommentsWrapper = styled.ul`
   list-style: none;
   padding: 0;
