@@ -1,8 +1,7 @@
-import React from 'react'
-
+import React from "react";
 import { Background, Container, Content, Centre } from "../styles/MyStyles";
 import Spartan from "../assets/img/background.png";
-import ResetFunc from '../components/ResetFunc';
+import ResetFunc from "../components/ResetFunc";
 
 function ResetPassword() {
   return (
@@ -17,4 +16,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword
+export default ResetPassword;

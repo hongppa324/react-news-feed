@@ -1,16 +1,15 @@
 import { addDoc, collection } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { db } from "../../firebase";
 import CommentList from "./CommentList";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function CommentItem({ postId }) {
   const navigate = useNavigate();
 
   const [content, setContent] = useState("");
-  // const [userId, setUserId] = useState("");
   const [editCommentId, setEditCommentId] = useState("");
 
   const userInfo = useSelector((state) => state.UserInfo.userInfo);

@@ -1,12 +1,8 @@
 import React from "react";
-import { storage } from "../../../api/firebase";
 import styled from "styled-components";
-import { type } from "@testing-library/user-event/dist/type";
 
 export default function MyInfo({ imageFile, isEditing, editedMyInfo, setImageFile, editTextHandler }) {
   // 유저 정보를 회원가입 파일에서 가져오기
-  // const {userInfo} ;
-  // const { userId } = userInfo;
 
   const saveImageFile = () => {};
 

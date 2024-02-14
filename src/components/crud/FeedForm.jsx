@@ -1,12 +1,11 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { db, authService, storage } from "../../firebase";
+import { db, storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function FeedForm() {
   const [feed, setFeed] = useState([]);
@@ -41,7 +40,6 @@ function FeedForm() {
     }
 
     const uploadFeed = async (img) => {
-      // 공통 작업을 수행합니다.
       setFeed([img, ...feed]);
       const newsFeedRef = collection(db, "newsFeed");
       await addDoc(newsFeedRef, { ...img, date: Timestamp.fromDate(new Date()) });
@@ -77,7 +75,7 @@ function FeedForm() {
         date: new Date().toLocaleString(),
         isEdited: false,
         writer: userInfo.name,
-        img: downloadURL, // 좋아요 default 값 추가_남지현
+        img: downloadURL, // 좋아요 default 값 추가
         likes: {
           likeCount: 0,
           users: []

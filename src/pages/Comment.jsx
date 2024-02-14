@@ -5,7 +5,6 @@ export default function Comment() {
   const { id } = useParams();
   return (
     <div>
-      {/* <CommentList /> */}
       <CommentItem postId={id} />
     </div>
   );

@@ -1,10 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { collection, query, doc, addDoc, deleteDoc, Timestamp, orderBy, onSnapshot } from "firebase/firestore";
-import { db, authService, storage } from "../firebase";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Like from "../components/like/Like";
@@ -16,13 +14,10 @@ function Home() {
   const FeedData = useSelector((state) => state.FeeRedux);
   console.log("feedData", FeedData);
   const [feed, setFeed] = useState([]);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+
   //현재 사용자 정보불러오기
   const userInfo = useSelector((state) => state.UserInfo.userInfo);
   //현재 사용자 정보불러오기
-  // console.log("userInfo", userInfo);
   useEffect(() => {
     const fetchData = async () => {
       //문서의 첫페이지 조회
