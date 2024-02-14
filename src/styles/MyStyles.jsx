@@ -19,7 +19,7 @@ export const StyledFooter = styled.div`
   align-items: center;
   justify-content: center;
   gap: 20px;
-  height: 2.5vh;
+  height: 3.5vh;
   background-color: rgba(20, 20, 20, 0.25);
 `;
 

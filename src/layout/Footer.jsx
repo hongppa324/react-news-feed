@@ -7,7 +7,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { SiCoffeescript } from "react-icons/si";
 import { FaWaze } from "react-icons/fa";
 import { LuDog } from "react-icons/lu";
-import { VscCode } from "react-icons/vsc";
+import { FaReact } from "react-icons/fa";
 import { GiSaxophone } from "react-icons/gi";
 import { FaBookAtlas } from "react-icons/fa6";
 
@@ -16,7 +16,7 @@ function Footer() {
     <StyledFooter>
       <p>
         컴포넌트
-        <VscCode /> 카페 : 홍승찬 사장
+        <FaReact /> 카페 : 홍승찬 사장
         <SiCoffeescript />
       </p>
       <p>
