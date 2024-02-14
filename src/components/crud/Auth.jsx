@@ -1,6 +1,6 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { app, auth } from "../../firebase";
+import { useState } from "react";
+import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +39,6 @@ function Crud() {
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      //   console.log("erroCode,", errorCode);
       console.log("오류메시지", errorMessage);
     }
   };

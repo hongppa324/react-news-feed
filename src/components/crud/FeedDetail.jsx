@@ -1,21 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {
-  collection,
-  doc,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-  Timestamp,
-  deleteDoc,
-  deleteField
-} from "firebase/firestore";
+import { collection, doc, query, where, getDocs, updateDoc, Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { useParams } from "react-router-dom";
-import { db, authService, storage } from "../../firebase";
+import { db, storage } from "../../firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteFeed } from "../../redux/modules/FeedRedux";
 
@@ -23,7 +12,6 @@ function FeedDetail() {
   const [detailFeed, setDetailFeed] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  //   const [docID, setdocID] = useState("");
   const [click, setClick] = useState(false);
   const [newContent, setNewContent] = useState();
   const params = useParams();
@@ -31,22 +19,17 @@ function FeedDetail() {
   const dispatch = useDispatch();
 
   const postId = params.id;
-  //   console.log("param", postId);
 
   useEffect(() => {
     const fetchData = async () => {
-      // console.log(1);
       const col = collection(db, "newsFeed");
       const q = query(col, where("id", "==", postId));
       const querySnapshot = await getDocs(col);
-      // console.log(2);
 
       if (querySnapshot.empty) {
-        // console.log(3);
         console.log("불러올 피드가 없습니다!");
         return;
       }
-      // console.log(4);
 
       const item = querySnapshot.docs.map((doc) => {
         return {
@@ -59,17 +42,14 @@ function FeedDetail() {
           img: doc.data().img
         };
       });
-      //   console.log("item", item);
-      //   console.log("docID", docID);
+
       const findData = item.find((e) => {
-        // console.log("e.id", e);
         return e.postId === postId;
       });
-      //   console.log("찾은데이터", findData);
+
       setDetailFeed(findData);
       setNewContent(findData.content);
       console.log("1111111", newContent);
-      // console.log(5);
     };
 
     fetchData();
@@ -87,18 +67,15 @@ function FeedDetail() {
     navigate("/home");
   };
 
-  // const detail = detailFeed;
   if (!detailFeed) {
     return;
   }
-  //   console.log("찾은데이터", detailFeed);
 
   const { writer, content, title, date, isEdited, img, postId: id } = detailFeed;
 
   const onChange = async (e) => {
     const editContent = e.target.value;
 
-    // console.log(editContent);
     if (!editContent) {
       alert("내용을 입력해주세요");
       setNewContent("");
@@ -160,8 +137,7 @@ function FeedDetail() {
     try {
       const selectRef = ref(storage, `${img}`);
       const downdURL = await getDownloadURL(selectRef);
-      // console.log("path", downdURL);
-      // console.log(selectRef);
+
       if (downdURL.includes("defaultImg")) {
         alert("기본 이미지는 삭제할 수 없습니다!");
         return;

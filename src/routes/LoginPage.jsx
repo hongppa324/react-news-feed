@@ -1,7 +1,5 @@
 import React from "react";
-
 import { Background, Container, Content, Centre } from "../styles/MyStyles";
-
 import EmailLogin from "../components/EmailLogin";
 import GoogleLogin from "../components/GoogleLogin";
 import Spartan from "../assets/img/background.png";

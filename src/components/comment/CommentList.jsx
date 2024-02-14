@@ -1,14 +1,11 @@
-import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
 export default function CommentList({ postId }) {
   const [comments, setComments] = useState([]);
   const [editedContent, setEditedContent] = useState("");
-
-  // const userInfo = useSelector((state) => state.UserInfo.userInfo);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -131,8 +128,6 @@ export default function CommentList({ postId }) {
     </div>
   );
 }
-
-//id={comment.id}
 
 const CommentsWrapper = styled.ul`
   list-style: none;

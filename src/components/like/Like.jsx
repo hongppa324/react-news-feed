@@ -10,7 +10,6 @@ const Like = ({ likes, feedId }) => {
   const [likeCount, setLikeCount] = useState(0); // 좋아요 개수
   const [likeUsers, setLikeUsers] = useState([]);
   const isClickLike = likes?.users.includes(userId);
-  // console.log(authService.currentUser);
 
   const onClickLike = async () => {
     const originUsers = [...likeUsers];
