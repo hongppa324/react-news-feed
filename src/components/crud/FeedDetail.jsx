@@ -9,23 +9,19 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { FcLike } from "react-icons/fc";
 import { FaUser } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import CommentList from "../comment/CommentList";
 
 function FeedDetail() {
   const [detailFeed, setDetailFeed] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [otherFeed, setOtherFeed] = useState([]);
-
   const [click, setClick] = useState(false);
   const [newContent, setNewContent] = useState();
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [comments, setComments] = useState([]);
 
   const postId = params.id;
-
-  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -47,7 +43,7 @@ function FeedDetail() {
 
         setComments(initialComments);
       } catch (error) {
-        console.error("에러에요 : ", error);
+        console.error("오류가 발생했습니다! : ", error);
       }
     };
 
@@ -100,6 +96,7 @@ function FeedDetail() {
 
   //현재 사용자 불러오기
   const userInfo = useSelector((state) => state.UserInfo.userInfo);
+
   //피드 수정
   const editHandler = () => {
     setClick(!click);
@@ -129,10 +126,6 @@ function FeedDetail() {
       return;
     }
 
-    if (editContent.lenth > 50) {
-      alert("최대 50글자만 쓸 수 있습니다!");
-    }
-
     setNewContent(editContent);
   };
 
@@ -141,14 +134,15 @@ function FeedDetail() {
 
     if (!selectedFile) {
       if (newContent.length === 0) {
-        alert("내용 입력하라구요!!");
+        alert("입력된 내용이 없습니다.");
         return;
       }
       if (newContent === content) {
-        alert("변경 내용이 없어용 ㅠㅠ");
+        alert("변경된 내용이 없습니다.");
         return;
       }
 
+      //사진수정
       const editFeedRef = doc(db, "newsFeed", postId);
       await updateDoc(editFeedRef, {
         detailFeed,
@@ -177,9 +171,9 @@ function FeedDetail() {
     }
   };
 
-  //   삭제
+  //삭제
   const deleteHandler = async () => {
-    alert("삭제하시겠습니까?");
+    alert("게시글을 삭제하시겠습니까?");
     await deleteDoc(doc(db, "newsFeed", postId));
 
     navigate("/home");
@@ -191,15 +185,14 @@ function FeedDetail() {
       const downdURL = await getDownloadURL(selectRef);
 
       if (downdURL.includes("defaultImg")) {
-        alert("기본 이미지는 삭제할 수 없습니다!");
+        alert("기본 이미지는 삭제할 수 없습니다.");
         return;
       }
       await deleteObject(selectRef);
-      alert("사진이 삭제됐습니다. 마저 수정을 완료해주세요");
+      alert("사진을 삭제중입니다. 마저 수정을 완료해주세요");
 
       try {
         const oneRef = doc(db, "newsFeed", postId);
-
         const defaultRef = ref(storage, `/defaultImg/background.png`);
         const defaultImgdURL = await getDownloadURL(defaultRef);
 
@@ -207,10 +200,10 @@ function FeedDetail() {
           img: defaultImgdURL
         });
       } catch (error) {
-        console.log("디비삭제 errorCode=>", error.errorCode);
+        console.log("디비 오류발생! =>", error.errorCode);
       }
     } catch (error) {
-      console.log("사진삭제 errorCode=>", error.errorCode);
+      console.log("사진삭제 오류발생! =>", error.errorCode);
     }
   };
 
@@ -220,7 +213,7 @@ function FeedDetail() {
   };
 
   const goToHome = () => {
-    alert("홈으로 가시겠습니까?");
+    alert("홈으로 이동합니다");
     navigate("/home");
   };
   const goToCommentList = () => {
@@ -228,23 +221,23 @@ function FeedDetail() {
   };
 
   const goToMyPage = () => {
-    navigate(`/comment/${postId}`);
+    navigate("/my-page");
   };
 
   return (
     <>
-      <div>
+      <section>
         <FeedAllWrap>
-          <div>
+          <section>
             <FeedBorderWrap>
               <ContentWrap>
                 <MainWrap>
                   <Header>
                     <FeedInfo>
-                      <div>
+                      <section>
                         <FaUser />
                         {writer}
-                      </div>
+                      </section>
                       <WritedAt> {date}</WritedAt>
                     </FeedInfo>
                     <GotoHome> {!isEdited ? "" : "(수정됨)"}</GotoHome>
@@ -253,7 +246,7 @@ function FeedDetail() {
                   <FeedMain>
                     <FeedTitle> {title}</FeedTitle>
                     <FeedImg>
-                      <img src={img} style={{ borderRadius: "20px", width: "600px", height: "250px" }} />
+                      <FeedItemImg src={img} />
                     </FeedImg>
                     <FeedContent>
                       {!click ? (
@@ -275,21 +268,24 @@ function FeedDetail() {
                     <FcLike />
                     {likes}
                   </FeedLikes>
-                  {comments && comments.length > 0
-                    ? comments.slice(0, 2).map((e, index) => (
-                        <FeedComments key={e.id}>
-                          <>
-                            {e.content} - <WritedAt>{e.createdAt}</WritedAt>
-                          </>
-                        </FeedComments>
-                      ))
-                    : "댓글이 아직 없습니다!"}
+                  {comments && comments.length > 0 ? (
+                    comments.slice(0, 2).map((e, index) => (
+                      <FeedComments key={e.id}>
+                        <>
+                          {e.content} - <WritedAt>{e.createdAt}</WritedAt>
+                        </>
+                      </FeedComments>
+                    ))
+                  ) : (
+                    <p>첫 번째 댓글을 작성해주세요!</p>
+                  )}
+                  <br />
 
-                  <HomeBtn onClick={goToCommentList}>댓글 더보기</HomeBtn>
+                  <HomeBtn onClick={goToCommentList}>전체보기</HomeBtn>
                 </FeedEtc>
               </ContentWrap>
             </FeedBorderWrap>
-          </div>
+          </section>
           {/*wrap*/}
 
           {/* 네비게이션 */}
@@ -298,7 +294,7 @@ function FeedDetail() {
               <HomeBtn onClick={goToHome}>홈으로가기</HomeBtn>
             </FeedButton>
             <FeedButton>
-              <MyPageBtn onclick={goToMyPage}>마이페이지</MyPageBtn>
+              <MyPageBtn onclick={() => goToMyPage(postId)}>마이페이지</MyPageBtn>
             </FeedButton>
 
             <FeedButton>
@@ -310,7 +306,7 @@ function FeedDetail() {
             </FeedButton>
           </FeedNavi>
         </FeedAllWrap>
-      </div>
+      </section>
 
       {/* 다른글 */}
       <AddFeedWrap>
@@ -318,7 +314,7 @@ function FeedDetail() {
           return (
             <AddFeeds>
               <p>
-                <img src={e.img} style={{ borderRadius: "10px", width: "200px", height: "100px" }} />
+                <OtherItemImg src={e.img} />
               </p>
               <span>{e.title}</span>
               <p> {e.content}</p>
@@ -494,6 +490,7 @@ const EditDone = styled.button`
   padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 5px;
+  width: 105px;
   cursor: pointer;
 
   &:hover {
@@ -547,4 +544,16 @@ const HomeBtn = styled.button`
     background-color: #f74562;
     transition: all 0.3s;
   }
+`;
+
+const FeedItemImg = styled.img`
+  border-radius: 20px;
+  width: 600px;
+  height: 250px;
+`;
+
+const OtherItemImg = styled.img`
+  border-radius: 10px;
+  width: 200px;
+  height: 100px;
 `;
