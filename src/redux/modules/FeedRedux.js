@@ -1,5 +1,3 @@
-import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../../firebase";
 //action value
 const ALL_FEED = "feed/ALL_FEED";
 const ADD_FEED = "feed/ADD_FEED ";
@@ -23,15 +21,10 @@ export const editFeed = (payload) => {
 };
 
 //초기값
-const initialState = { FeedRedux: [] };
+const initialState = {};
 
 const FeedRedux = (state = initialState, action) => {
   switch (action.type) {
-    case DELETE_FEED:
-      const postId = action.payload;
-
-      return deleteDoc(doc(db, "newsFeed", postId));
-
     default:
       return state;
   }

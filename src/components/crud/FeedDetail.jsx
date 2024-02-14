@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { collection, doc, query, where, getDocs, updateDoc, Timestamp } from "firebase/firestore";
+import { collection, doc, query, where, getDocs, updateDoc, Timestamp, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { useParams } from "react-router-dom";
@@ -129,7 +129,8 @@ function FeedDetail() {
   //   삭제
   const deleteHandler = async () => {
     alert("삭제하시겠습니까?");
-    await dispatch(deleteFeed(postId));
+    await deleteDoc(doc(db, "newsFeed", postId));
+
     navigate("/home");
   };
 
