@@ -45,11 +45,15 @@ function Home() {
   const writeToFeed = () => {
     navigate("/feedWrite");
   };
+
+  const moveToMyProfile = () => {
+    navigate("/my-page");
+  };
   return (
     <>
       <HomeNav>
         <p>안녕하세요 {userInfo.name} 님 !</p>
-        <button>내프로필</button>
+        <button onClick={moveToMyProfile}>내프로필</button>
         <button onClick={writeToFeed}>글작성하기</button>
         <button>홈으로가기</button>
       </HomeNav>
