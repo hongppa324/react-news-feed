@@ -142,8 +142,8 @@ const ListWrap = styled.li`
 const ListIDandCreated = styled.p`
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
   font-size: 17px;
-  line-height: 2;
 `;
 
 const CommentContent = styled.textarea`
@@ -159,15 +159,15 @@ const CommentViewText = styled.p`
   line-height: 2;
 `;
 const CommentDoneButton = styled.button`
-  background-color: lightblue;
+  background-color: #94dfbd;
   color: white;
   padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 
-  & button:hover {
-    background-color: #1e6dff;
+  &:hover {
+    background-color: #0fd492;
     transition: all 0.3s;
   }
 `;
