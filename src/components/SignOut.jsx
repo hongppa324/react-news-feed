@@ -15,7 +15,7 @@ function SignOut() {
     if (!isSignOut) return;
 
     signOut(authService).then(() => {
-      dispatch(removeUser(userInfo.userId))
+      dispatch(removeUser(userInfo.userId));
       navigate("/", { replace: true });
     });
   };

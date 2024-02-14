@@ -255,8 +255,15 @@ function FeedDetail() {
                         <form onSubmit={changeContent}>
                           <FeedArea defaultValue={content} type="text" name="newContent" onChange={onChange} />
                           <br />
-                          {!click ? "" : <input type="file" onChange={handleFileSelect} name="file" />}
                           <EditDone>수정완료</EditDone>
+                          <label className="input-file-button" for="input-file" style={{ marginLeft: "20px" }}>
+                            [사진 변경 시 클릭하세요]
+                          </label>
+                          {!click ? (
+                            ""
+                          ) : (
+                            <FileInput type="file" id="input-file" onChange={handleFileSelect} name="file" />
+                          )}
                         </form>
                       )}
                     </FeedContent>
@@ -556,4 +563,8 @@ const OtherItemImg = styled.img`
   border-radius: 10px;
   width: 200px;
   height: 100px;
+`;
+
+const FileInput = styled.input`
+  display: none;
 `;
