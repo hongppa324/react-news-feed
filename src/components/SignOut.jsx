@@ -29,8 +29,16 @@ export default SignOut;
 const SignOutBtn = styled.button`
   border: none;
   width: 100%;
-  background-color: #000;
+  background-color: black;
   color: #fff;
   height: 100%;
+  font-size: 15px;
+  transform: translateY(-20px);
+  transition: transform 0.2s ease;
   cursor: pointer;
+
+  &:hover {
+    transform: translateY(0); /* Move the button back to its original position */
+    height: 100%;
+  }
 `;
