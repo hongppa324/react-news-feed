@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import { useParams } from "react-router-dom";
 import { db, storage } from "../../firebase";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { FcLike } from "react-icons/fc";
 import { FaUser } from "react-icons/fa6";
@@ -18,7 +18,6 @@ function FeedDetail() {
   const [newContent, setNewContent] = useState();
   const params = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [comments, setComments] = useState([]);
 
   const postId = params.id;
