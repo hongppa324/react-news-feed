@@ -53,11 +53,16 @@ function Home() {
     navigate("/my-page");
   };
   return (
-    <>
+    <div>
       <HomeNav>
+        <br />
+        <br />
         <p>안녕하세요 {userInfo.name} 님 !</p>
-        <button onClick={moveToMyProfile}>내프로필</button>
-        <button onClick={writeToFeed}>글작성하기</button>
+        <InputProfileBtn onClick={moveToMyProfile}>내프로필</InputProfileBtn>
+        <InputTextBtn onClick={writeToFeed}>글작성하기</InputTextBtn>
+        <hr />
+        <br />
+        <br />
       </HomeNav>
       <HomeWrap>
         <FeedListWrapper>
@@ -92,33 +97,44 @@ function Home() {
           })}
         </FeedListWrapper>
       </HomeWrap>
-    </>
+    </div>
   );
 }
 export default Home;
 
 const HomeNav = styled.nav`
-  /* border: "1px solid black" display: "flex", height: "40px" */
-  background-color: aliceblue;
+  background-color: #fafcfd;
+  margin: 30px 20px 40px 20px;
 `;
 
 const HomeWrap = styled.div`
-  margin: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10px;
+  width: 1000px;
+  margin: 0 auto;
 `;
 
 const FeedListWrapper = styled.ul`
   display: grid;
   gap: 50px;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   margin: 10px auto 10px auto;
   scrollbar-width: none;
 `;
 
 const ContentWrap = styled.div`
+  display: flex;
   margin: 0 auto;
-  width: 400px;
+  width: 1000px;
   padding: 3rem;
-  box-shadow: 3px 10px 5px gray;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  background-color: aliceblue;
+
+  &:hover {
+    background-color: #e9e7e7;
+    transition: all 0.3s;
+  }
 `;
 
 const ContentImg = styled.div`
@@ -127,17 +143,18 @@ const ContentImg = styled.div`
 `;
 
 const ContentImage = styled.img`
-  width: 320px;
-  height: 250px;
+  width: 400px;
+  height: 260px;
 `;
 
 const FeedList = styled.li``;
 
 const ContentText = styled.div`
   height: 150px;
+  margin: 20px auto 20px auto;
   text-align: center;
   font-size: 19px;
-  line-height: 1.7;
+  line-height: 2;
 `;
 
 const CommentStyle = styled(Link)`
@@ -150,4 +167,33 @@ const LinkStyle = styled(Link)`
   cursor: pointer;
   text-decoration: none;
   color: black;
+`;
+
+const InputProfileBtn = styled.button`
+  background-color: #fcd99a;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ffb81e;
+    transition: all 0.3s;
+  }
+`;
+
+const InputTextBtn = styled.button`
+  background-color: #fab3d7;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f772b0;
+    transition: all 0.3s;
+  }
 `;

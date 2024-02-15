@@ -7,7 +7,7 @@ export const StyledHeader = styled.div`
   align-items: center;
   justify-content: center;
   height: 2.5vh;
-  background-color: rgba(56, 56, 56, 0.25);
+  background-color: rgba(223, 223, 223, 0.25);
 `;
 export const StyledFooter = styled.div`
   display: flex;

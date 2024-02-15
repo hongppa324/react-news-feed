@@ -144,6 +144,7 @@ function FeedDetail() {
 
       //사진수정
       const editFeedRef = doc(db, "newsFeed", postId);
+
       await updateDoc(editFeedRef, {
         detailFeed,
         content: newContent,
@@ -151,7 +152,6 @@ function FeedDetail() {
         isEdited: true
       });
 
-      alert("수정이 완료됐습니다.");
       navigate("/home");
     } else {
       const imageRef = ref(storage, `${userInfo.email}/${selectedFile.name}`);
@@ -209,6 +209,7 @@ function FeedDetail() {
 
   //사진변경
   const handleFileSelect = (e) => {
+    alert("사진을 변경 중입니다. 마저 수정해주세요! ");
     setSelectedFile(e.target.files?.[0]);
   };
 
