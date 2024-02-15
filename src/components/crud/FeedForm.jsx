@@ -32,6 +32,9 @@ function FeedForm() {
     }
   };
 
+  const Feed = useSelector((state) => state.newsFeed);
+  console.log("feed", Feed);
+
   //글 추가하기
   const onSubmit = async (e) => {
     e.preventDefault();

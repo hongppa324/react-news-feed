@@ -4,17 +4,19 @@ import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Like from "../components/like/Like";
 import { FcSms } from "react-icons/fc";
 import styled from "styled-components";
+import { initialization } from "../redux/modules/newsFeed";
 
 function Home() {
-  const navigate = useNavigate();
-  const [feed, setFeed] = useState([]);
-
   //현재 사용자 정보불러오기
   const userInfo = useSelector((state) => state.UserInfo.userInfo);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [feed, setFeed] = useState([]);
+
   //현재 사용자 정보불러오기
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +36,10 @@ function Home() {
           };
         });
         setFeed(docFeed);
+
+        //리덕스
+        // console.log("docFeed", docFeed);
+        dispatch(initialization(docFeed));
       });
     };
     fetchData();
