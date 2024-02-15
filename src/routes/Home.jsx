@@ -36,10 +36,6 @@ function Home() {
           };
         });
         setFeed(docFeed);
-
-        //리덕스
-        // console.log("docFeed", docFeed);
-        dispatch(initialization(docFeed));
       });
     };
     fetchData();
