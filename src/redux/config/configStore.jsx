@@ -4,7 +4,6 @@ import UserInfo from "../modules/UserInfo";
 import { thunk } from "redux-thunk";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import newsFeed from "../modules/newsFeed";
 import MyProfile from "../modules/MyProfile";
 
 const persistConfig = {
@@ -15,8 +14,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   UserInfo,
-  MyProfile,
-  newsFeed
+  MyProfile
 });
 
 const perReducer = persistReducer(persistConfig, rootReducer);

@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Like from "../components/like/Like";
 import { FcSms } from "react-icons/fc";
 import styled from "styled-components";
-import { initialization } from "../redux/modules/newsFeed";
 
 function Home() {
   //현재 사용자 정보불러오기

@@ -20,7 +20,7 @@ function Footer() {
         <SiCoffeescript />
       </p>
       <p>
-        존잘 : 남지현
+        트러블디펜서 : 남지현
         <GiSaxophone />
       </p>
       <p>
