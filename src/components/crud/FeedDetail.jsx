@@ -360,7 +360,6 @@ const FeedItemWrap = styled.div``;
 
 const ContentWrap = styled.div`
   margin: 1rem;
-
   width: 800px;
   height: 700px;
 `;
@@ -400,7 +399,6 @@ const FeedTitle = styled.div`
 
 const FeedImg = styled.div`
   height: 50%;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -424,7 +422,6 @@ const FeedLikes = styled.div`
   height: 20%;
   display: flex;
   align-items: center;
-
   justify-content: center;
 `;
 
@@ -514,7 +511,6 @@ const DeleteImg = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-
   &:hover {
     background-color: #8fff1e;
     transition: all 0.3s;

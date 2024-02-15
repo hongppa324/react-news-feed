@@ -131,7 +131,7 @@ function FeedForm() {
                   사진 첨부하기
                 </section>
               </label>
-              <FileInput type="file" name="file" id="file" onChange={handleFileSelect} name="file" />
+              <FileInput type="file" name="file" id="file" onChange={handleFileSelect} />
             </FileWrap>
 
             <ContentWrap>
