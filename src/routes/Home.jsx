@@ -2,21 +2,19 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Like from "../components/like/Like";
-import { FcComments } from "react-icons/fc";
+import { FcSms } from "react-icons/fc";
+import styled from "styled-components";
 
 function Home() {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const FeedData = useSelector((state) => state.FeeRedux);
-  console.log("feedData", FeedData);
-  const [feed, setFeed] = useState([]);
-
   //현재 사용자 정보불러오기
   const userInfo = useSelector((state) => state.UserInfo.userInfo);
+  const navigate = useNavigate();
+  const [feed, setFeed] = useState([]);
+
   //현재 사용자 정보불러오기
   useEffect(() => {
     const fetchData = async () => {
@@ -44,59 +42,152 @@ function Home() {
   const writeToFeed = () => {
     navigate("/feedWrite");
   };
+
+  const moveToMyProfile = () => {
+    navigate("/my-page");
+  };
   return (
-    <>
-      <nav style={{ border: "1px solid black", display: "flex", height: "40px" }}>
+    <div>
+      <HomeNav>
+        <br />
+        <br />
         <p>안녕하세요 {userInfo.name} 님 !</p>
-        <button>내프로필</button>
-        <button onClick={writeToFeed}>글작성하기</button>
-        <button>홈으로가기</button>
-      </nav>
-      <div className="home-wrap" style={{ border: "1px solid black", margin: "1rem" }}>
-        <ul
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "20px",
-            textAlign: "center"
-          }}
-        >
+        <InputProfileBtn onClick={moveToMyProfile}>내프로필</InputProfileBtn>
+        <InputTextBtn onClick={writeToFeed}>글작성하기</InputTextBtn>
+        <hr />
+        <br />
+        <br />
+      </HomeNav>
+      <HomeWrap>
+        <FeedListWrapper>
           {feed.map((e) => {
             return (
-              <li key={e.postId}>
-                <Link to={`/home/${e.postId}`} style={{ textDecoration: "none", color: "black" }}>
-                  <div className="content-wrap" style={{ border: "1px solid black", width: "320px", height: "350px" }}>
-                    <div className="img" style={{ border: "1px solid black", height: "200px" }}>
-                      <img src={e.img} style={{ width: "320px", height: "200px" }} alt="사진이없어용" />
+              <FeedList key={e.postId}>
+                <ContentWrap>
+                  <ContentImg>
+                    <ContentImage src={e.img} alt="사진이없어용" />
+                  </ContentImg>
+                  <ContentText className="content">
+                    <LinkStyle to={`/home/${e.postId}`}>
+                      <div>제목 : {e.title}</div>
+                      <div>글내용 : {e.content}</div>
+                      <div>
+                        <div>{e.date}</div>
+                      </div>
+                    </LinkStyle>
+                    <div>
+                      이름 : {e.writer}
+                      <br /> <Like likes={e.likes} feedId={e.postId} />
+                      <br />
+                      <CommentStyle to={`/comment/${e.postId}`}>
+                        <FcSms />
+                        댓글
+                      </CommentStyle>{" "}
                     </div>
-                    <div className="content" style={{ height: "150px" }}>
-                      <div className="title" style={{ border: "1px solid black", height: "25px" }}>
-                        제목 : {e.title}
-                      </div>
-                      <div className="text" style={{ border: "1px solid black", height: "50px" }}>
-                        글내용 : {e.content}
-                      </div>
-                      <div className="time-wrap" style={{ border: "1px solid black", height: "25px" }}>
-                        <div className="time" style={{ border: "1px solid black" }}>
-                          {e.date}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-                <div className="writer" style={{ border: "1px solid black", height: "25px" }}>
-                  {e.writer} / <Like likes={e.likes} feedId={e.postId} />{" "}
-                  <Link to={`/comment/${e.postId}`}>
-                    <FcComments />
-                  </Link>{" "}
-                  /{!e.isEdited ? "" : "(수정됨)"}
-                </div>
-              </li>
+                  </ContentText>
+                </ContentWrap>
+              </FeedList>
             );
           })}
-        </ul>
-      </div>
-    </>
+        </FeedListWrapper>
+      </HomeWrap>
+    </div>
   );
 }
 export default Home;
+
+const HomeNav = styled.nav`
+  background-color: #fafcfd;
+  margin: 30px 20px 40px 20px;
+`;
+
+const HomeWrap = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10px;
+  width: 1000px;
+  margin: 0 auto;
+`;
+
+const FeedListWrapper = styled.ul`
+  display: grid;
+  gap: 50px;
+  margin: 10px auto 10px auto;
+  scrollbar-width: none;
+`;
+
+const ContentWrap = styled.div`
+  display: flex;
+  margin: 0 auto;
+  width: 1000px;
+  padding: 3rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  background-color: aliceblue;
+
+  &:hover {
+    background-color: #e9e7e7;
+    transition: all 0.3s;
+  }
+`;
+
+const ContentImg = styled.div`
+  border: 1px solid lightgray;
+  height: 260px;
+`;
+
+const ContentImage = styled.img`
+  width: 400px;
+  height: 260px;
+`;
+
+const FeedList = styled.li``;
+
+const ContentText = styled.div`
+  height: 150px;
+  margin: 20px auto 20px auto;
+  text-align: center;
+  font-size: 19px;
+  line-height: 2;
+`;
+
+const CommentStyle = styled(Link)`
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+`;
+
+const LinkStyle = styled(Link)`
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+`;
+
+const InputProfileBtn = styled.button`
+  background-color: #fcd99a;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ffb81e;
+    transition: all 0.3s;
+  }
+`;
+
+const InputTextBtn = styled.button`
+  background-color: #fab3d7;
+  color: white;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f772b0;
+    transition: all 0.3s;
+  }
+`;

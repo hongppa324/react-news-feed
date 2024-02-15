@@ -3,6 +3,7 @@ import { FcLike } from "react-icons/fc";
 import { FcLikePlaceholder } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { authService, db } from "../../firebase";
+import styled from "styled-components";
 
 const Like = ({ likes, feedId }) => {
   const userId = authService.currentUser.uid; // 로그인한 사용자
@@ -50,10 +51,14 @@ const Like = ({ likes, feedId }) => {
   }, []);
 
   return (
-    <span onClick={onClickLike}>
-      {isLike ? <FcLike /> : <FcLikePlaceholder />} {likeCount}
-    </span>
+    <LikePointer onClick={onClickLike}>
+      {isLike ? <FcLike /> : <FcLikePlaceholder />} 좋아요 {likeCount}개
+    </LikePointer>
   );
 };
 
 export default Like;
+
+const LikePointer = styled.span`
+  cursor: pointer;
+`;

@@ -4,7 +4,8 @@ import UserInfo from "../modules/UserInfo";
 import { thunk } from "redux-thunk";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import FeedRedux from "../modules/FeedRedux";
+import MyProfile from "../modules/MyProfile";
+
 const persistConfig = {
   key: "root",
   storage,
@@ -13,7 +14,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   UserInfo,
-  FeedRedux
+  MyProfile
 });
 
 const perReducer = persistReducer(persistConfig, rootReducer);
